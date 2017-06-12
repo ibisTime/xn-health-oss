@@ -658,6 +658,21 @@ function buildList(options) {
         if ((item.key || item.type == 'select') && options.type != 'o2m') {
             dropDownList.push(item);
         }
+        // else if (item.type == 'select' && item.data) {
+        //     var realValue = item.formatter(data);
+        //     if (item.value) {
+        //         if (item.value.call) {
+        //             realValue = item.value(data);
+        //         } else {
+        //             realValue = item.value;
+        //         }
+        //     }
+        //     $('#' + item.field).html(item.data[realValue] || '-');
+        //     $('#' + item.field).attr('data-value', realValue);
+        //     if (item.onChange) {
+        //         item.onChange(realValue);
+        //     }
+        // }
 
 
     }
@@ -704,7 +719,8 @@ function buildList(options) {
 
             (function(d) {
                 item.formatter = function(v) {
-                    return d[v] || d[+v];
+                    return d[v] || d[+v]
+                    ;
                 };
             })(data);
 
@@ -1746,7 +1762,66 @@ function buildDetail(options) {
 
                     }
                     if (item.formatter) {
-                        $('#' + item.field).html(item.formatter(displayValue, data));
+                       if (item.type == 'select' && item.data) {
+                        var realValue = item.formatter(displayValue, data);
+                        if (item.value) {
+                            if (item.value.call) {
+                                realValue = item.value(data);
+                            } else {
+                                realValue = item.value;
+                            }
+                        }
+                        $('#' + item.field).html(item.data[realValue] || '-');
+                        $('#' + item.field).attr('data-value', realValue);
+                        if (item.onChange) {
+                            item.onChange(realValue);
+                        }
+                    }else  if (item.type == 'img') {
+                            var imgData = item.formatter(displayValue, data);
+                            var sp = imgData && imgData.split('||') || [];
+                            var imgsHtml = '';
+                            var defaultFile = getDefaultFileIcon();
+
+                            sp.length && sp.forEach(function(item) {
+                                var suffix = item.slice(item.lastIndexOf('.') + 1);
+                                var src = (item.indexOf('http://') > -1 ? item : (OSS.picBaseUrl + '/' + item));
+                                var src1 = (item.indexOf('http://') > -1 ? item.substring(item.lastIndexOf("/") + 1) : item);
+                                var name = src1.substring(0, src1.lastIndexOf("_")) + "." + suffix;
+                                if (isDocOrAviOrZip(suffix)) {
+
+                                    imgsHtml += '<div class="img-ctn" data-src="' + src1 + '" style="display: inline-block;position: relative;">' +
+                                        '<div class="center-img-wrap">' +
+                                        '<img width="100" src="' + getDocOrAviOrZipIcon(suffix) + '" />' +
+                                        '<i class="zmdi zmdi-download zmdi-hc-fw"></i></div>' +
+                                        '<div class="t_3dot w100p" title="' + name + '">' + name + '</div>' +
+                                        '</div>';
+                                } else if (isAcceptImg(suffix)) {
+                                    imgsHtml += '<div class="img-ctn" data-src="' + src1 + '" style="display: inline-block;position: relative;">' +
+                                        '<div class="center-img-wrap">' +
+                                        '<img src="' + src + OSS.picShow + '" class="center-img" />' +
+                                        '<i class="zmdi zmdi-download zmdi-hc-fw"></i>' +
+                                        '</div>' +
+                                        '<div class="t_3dot w100p" title="' + name + '">' + name + '</div>' +
+                                        '</div>';
+                                } else {
+                                    imgsHtml += '<div class="img-ctn" data-src="' + src1 + '" style="display: inline-block;position: relative;">' +
+                                        '<div class="center-img-wrap">' +
+                                        '<img width="100" src="' + defaultFile + '" />' +
+                                        '<i class="zmdi zmdi-download zmdi-hc-fw"></i>' +
+                                        '</div>' +
+                                        '<div class="t_3dot w100p" title="' + name + '">' + name + '</div>' +
+                                        '</div>';
+                                }
+                            });
+                            $('#' + item.field).html(imgsHtml);
+                            $('#' + item.field).find('.zmdi-download').on('click', function(e) {
+                                var dSrc = OSS.picBaseUrl + '/' + $(this).parents("[data-src]").attr('data-src');
+                                window.open(dSrc, '_blank');
+                            });
+                            
+                        }  else {
+                            $('#' + item.field).html(item.formatter(displayValue, data));
+                        }
                     }
                     if (item['[value]']) {
                         if (item.type == 'img') {

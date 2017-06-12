@@ -8,6 +8,7 @@ $(function() {
         }
     }).done(function(data) {
         $("#amount-CNY").text("￥" + data[0].amount / 1000);
+        $("#amount-JF").text("￥" + data[0].amount / 1000);
     });
 
 

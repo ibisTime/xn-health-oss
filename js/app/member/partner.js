@@ -1,146 +1,89 @@
-$(function() {
-    // var userKind = {
-    //     "f1": "C端用户",
-    //     "f2": "B端用户"
-    // }
+$(function () {
     var columns = [{
         field: '',
         title: '',
         checkbox: true
     }, {
-        title: '登录名',
-        field: 'loginName',
-        // formatter: function(value, row, index) {
-        //     return row['realName'] ? row['realName'] : value;
-        // },
+        field : 'loginName',
+        title : '登录名',
         search: true
     }, {
-        title: "姓名",
-        field: "realName"
+        field : 'mobile',
+        title : '手机号'
     }, {
-        title: "辖区",
-        type: "select",
-        field: "province",
-        formatter: function(v, data) {
-            if (data.userExt.province == data.userExt.city && data.userExt.city == data.userExt.area) {
-                data.userExt.city = "";
-                data.userExt.area = "";
-            } else if (data.userExt.province == data.userExt.city && data.userExt.city != data.userExt.area) {
-                data.userExt.city = '';
-            }
-            var result = (data.userExt.province || "") + (data.userExt.city || "") + (data.userExt.area || "");
-            return result || "-";
-        }
+        title : '分成比例',
+        field : 'divRate',
     }, {
-        title: "身份证号",
-        field: "idNo",
+        field : 'status',
+        title : '状态',
+        type: 'select',
+        search: true,
+        key: 'user_status',
+        formatter: Dict.getNameForList('user_status',"807706"),
     }, {
-        title: '手机号',
-        field: 'mobile',
-        search: true
-    }, {
-        title: "分成比例",
-        field: "divRate"
-    }, {
-        title: "状态",
-        field: "status",
-        type: "select",
-        key: "user_status",
-        formatter: Dict.getNameForList("user_status"),
-        search: true
-    }, {
-        field: 'createDatetime',
-        title: '加入时间',
-        formatter: dateTimeFormat
-    }];
+        field: 'remark',
+        title: '备注'
+    },];
+
     buildList({
-        router: 'partner',
         columns: columns,
         pageCode: '805054',
-        searchParams: {
-            kind: "02"
-        }
+        searchParams:{
+            kind: '05'
+        },
     });
-    $('#rockBtn').click(function() {
+    
+    $('#detail2Btn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
-        if (selRecords[0].status == 2) {
-            toastr.info("该账户已被注销");
-            return;
-        }
-        var status = selRecords[0].status,
-            toStatus;
-        status == 0 ? toStatus = 2 : toStatus = 0;
-        confirm("确定注销该账户？").then(function() {
-            reqApi({
-                code: '805052',
-                json: {
-                    userId: selRecords[0].userId,
-                    toStatus: toStatus
-                }
-            }).then(function() {
-                toastr.info("操作成功");
-                $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-            });
-
-        });
-
+        
+        window.location.href = "partner_detail2.html?userId=" + selRecords[0].userId+"&v=1";
     });
-    $('#activeBtn').click(function() {
+    
+    
+    $('#editBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
-        if (selRecords[0].status == 0) {
-            toastr.info("该账户是已正常状态");
-            return;
-        }
-        confirm("确定激活该账户？").then(function() {
-            reqApi({
-                code: '805052',
-                json: {
-                    userId: selRecords[0].userId,
-                    toStatus: '0'
-                }
-            }).then(function() {
-                toastr.info("操作成功");
-                $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-            });
-
-        });
+        window.location.href = "partner_addedit.html?userId="+selRecords[0].userId;
     });
-    $("#achieveBtn").click(function() {
+    
+    //发货
+    $('#fahuoBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
-        window.location.href = "partner_achieve.html?userId=" + selRecords[0].userId;
-
+        
+        window.location.href = "partner_fahuo.html?userId=" + selRecords[0].userId;
     });
-    $("#accountBtn").click(function() {
+    
+    //代销
+    $('#daixiaoBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
-        window.location.href = "account.html?userId=" + selRecords[0].userId;
-
+        
+        window.location.href = "../store/daixiaoLedger.html?Code=" + selRecords[0].code+"&owner="+selRecords[0].userId+"&c=CGB";
     });
-
-
-    $("#edit2Btn").click(function() {
+    
+    //积分
+    $('#jifenBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
-        window.location.href = "partner_addedit.html?userId=" + selRecords[0].userId;
-
+        
+        window.location.href = "../store/daixiaoLedger.html?Code=" + selRecords[0].code+"&owner="+selRecords[0].userId+"&c=CGJF";
     });
-    $("#ledgerBtn").remove();
+    
 });

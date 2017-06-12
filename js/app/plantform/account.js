@@ -9,7 +9,8 @@ $(function() {
             userId: OSS.SYS_USER
         }
     }).then(function(data) {
-        $("#amount-yu").text("￥" + data[0].amount / 1000);
+        $("#amount-CNY").text("￥" + data[0].amount / 1000);
+        $("#amount-JF").text("￥" + data[1].amount / 1000);
         accountNumberPing = data[0].accountNumber;
     });
 
@@ -20,7 +21,7 @@ $(function() {
             userId: "SYS_USER_JKEG_TG"
         }
     }).then(function(data) {
-        $("#amount-CNY").text("￥" + data[0].amount / 1000);
+        $("#amount1-CNY").text("￥" + data[0].amount / 1000);
         accountNumber = data[0].accountNumber;
     });
 

@@ -1,7 +1,7 @@
 $(function() {
 	
 	var code = getQueryString('code');
-	var view = getQueryString('v');
+	var view = true;
 	
 	var typeData = {}
 	reqApi({
@@ -34,6 +34,7 @@ $(function() {
 		data: typeData,
 		keyName: 'code',
 		valueName: 'name',
+        required: true,
     }, {
         field: 'type',
         title: '小类',
@@ -70,8 +71,7 @@ $(function() {
         type: 'textarea',
         required: true,
 		readonly: view
-    }, 
-    // {
+    }, {
 //      field: 'price1',
 //      title: '人民币价',
 //      amount: true,
@@ -90,26 +90,24 @@ $(function() {
 //      formatter: moneyFormat,
 //      required: true,
 //  }, {
-    //     field: 'uiOrder',
-    //     title: '次序',
-    //     required: true,
-    //     number: true,
-    //     sortable: true,
-    // },{
-    //     field: 'uiLocation',
-    //     title: '位置',
-    //     type: 'select',
-    //     key: 'store_location',
-    //     keyCode: '808907',
-    //     formatter: Dict.getNameForList("store_location", "808907"),
-    // }
- //    ,	
-	// {
- //        field: 'remark',
- //        title: '备注',
- //        readonly: view
- //    }
-    ];
+        field: 'uiOrder',
+        title: '次序',
+        required: true,
+        number: true,
+        sortable: true,
+    },{
+        field: 'uiLocation',
+        title: '位置',
+        type: 'select',
+        key: 'store_location',
+        keyCode: '808907',
+        formatter: Dict.getNameForList("store_location", "808907"),
+    },	
+	{
+        field: 'remark',
+        title: '备注',
+        readonly: view
+    }];
 	
 	buildDetail({
 		fields: fields,

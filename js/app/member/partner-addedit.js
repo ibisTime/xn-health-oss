@@ -1,102 +1,69 @@
 $(function() {
-    var code = getQueryString('userId');
-    var view = !!getQueryString('v');
-    // var userId = getQueryString('userId');
-    var loginNameView = {
-        field: 'loginName1',
-        title: "登录名",
-        readonly: true,
-        formatter: function(v, data) {
-            return data.loginName
-        }
-    };
-    var loginNameEdit = {
-        field: 'loginName',
-        title: "登录名",
-        maxlength: 32,
-        required: true
-    };
-    if (code) {
-        loginNameView.hidden = false;
-        loginNameEdit.hidden = true;
-    } else {
-        loginNameView.hidden = true;
-    }
-
-
+    
+    var userId = getQueryString('userId');
+    
     var fields = [{
-            field: "kind",
-            value: "11",
-            type: "hidden",
-            required: true
-        }, loginNameView, loginNameEdit,
-        {
-            field: 'realName',
-            title: "合伙人姓名",
-            maxlength: 32,
-            required: true,
-            readonly: view
-        }, {
-            field: 'province1',
-            title: '辖区',
-            required: true,
-            type: 'citySelect',
-            afterSet: function(v, data) {
-                if (code) {
-                    if (data.userExt.province == data.userExt.city && data.userExt.city == data.userExt.area) {
-                        data.userExt.city = "";
-                        data.userExt.area = "";
-                    } else if (data.userExt.province == data.userExt.city && data.userExt.city != data.userExt.area) {
-                        data.userExt.city = data.userExt.area;
-                    }
-                    $('#province').val(data.userExt.province);
-                    $("#province").trigger("change");
-                    data.userExt.city && $('#city').val(data.userExt.city);
-                    data.userExt.area && $('#area').val(data.userExt.area);
-                    data.userExt.city ? $('#city').trigger('change') : $('#province').trigger('change');
-                    data.userExt.area && $('#area').val(data.userExt.area);
-                }
-            }
-        }, {
-            field: 'mobile',
-            title: '手机号',
-            mobile: true,
-            required: true,
-            readonly: view
-        }, {
-            field: 'idNo',
-            idCard: true,
-            title: '身份证号码',
-            required: true,
-            readonly: view
-        }, {
-            title: "分成比例",
-            field: "divRate",
-            required: true,
-            readonly: view
-        }
-    ];
-
-    var options = {
+        field: 'kind',
+        type: 'hidden',
+        value: '1'
+    },{
+        title : '登录名',
+        field : 'loginName',
+        required: true,
+        maxlength: 20
+    },{
+        title : '手机号',
+        field : 'mobile',
+        mobile:true,
+        required: true
+    }, {
+        title: '真实姓名',
+        field: 'realName',
+        chinese: true,
+        required: true
+    },  {
+        title: '证件类型',
+        field: 'idKind',
+        type: 'select',
+        key: 'id_kind',
+        keyCode: "807706"
+    },{
+        title: '证件号',
+        field: 'idNo',
+        idCard: true
+    },{
+        title : '分成比例',
+        field : 'divRate',
+        number:true,
+        max: 1,
+        min: 0,
+        required: true
+    }, {
+        title: '备注',
+        field: 'remark',
+        maxlength: 250
+    }];
+    
+    buildDetail({
         fields: fields,
-        code: {
-            userId: code
+        code:{
+            userId: userId
         },
-        addCode: '805180',
-        editCode: "805181",
-        detailCode: "805056",
-        view: view,
-        beforeSubmit: function(data) {
-            if (code) {
-                data.userId = code;
-                // data.loginName =
-                return data;
-            } else {
-                return data
+        detailCode: '805056',
+        addCode: '805042',
+        editCode: '805182',
+        beforeSubmit: function(data){
+            if(userId){
+                data.userId = userId;
             }
+            data.userReferee = getUserId();
+            data.kind = '05';
+            
+            return data;
         }
-    };
-
-    buildDetail(options);
-
+    });
+    
+    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>初始密码为 888888</p>";
+    $(h).insertAfter("#loginName");
+    
 });
