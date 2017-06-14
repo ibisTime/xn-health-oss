@@ -1,0 +1,48 @@
+<link rel="import" href="../head.html?__inline">
+<script src="../../js/app/person/telChange.js"></script>
+<style>
+    .mobile {
+        width: 300px;
+        height: 32px;
+        border: 1px solid rgb(224, 224, 224);
+    }
+    
+    .smsCaptcha {
+        width: 200px;
+        height: 32px;
+        border: 1px solid rgb(224, 224, 224);
+    }
+    
+    .smsBtn {
+        width: 80px;
+        height: 35px;
+        background-color: #2598d0;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #fff;
+        cursor: pointer;
+        margin-left: 20px;
+    }
+</style>
+<div class="place">
+    <span>位置：</span>
+    <ul>
+        <li>权限管理</li>
+        <li>用户管理</li>
+    </ul>
+</div>
+<form id="jsForm">
+    <input type="hidden" id="id" name="id" />
+    <div class="form-body">
+        <div class="form-title"><span>更改手机号</span></div>
+        <ul class="form-info">
+
+            <li><label><b>*</b>新手机号:</label><input type="text" id="newMobile" name="newMobile" class="mobile" /></li>
+            <li><label><b>*</b>验证码</label><input type="text" id="smsCaptcha" name="smsCaptcha" class="smsCaptcha" /><input id="smsBtn" type="button" class="smsBtn" value="发送短信" /></li>
+
+            <li><input id="subBtn" type="button" class="btn margin-left-100" value="保存" /></li>
+        </ul>
+    </div>
+</form>
+
+<link rel="import" href="../foot.html?__inline">
