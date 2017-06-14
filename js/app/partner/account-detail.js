@@ -1,4 +1,8 @@
 $(function() {
+
+    var currency = getQueryString('currency') || "";
+    var accountNumber = getQueryString('accountNumber') || "";
+
     var columns = [{
             field: '',
             title: '',
@@ -40,7 +44,7 @@ $(function() {
             title: '创建时间',
             formatter: dateTimeFormat
         }, {
-            title: "审核意见",
+            title: "审核意见",  
             field: "remark"
         }, {
             field: 'bizNote',
@@ -52,7 +56,9 @@ $(function() {
         columns: columns,
         pageCode: '802520',
         searchParams: {
-            userId: sessionStorage.getItem('userId'),
+            // currency: currency,
+            userId: accountNumber ? "" : getUserId(),
+            accountNumber: accountNumber,
             companyCode: OSS.companyCode
         }
     });

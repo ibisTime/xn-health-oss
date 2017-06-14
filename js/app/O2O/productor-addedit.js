@@ -88,9 +88,6 @@ $(function() {
         },
         keyName: 'code',
         valueName: 'name',
-        // formatter: function(v,data){
-        //  return data.type;
-        // }
     },{
         field: 'name',
         title: '店铺名称',

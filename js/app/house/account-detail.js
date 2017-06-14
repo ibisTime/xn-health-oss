@@ -1,6 +1,5 @@
 $(function() {
-    var accountNumber 
-    // = getQueryString('accountNumber');
+    var accountNumber  = getQueryString('accountNumber');
     // var accountNumberPing = getQueryString('accountNumberPing');
     // var isPing = getQueryString('ping');
     var accountNumberValue 
@@ -64,11 +63,14 @@ $(function() {
         columns: columns,
         pageCode: '802520',
         searchParams: {
-            userId: getUserId(),
             companyCode: OSS.companyCode,
-            accountNumber: accountNumberValue
+            userId: accountNumber ? "" : getUserId(),
+            accountNumber: accountNumber,
         }
     });
-
+    
+     $('#gobackBtn').click(function() {
+        goBack();
+    });
 
 });

@@ -1,6 +1,7 @@
 $(function() {
     var view = 1;
-
+    var accountNumberCNY;
+    var accountNumberJF;
     reqApi({
         code: '802503',
         json: {
@@ -8,18 +9,21 @@ $(function() {
         }
     }).done(function(data) {
         $("#amount-CNY").text("￥" + data[0].amount / 1000);
-        $("#amount-JF").text("￥" + data[0].amount / 1000);
+        accountNumberCNY = data[0].accountNumber;
+
+        $("#amount-JF").text("￥" + data[1].amount / 1000);
+        accountNumberJF = data[1].accountNumber;
     });
 
 
-    $("#accouBtn").click(
+    $("#CNYaccoutBtn").click(
         function() {
-            window.location.href = 'account_quxian.html'
+            window.location.href = 'account_detail.html?accountNumber='+ accountNumberCNY;
         }
     );
-    $("#accoutBtn").click(
+    $("#JFaccoutBtn").click(
         function() {
-            window.location.href = 'account_detail.html'
+            window.location.href = 'account_detail.html?accountNumber='+ accountNumberJF;
         }
     );
 

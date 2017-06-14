@@ -15,8 +15,17 @@ $(function() {
         field: 'kind',
         type: 'hidden',
         value: '1'
-    }
-    , {
+    },{
+        field: 'level',
+        title: '商家类型',
+        key: "store_level",
+        keyCode: '808907',
+        formatter: function(v, data) {   
+            // return data[0].store.level;
+           return Dict.getNameForList1("store_level", "808907",data[0].store.level)
+        }
+
+    }, {
         field: 'category',
         title: '大类',
         type:'select',

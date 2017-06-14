@@ -1,5 +1,5 @@
 $(function () {
-    var code = getQueryString('code');
+    var code = getQueryString('Code');
     // var userId = getQueryString('userId');
     var typeData = {}
     reqApi({
@@ -71,6 +71,7 @@ $(function () {
         code: code,
         pageCode: '808245',
 		searchParams:{
+            storeCode: code,
             status:"1",
 			companyCode: OSS.companyCode
 		},

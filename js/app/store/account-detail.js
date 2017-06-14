@@ -1,20 +1,19 @@
 $(function() {
-    var accountNumber 
-    // = getQueryString('accountNumber');
+    var accountNumber  = getQueryString('accountNumber');
     // var accountNumberPing = getQueryString('accountNumberPing');
     // var isPing = getQueryString('ping');
-    var accountNumberValue 
+    // var accountNumberValue 
     // = isPing ? accountNumberPing : accountNumber;
-        reqApi({
-            code: '802503',
-            json: {
-                userId: getUserId()
+        // reqApi({
+        //     code: '802503',
+        //     json: {
+        //         userId: getUserId()
                 // getUserId()  OSS.SYS_USER
-            }
-        }).then(function(data) {
-            $("#amount-yu").text("￥" + data[0].amount / 1000);
-            accountNumberPing = data[0].accountNumber;
-        });
+        //     }
+        // }).then(function(data) {
+        //     $("#amount-yu").text("￥" + data[0].amount / 1000);
+        //     accountNumberPing = data[0].accountNumber;
+        // });
 
     var columns = [{
             field: '',
@@ -64,10 +63,14 @@ $(function() {
         columns: columns,
         pageCode: '802520',
         searchParams: {
-            userId: getUserId(),
             companyCode: OSS.companyCode,
-            accountNumber: accountNumberValue
+            userId: accountNumber ? "" : getUserId(),
+            accountNumber: accountNumber,
         }
+    });
+
+     $('#gobackBtn').click(function() {
+        goBack();
     });
 
 

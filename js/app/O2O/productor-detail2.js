@@ -17,15 +17,14 @@ $(function() {
 		field: 'kind',
 		type: 'hidden',
 		value: '1'
-	}
-	// , {
- //        field: 'companyCode',
- //        title: '商户',
-        // formatter: function(v ,data){
-        // 	return data.store.name
-        // }
-    // }
-    , {
+	},{
+        field: 'level',
+        title: '商家类型',
+        key: "store_level",
+        keyCode: '808907',
+        formatter:Dict.getNameForList("store_level", "808907"),
+
+    }, {
         field: 'category',
         title: '大类',
 		type: 'select',
@@ -45,7 +44,6 @@ $(function() {
     }, {
         field: 'name',
         title: '商品名称',
-        required: true,
 		readonly: view
     }, {
         field: 'slogan',

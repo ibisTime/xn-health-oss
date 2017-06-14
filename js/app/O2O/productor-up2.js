@@ -17,8 +17,7 @@ $(function() {
         key: 'store_location',
         keyCode: '808907',
         formatter: Dict.getNameForList("store_location", "808907"),
-        search: true,
-        // required: true,
+        required: true,
     }, {
         field: 'rate1',
         title: '折扣',
@@ -48,7 +47,7 @@ $(function() {
 			confirm("确认上架？").then(function() {
 				var data = $('#jsForm').serializeObject();
 				data.code = code;
-				data.uiLocation = '1';
+				// data.uiLocation = '1';
 				data.rate2 = "0";
 				data.rate3 = "0";
 				// data.isDefault = "0";
