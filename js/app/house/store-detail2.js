@@ -1,4 +1,6 @@
 $(function() {
+    
+    var code = getQueryString('code');
     var view = true;
     
     var typeData = {}
@@ -16,6 +18,13 @@ $(function() {
         type: 'hidden',
         value: '1'
     }
+    // , {
+ //        field: 'companyCode',
+ //        title: '商户',
+        // formatter: function(v ,data){
+        //  return data.store.name
+        // }
+    // }
     , {
         field: 'category',
         title: '大类',
@@ -40,7 +49,6 @@ $(function() {
         field: 'name',
         title: '商品名称',
         formatter: function(v, data) {
-            window.sessionStorage.setItem('storeCode', data[0].store.code);
             return data[0].store.name;
         }
     }, {
@@ -89,6 +97,8 @@ $(function() {
         },
         detailCode: '808219',
     });
+
     $("#subBtn").hide();
     $("#backBtn").hide();
+    
 });

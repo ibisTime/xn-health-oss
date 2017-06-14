@@ -72,6 +72,7 @@ $(function () {
         pageCode: '808245',
 		searchParams:{
             status:"1",
+            storeCode: code,
 			companyCode: OSS.companyCode
 		},
     });

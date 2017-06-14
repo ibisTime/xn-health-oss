@@ -3,12 +3,25 @@ $(function() {
     var code = getQueryString('code');
     //	var pCode = getQueryString('pCode')
 
-    var fields = [{
-        field: 'kind',
-        type: 'hidden',
-        value: '1'
-    }, {
-        field: 'dvalue',
+    var typeData = {}
+    reqApi({
+        code:'808007'
+    }).done(function(d) {
+                    
+        d.forEach(function(v,i){
+            // if (code ="FL2017061016211611994528") {
+            //    continue;
+            // }else{
+                
+            // }
+            typeData[v.code] = v.name; 
+            
+        })
+    });
+
+
+    var fields = [ {
+        field: 'level',
         title: '商家类型',
         type: 'select',
         required: true,
@@ -16,15 +29,10 @@ $(function() {
         keyCode: '808907',
         formatter:Dict.getNameForList("store_level", "808907"),
         onChange:function(v,data){
-            if ($("#dvalue_chosen .chosen-single span").text()=="酒店名宿") {
-                // $("#dvalue_chosen .chosen-single span").attr("data-chosen-select","2")
-                 // $("#category_chosen .chosen-single span").hide();
-                 // $("#type_chosen .chosen-single span").hide();
+            if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
                  $("#category_chosen").parent(".clearfix").hide();
                  $("#type_chosen").parent(".clearfix").hide();
             }else{
-                // $("#category_chosen .chosen-single span").empty();
-                //  $("#type_chosen .chosen-single span").empty();
                 $("#category_chosen").parent(".clearfix").show();
                  $("#type_chosen").parent(".clearfix").show();
             }
@@ -42,11 +50,11 @@ $(function() {
 		},
 		keyName: 'code',
 		valueName: 'name',
+        required: true,
 		onChange:function(v,data){
 			reqApi({
                 code: '808007',
                 json: {
-                    companyCode: OSS.companyCode,
                 	type:"2",
 					// status: '2',
                 	parentCode: v
@@ -72,6 +80,7 @@ $(function() {
         title: '小类',
 		type: 'select',
 		listCode: '808007',
+        required: true,
 		params: {
 			type:2,
 			// status: '0',
@@ -82,56 +91,40 @@ $(function() {
 		// formatter: function(v,data){
 		// 	return data.type;
 		// }
-    }
-    // , {
-    //     title: '大类',
-    //     field: 'parentCode',
-    //     required: true,
-    //     type: 'select',
-    //     listCode: '808007',
-    //     params: {
-            // companyCode: OSS.companyCode,
-    //         type: "2",
-    //         parentCode: 0
-    //     },
-    //     keyName: 'code',
-    //     valueName: 'name',
-    //     defaultOption: '选此创建种类',
-    // }
-    , {
+    },{
         field: 'name',
         title: '店铺名称',
         required: true,
-    }, {
-        field: 'level',
-        title: '店铺等级',
-        type:'select',
-        data:{
-                "1": "普通商家",
-                "2": "理财型商家",
-        },
+    },{
+        field: 'mobile',
+        title: '登录名(手机号)',
         required: true,
-    }
-    // , {
-    //     field: 'type',
-    //     title: '标签',
-    //     required: true,
-    // }
-    ,{
+    },{
+        field: 'bookMobile',
+        title: '预定联系电话',
+        required: true,
+    },{
+        field: 'smsMobile',
+        title: '短信手机号',
+        required: true,
+    },{
         field: 'slogan',
         title: '广告语',
         required: true,
     },  {
         title: '店铺缩略图',
         field: 'advPic',
-        type: 'img'
+        type: 'img',
+        required: true,
     },{
         title: '商家图片',
         field: 'pic',
-        type: 'img'
+        type: 'img',
+        required: true,
     },{
         field: 'description',
         title: '商家描述',
+        type:'textarea',
         required: true,
     }, {
         title: '地址',
@@ -156,38 +149,7 @@ $(function() {
         field: 'latitude',
         north: true,
         hidden: true
-    },{
-        field: 'bookMobile',
-        title: '预定联系电话',
-        required: true,
-    },{
-        field: 'smsMobile',
-        title: '短信手机号',
-        required: true,
-    },{
-        field: 'mobile',
-        title: 'B端用户手机号',
-        required: true,
     }
-    // ,{
-    //     field: 'userReferee',
-    //     title: '店铺推荐人手机号',
-    //     required: true,
-    // }
-    // , {
-    //     field: 'uiOrder',
-    //     title: '次序',
-    //     required: true,
-    //     number: true,
-    //     sortable: true,
-    // },{
-    //     field: 'uiLocation',
-    //     title: '位置',
-    //     type: 'select',
-    //     key: 'store_location',
-    //     keyCode: '808907',
-    //     formatter: Dict.getNameForList("store_location", "808907"),
-    // }
     ];
 
     var options = {

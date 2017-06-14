@@ -33,7 +33,8 @@ $(function() {
     }, {
         title: '图片',
         field: 'pic',
-        type: 'img'
+        type: 'img',
+        required: true,
     }];
 
     buildDetail({

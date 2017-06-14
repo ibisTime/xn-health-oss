@@ -8,25 +8,7 @@ $(function () {
         field: 'name',
         title: '商户类别',
         search: true,
-    }
-  //   , {
-  //       field: 'companyCode',
-  //       title: '商户',
-  //       type: 'select',
-  //       search: true,
-		// pageCode1: '805054',
-		// params: {
-		// 	kind: 'f2',
-  //   		updater: ''
-		// },
-		// keyName: 'userId',
-		// valueName: 'mobile',
-		// searchName: 'mobile',
-  //       formatter: function(v ,data){
-        	// return data.store.name
-    //     }
-    // }
-    , {
+    } , {
         field: 'category',
         title: '参与类型',
 		type: 'select',
@@ -68,6 +50,7 @@ $(function () {
         pageCode: '808215',
         deleteCode:'808011',
 		searchParams:{
+            storeCode:code,
 			companyCode: OSS.companyCode
 		},
     });
@@ -245,6 +228,22 @@ $(function () {
         }
         
         window.location.href = "productorParam.html?Code=" + selRecords[0].code+"&pName=" + selRecords[0].name;
+    });
+
+    $('#revenueBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        if (selRecords.length>1) {
+            toastr.info("不能多选");
+            return;
+        }
+        
+        window.location.href = "revenue.html?Code=" + selRecords[0].code+"&userId="+selRecords[0].owner;
+
     });
     
 });
