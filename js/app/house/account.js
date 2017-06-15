@@ -20,4 +20,10 @@ $(function() {
         }
     );
 
+    $("#accouBtn").click(
+        function() {
+            window.location.href = 'account_quxian.html?accountNumber=' + accountNumberCNY;
+        }
+    );
+
 });

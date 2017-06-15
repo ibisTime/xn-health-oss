@@ -26,19 +26,18 @@ $(function() {
         // }
     // }
     , {
-        field: 'parentCode',
+        field: 'category',
         title: '大类',
 		type: 'select',
-		listCode: '808007',
         readonly: view,
 		data: typeData,
 		keyName: 'code',
 		valueName: 'name',
+        required: true,
     }, {
         field: 'type',
         title: '小类',
 		type: 'select',
-		listCode: '808007',
         readonly: view,
 		data: typeData,
 		keyName: 'code',

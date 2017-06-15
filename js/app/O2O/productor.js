@@ -39,9 +39,6 @@ $(function () {
         key: 'store_location',
         keyCode: '808907',
         formatter: Dict.getNameForList("store_location", "808907"),
-    }, {
-        field: 'remark',
-        title: '备注',
     }];
 
     buildList({

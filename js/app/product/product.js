@@ -6,7 +6,7 @@ $(function () {
         checkbox: true
     }, {
         field: 'name',
-        title: '商品类别',
+        title: '商品名',
         search: true,
     }
   //   , {
@@ -28,16 +28,26 @@ $(function () {
     // }
     , {
         field: 'category',
-        title: '参与类型',
+        title: '大类',
 		type: 'select',
 		listCode: '808007',
 		params:{
-            companyCode: OSS.companyCode,
 			type: '1',
 			parentCode: '0',
 		},
 		keyName: 'code',
 		valueName: 'name',
+    }, {
+        field: 'type',
+        title: '小类',
+        type: 'select',
+        listCode: '808007',
+        keyName: 'code',
+        valueName: 'name',
+        params: {
+            type: '1',
+        },
+        search: true
     }, {
         field: 'status',
         title: '状态',

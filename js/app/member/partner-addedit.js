@@ -49,9 +49,9 @@ $(function() {
         code:{
             userId: userId
         },
-        detailCode: '805056',
+        // detailCode: '805056',
         addCode: '805042',
-        editCode: '805182',
+        // editCode: '805182',
         beforeSubmit: function(data){
             if(userId){
                 data.userId = userId;

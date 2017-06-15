@@ -15,20 +15,10 @@ $(function() {
         title: '位置',
         type: 'select',
         key: 'product_location',
-        // keyCode: "802006",
-        formatter: Dict.getNameForList("product_location"),
+        keyCode:'808907',
+        formatter: Dict.getNameForList("product_location",'808907'),
         search: true
-    }
-    // , {
-    //     field: 'location',
-    //     title: '位置',
-    //     required: true,
-    //     type: "select",
-    //     key: "product_location",
-    //     keyCode:"808907",
-    //     formatter: Dict.getNameForList("product_location"),
-    // }
-    ];
+    }];
 	
 	buildDetail({
 		fields: fields,

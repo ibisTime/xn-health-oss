@@ -18,6 +18,14 @@ $(function() {
 		type: 'hidden',
 		value: '1'
 	},{
+        field: 'mobile',
+        title: '登录名(手机号)',
+        required: true,
+    },{
+        field: 'legalPersonName',
+        title: '法人姓名',
+        required: true,
+    },{
         field: 'level',
         title: '商家类型',
         key: "store_level",
@@ -28,7 +36,6 @@ $(function() {
         field: 'category',
         title: '大类',
 		type: 'select',
-		
         readonly: view,
 		data: typeData,
 		keyName: 'code',
@@ -41,6 +48,10 @@ $(function() {
 		data: typeData,
 		keyName: 'code',
 		valueName: 'name',
+    }, {
+        title: '折扣',
+        field: 'rate1',
+        required: true,
     }, {
         field: 'name',
         title: '商品名称',
@@ -87,27 +98,21 @@ $(function() {
 //      amount: true,
 //      formatter: moneyFormat,
 //      required: true,
-//  }, {
-    //     field: 'uiOrder',
-    //     title: '次序',
-    //     required: true,
-    //     number: true,
-    //     sortable: true,
-    // },{
-    //     field: 'uiLocation',
-    //     title: '位置',
-    //     type: 'select',
-    //     key: 'store_location',
-    //     keyCode: '808907',
-    //     formatter: Dict.getNameForList("store_location", "808907"),
-    // }
- //    ,	
-	// {
- //        field: 'remark',
- //        title: '备注',
- //        readonly: view
- //    }
-    ];
+//  }, 
+    {
+        field: 'uiOrder',
+        title: '次序',
+        required: true,
+        number: true,
+        sortable: true,
+    },{
+        field: 'uiLocation',
+        title: '位置',
+        type: 'select',
+        key: 'store_location',
+        keyCode: '808907',
+        formatter: Dict.getNameForList("store_location", "808907"),
+    }];
 	
 	buildDetail({
 		fields: fields,

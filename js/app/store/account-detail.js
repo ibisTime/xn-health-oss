@@ -35,7 +35,7 @@ $(function() {
             field: 'bizType',
             title: '业务类型',
             key: "biz_type",
-            listCode: "802006",
+            keyCode: "802006",
             search: true,
             type: 'select',
             formatter: Dict.getNameForList('biz_type',"802006"),
@@ -44,7 +44,7 @@ $(function() {
             title: '流水状态',
             type: 'select',
             key: "jour_status",
-            listCode: "802006",
+            keyCode: "802006",
             formatter: Dict.getNameForList("jour_status","802006"),
             search: true
         }, {

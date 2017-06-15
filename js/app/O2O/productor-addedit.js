@@ -21,6 +21,14 @@ $(function() {
 
 
     var fields = [ {
+        field: 'mobile',
+        title: '登录名(手机号)',
+        required: true,
+    },{
+        field: 'legalPersonName',
+        title: '法人姓名',
+        required: true,
+    },{
         field: 'level',
         title: '商家类型',
         type: 'select',
@@ -93,13 +101,36 @@ $(function() {
         keyName: 'code',
         valueName: 'name',
     },{
+        title: '折扣',
+        field: 'rate1',
+        required: true,
+    },{
         field: 'name',
         title: '店铺名称',
         required: true,
-    },{
-        field: 'mobile',
-        title: '登录名(手机号)',
+    }, {
+        title: '地址',
+        field: "province1",
+        type:'select',
+        key:"product_location",
+        keyCode:'808907',
         required: true,
+        type: 'citySelect',
+    }, {
+        title: '详细地址',
+        field: 'address',
+        required: true,
+        maxlength: 255,
+    }, {
+        title: '经度',
+        field: 'longitude',
+        west: true,
+        hidden: true
+    }, {
+        title: "纬度",
+        field: 'latitude',
+        north: true,
+        hidden: true
     },{
         field: 'bookMobile',
         title: '预定联系电话',
@@ -127,29 +158,6 @@ $(function() {
         title: '商家描述',
         type:'textarea',
         required: true,
-    }, {
-        title: '地址',
-        field: "province1",
-        type:'select',
-        key:"product_location",
-        keyCode:'808907',
-        required: true,
-        type: 'citySelect',
-    }, {
-        title: '详细地址',
-        field: 'address',
-        required: true,
-        maxlength: 255,
-    }, {
-        title: '经度',
-        field: 'longitude',
-        west: true,
-        hidden: true
-    }, {
-        title: "纬度",
-        field: 'latitude',
-        north: true,
-        hidden: true
     }
     ];
 
@@ -220,7 +228,7 @@ $(function() {
                         // data.userReferee = userId;
                         data.userReferee = sessionStorage.getItem('userId');
                         // data.type = "2";
-                        data.rate1 = "1";
+                        // data.rate1 = "1";
                         data.rate2 = "0";
                         data.rate3 = "0";
                         data.longitude = point.lng;
