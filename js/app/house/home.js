@@ -1,5 +1,13 @@
 $(function() {
     var code = getQueryString('code');
+    var storeCode;
+    reqApi({
+        code: '808219',
+        json: { userId: getUserId() },
+        sync: true
+    }).done(function(data) {
+        storeCode = data[0].store.code;
+    });
     var columns = [{
             field: '',
             title: '',
@@ -55,7 +63,8 @@ $(function() {
         searchParams: {
             companyCode: OSS.companyCode,
             userId: getUserId(),
-            // category:"FL2017061016211611994528"
+            storeCode: storeCode
+                // category:"FL2017061016211611994528"
         },
     });
 

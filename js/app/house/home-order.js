@@ -37,7 +37,7 @@ $(function() {
     buildList({
         columns: columns,
         pageCode: '808465',
-        single: false,
+        singleSelect: false,
         searchParams: {
             companyCode: OSS.companyCode,
             storeUser: getUserId(),

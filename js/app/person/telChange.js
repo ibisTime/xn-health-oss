@@ -15,7 +15,7 @@ $(function() {
             }).done(function() {
                 toastr.info('修改成功，请用新手机号登录！');
                 setTimeout(function() {
-                    window.location.href = "../signin.html?kind=f2"
+                    window.location.href = "../signin.html?kind=11"
                 }, 1500);
             });
         }

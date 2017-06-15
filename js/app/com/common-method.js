@@ -37,26 +37,26 @@ function dateTimeFormat(date) {
     }
     var format = "yyyy-MM-dd hh:mm:ss";
     date = new Date(date);
-    
+
     var o = {
-	    "M+": date.getMonth() + 1, //month
-	    "d+": date.getDate(), //day
-	    "h+": date.getHours(), //hour
-	    "m+": date.getMinutes(), //minute
-	    "s+": date.getSeconds(), //second
-	    "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
-	    "S": date.getMilliseconds() //millisecond
-	};
-	if (/(y+)/.test(format)) {
-	    format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-	}
-	
-	for (var k in o) {
-	    if (new RegExp("(" + k + ")").test(format)) {
-	        format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
-	    }
-	}
-	return format;
+        "M+": date.getMonth() + 1, //month
+        "d+": date.getDate(), //day
+        "h+": date.getHours(), //hour
+        "m+": date.getMinutes(), //minute
+        "s+": date.getSeconds(), //second
+        "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
+        "S": date.getMilliseconds() //millisecond
+    };
+    if (/(y+)/.test(format)) {
+        format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(format)) {
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+        }
+    }
+    return format;
 }
 
 /**
@@ -197,9 +197,9 @@ function RateFormatByLargeHundred(rate) {
  * 保留金额小数后2位,0.111 = 0.12
  */
 //num是要处理的数字  v为要保留的小数位数
-function moneyFormatdecimal(num){
-	var vv = Math.pow(10,2);
-	return Math.ceil(num*vv)/vv;
+function moneyFormatdecimal(num) {
+    var vv = Math.pow(10, 2);
+    return Math.ceil(num * vv) / vv;
 }
 
 
@@ -319,94 +319,95 @@ function doGetMenuCode(res) {
 
 // 扩展方法
 $.fn.serializeObject = function() {
-	 var o = {};
-	 var a = this.serializeArray();
-	 $.each(a, function() {
-		 if (o[this.name] !== undefined) {
-			 if (!o[this.name].push) {
-				 o[this.name] = [o[this.name]];
-			 }
-			 var flag = 1;
-			 for(var i = 0; i < o[this.name].length; i++){
-			 	if(o[this.name][i] == this.value){
-			 		flag = 0;
-			 		break;
-			 	}
-			 }
-			 if(flag){
-			 	o[this.name].push(this.value || '');
-			 }
-		 } else {
-			 var value = this.value || '';
-			 if ($('#' + this.name).parent('li').attr('type') == 'amount') {
-				 value = moneyParse(value);
-			 }
-			 if ($('#' + this.name).attr('multiple')) {
-				 var values = [];
-				 $('#' + this.name).prev().find('.search-choice').each(function(i, item) {
-					 values.push($(item).attr('data-value'));
-				 });
-				 o[this.name] = values;
-			 } else {
-				 o[this.name] = value;
-			 }
-		 }
-	 });
-	 return o;
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            var flag = 1;
+            for (var i = 0; i < o[this.name].length; i++) {
+                if (o[this.name][i] == this.value) {
+                    flag = 0;
+                    break;
+                }
+            }
+            if (flag) {
+                o[this.name].push(this.value || '');
+            }
+        } else {
+            var value = this.value || '';
+            if ($('#' + this.name).parent('li').attr('type') == 'amount') {
+                value = moneyParse(value);
+            }
+            if ($('#' + this.name).attr('multiple')) {
+                var values = [];
+                $('#' + this.name).prev().find('.search-choice').each(function(i, item) {
+                    values.push($(item).attr('data-value'));
+                });
+                o[this.name] = values;
+            } else {
+                o[this.name] = value;
+            }
+        }
+    });
+    return o;
 };
 
 $.fn.renderDropdown = function(data, keyName, valueName, defaultOption, filter) {
-	var value, listCode, params, dict, filter = filter || '', beforeData,keyCode1;
-	if ($.isPlainObject(data)) {
-		value = data.value;
-		listCode = data.listCode;
-		keyCode1 = data.keyCode1;
-		params = data.params || {};
-		keyName = data.keyName;
-		valueName = data.valueName;
-		defaultOption = data.defaultOption;
-		beforeData = data.beforeData;
-		dict = data.dict;
-	}
-	if(listCode) {
-		reqApi({
-			code: listCode,
-			json: params,
-			sync: true
-		}).then(function(d) {
-			data.data = d;
-		});
-	}
-	data = (data.data && data.data.list) || data.data || data || [];
-	beforeData && (data = beforeData(data));
-	
-	if (dict) {
-		dict.forEach(function(item) {
-			if(keyCode1){
-				var dictData = Dict.getName2(item[1],keyCode1);
-			}else{
-				var dictData = Dict.getName(item[1]);
-			}
-			
-			data.forEach(function(i) {
-				i[item[0] + 'Name'] = Dict.findName(dictData, i[item[0]]);
-			});
+    var value, listCode, params, dict, filter = filter || '',
+        beforeData, keyCode1;
+    if ($.isPlainObject(data)) {
+        value = data.value;
+        listCode = data.listCode;
+        keyCode1 = data.keyCode1;
+        params = data.params || {};
+        keyName = data.keyName;
+        valueName = data.valueName;
+        defaultOption = data.defaultOption;
+        beforeData = data.beforeData;
+        dict = data.dict;
+    }
+    if (listCode) {
+        reqApi({
+            code: listCode,
+            json: params,
+            sync: true
+        }).then(function(d) {
+            data.data = d;
+        });
+    }
+    data = (data.data && data.data.list) || data.data || data || [];
+    beforeData && (data = beforeData(data));
 
-		});
-	}
-	keyName = keyName || 'dkey';
-	valueName = valueName || 'dvalue';
-	var html = "<option value=''></option>" + (defaultOption || '');
-	var filters = filter.split(',');
-	for(var i = 0;i < data.length;i++){
-		if (filter && filters.indexOf(data[i][keyName]) > -1) {
-			html += "<option value='"+data[i][keyName]+"'>"+(data[i][valueName] || valueName.temp(data[i]))+"</option>";
-		} else if (!filter) {
-			html += "<option value='"+data[i][keyName]+"'>"+(data[i][valueName] || valueName.temp(data[i]))+"</option>";
-		}
-	}
-	this.html(html);
-	return data;
+    if (dict) {
+        dict.forEach(function(item) {
+            if (keyCode1) {
+                var dictData = Dict.getName2(item[1], keyCode1);
+            } else {
+                var dictData = Dict.getName(item[1]);
+            }
+
+            data.forEach(function(i) {
+                i[item[0] + 'Name'] = Dict.findName(dictData, i[item[0]]);
+            });
+
+        });
+    }
+    keyName = keyName || 'dkey';
+    valueName = valueName || 'dvalue';
+    var html = "<option value=''></option>" + (defaultOption || '');
+    var filters = filter.split(',');
+    for (var i = 0; i < data.length; i++) {
+        if (filter && filters.indexOf(data[i][keyName]) > -1) {
+            html += "<option value='" + data[i][keyName] + "'>" + (data[i][valueName] || valueName.temp(data[i])) + "</option>";
+        } else if (!filter) {
+            html += "<option value='" + data[i][keyName] + "'>" + (data[i][valueName] || valueName.temp(data[i])) + "</option>";
+        }
+    }
+    this.html(html);
+    return data;
 };
 
 $.fn.renderDropdown2 = function(data, defaultOption) {
@@ -522,24 +523,24 @@ function getRoleLevel() {
 
 
 $(function() {
-	//下拉框
-	setTimeout(function() {
-		chosen();
-		// 面包屑
-		if (window.parent.frames[0]) {
-			var topTitle = $('.nav .selected h2', window.parent.frames[0].document).text();
-			var leftFirstTitle = $('.left-menu .active', window.parent.frames[1].document).parent().prev().find('.title').text();
-			var leftSecondTitle = $('.left-menu .active', window.parent.frames[1].document).text();
-			var html = '<li>'+topTitle+'</li><li>'+leftFirstTitle+'</li><li>'+leftSecondTitle+'</li>';
-			var BtnTitle = localStorage.getItem('syj-btn');
-			localStorage.setItem('syj-btn', '');
-			if (BtnTitle) {
-				html += '<li>'+BtnTitle+'</li>';
-			}
-			$('.place ul').html(html);
-		}
+    //下拉框
+    setTimeout(function() {
+        chosen();
+        // 面包屑
+        if (window.parent.frames[0]) {
+            var topTitle = $('.nav .selected h2', window.parent.frames[0].document).text();
+            var leftFirstTitle = $('.left-menu .active', window.parent.frames[1].document).parent().prev().find('.title').text();
+            var leftSecondTitle = $('.left-menu .active', window.parent.frames[1].document).text();
+            var html = '<li>' + topTitle + '</li><li>' + leftFirstTitle + '</li><li>' + leftSecondTitle + '</li>';
+            var BtnTitle = localStorage.getItem('syj-btn');
+            localStorage.setItem('syj-btn', '');
+            if (BtnTitle) {
+                html += '<li>' + BtnTitle + '</li>';
+            }
+            $('.place ul').html(html);
+        }
 
-	}, 1);
+    }, 1);
 
 });
 var oriVal = $.fn.val;
@@ -719,17 +720,16 @@ function buildList(options) {
 
             (function(d) {
                 item.formatter = function(v) {
-                    return d[v] || d[+v]
-                    ;
+                    return d[v] || d[+v];
                 };
             })(data);
 
         } else if (item.key) {
-	        if(item.keyCode)
-		$('#' + item.field).renderDropdown(Dict.getName2(item.key,item.keyCode), '', '', item.defaultOption ? '<option value="0">'+item.defaultOption+'</option>' : '', item.filter || '');
-		else
-		$('#' + item.field).renderDropdown(Dict.getName(item.key), '', '', item.defaultOption ? '<option value="0">'+item.defaultOption+'</option>' : '', item.filter || '');
-	  } else if (item.listCode) {
+            if (item.keyCode)
+                $('#' + item.field).renderDropdown(Dict.getName2(item.key, item.keyCode), '', '', item.defaultOption ? '<option value="0">' + item.defaultOption + '</option>' : '', item.filter || '');
+            else
+                $('#' + item.field).renderDropdown(Dict.getName(item.key), '', '', item.defaultOption ? '<option value="0">' + item.defaultOption + '</option>' : '', item.filter || '');
+        } else if (item.listCode) {
             var data = $('#' + item.field).renderDropdown($.extend({
                 listCode: item.listCode,
                 params: item.params,
@@ -752,42 +752,42 @@ function buildList(options) {
                     return d[v];
                 };
             })(dataDict);
-}else if (item.pageCode1) {
-			var pageParams = {
-				start: 1,
-				limit: 10
-			};
-			$.extend(pageParams, item.params || {});
-			data = $('#' + item.field).renderDropdown($.extend({
-				listCode: item.pageCode1,
-				keyCode1: item.keyCode1,
-				params: pageParams,
-				keyName: item.keyName,
-				valueName: item.valueName,
-				dict: item.dict
-			}, (item.defaultOption ? {defaultOption: '<option value="0">'+item.defaultOption+'</option>'} : {})));
-			$('#' + item.field)[0].pageOptions = {
-				pageCode: item.pageCode1,
-				keyCode1: item.keyCode1,
-				keyName: item.keyName,
-				valueName: item.valueName,
-				dict: item.dict,
-				searchName: item.searchName
-			};
-			$('#' + item.field)[0].pageParams = pageParams;
-			$('#' + item.field)[0].pageParams.start += 1;
-		}
-		
-		if (item.onChange) {
+        } else if (item.pageCode1) {
+            var pageParams = {
+                start: 1,
+                limit: 10
+            };
+            $.extend(pageParams, item.params || {});
+            data = $('#' + item.field).renderDropdown($.extend({
+                listCode: item.pageCode1,
+                keyCode1: item.keyCode1,
+                params: pageParams,
+                keyName: item.keyName,
+                valueName: item.valueName,
+                dict: item.dict
+            }, (item.defaultOption ? { defaultOption: '<option value="0">' + item.defaultOption + '</option>' } : {})));
+            $('#' + item.field)[0].pageOptions = {
+                pageCode: item.pageCode1,
+                keyCode1: item.keyCode1,
+                keyName: item.keyName,
+                valueName: item.valueName,
+                dict: item.dict,
+                searchName: item.searchName
+            };
+            $('#' + item.field)[0].pageParams = pageParams;
+            $('#' + item.field)[0].pageParams.start += 1;
+        }
 
-			(function(i, data) {
-				$('#' + i.field).on('change', function(e) {
-					var record = Dict.findObj(data, this.value, i.keyName);
-					i.onChange(this.value, record);
-				});
-			})(item, data);
-			
-		}
+        if (item.onChange) {
+
+            (function(i, data) {
+                $('#' + i.field).on('change', function(e) {
+                    var record = Dict.findObj(data, this.value, i.keyName);
+                    i.onChange(this.value, record);
+                });
+            })(item, data);
+
+        }
         if (item.value) {
             $('#' + item.field).val(item.value);
         }
@@ -1108,7 +1108,7 @@ function buildDetail(options) {
         if (item['amount']) {
             rules[item.field]['amount'] = item['amount'];
         }
-        
+
         if (item['minAmount']) {
             rules[item.field]['minAmount'] = item['minAmount'];
         }
@@ -1225,11 +1225,11 @@ function buildDetail(options) {
         html += '<li><input id="subBtn" type="button" class="btn margin-left-100" value="' + (options.saveText || "保存") + '"/><input id="backBtn" type="button" class="btn margin-left-20" value="返回"/></li>';
     }
 
-	if(options.container){
-		options.container.append(html);
-	}else{
-    	$('#form-info').append(html);
-	}
+    if (options.container) {
+        options.container.append(html);
+    } else {
+        $('#form-info').append(html);
+    }
 
     $(document).on('mouseenter', '.field-help', function() {
         if (!$(this).attr('data-show')) {
@@ -1248,83 +1248,83 @@ function buildDetail(options) {
         }
     });
 
-	if (options.view) {
-		$('#subBtn').remove();
-	}
-	
-	for (var i = 0, len = btnHandlers.length; i < len; i++) {
-		$('#' + btnHandlers[i].id).on('click', btnHandlers[i].handler);
-	}
-	
-	$('#backBtn').click(function() {
-		goBack();
-	});
-	$('#subBtn').click(function() {
-		if ($('#jsForm').valid()) {
-			var data = $('#jsForm').serializeObject();
-			$('#jsForm').find('.btn-file [type=file]').parent().next().each(function(i, el) {
-				var values = [];
-				var imgs = $(el).find('.img-ctn');
-				imgs.each(function(index, img) {
-					values.push($(img).attr('data-src') || $(img).find('img').attr('data-src'));
-				});
-				data[el.id] = values.join('||');
-			});
-			if ($('#jsForm').find('#province')[0]) {
-				var province = $('#province').val();
-				var city = $('#city').val();
-				var area = $('#area').val();
-				if (!city) {
-					data['city'] = province;
-					data['area'] = province;
-				} else if (!area) {
-					data['city'] = province;
-					data['area'] = city;
-				} 
-			}
-			for (var i = 0, len = fields.length; i < len; i++) {
-				var item = fields[i];
-				if (item.equal && (!$('#' + item.field).is(':hidden') || !$('#' + item.field + 'Img').is(':hidden'))) {
-					data[item.equal] = $('#' + item.field).val() || $('#' + item.field).attr('src');
-				} else if (item.emptyValue && !data[item.field]) {
-					data[item.field] = item.emptyValue;
-				} else if (item.readonly && item.pass) {
-					data[item.field] = $('#' + item.field).attr('data-value') || $('#' + item.field).html();
-				}
-				if (item.type == 'select' && item.passValue) {
-					data[item.field] = $('#' + item.field).find('option:selected').html();
-				}
-			}
-			data['id'] = data['code'];
-			if (options.beforeSubmit) {
-				if (!options.beforeSubmit(data)) {
-					return;
-				}
-			}
+    if (options.view) {
+        $('#subBtn').remove();
+    }
 
-			var request = function() {
-				reqApi({
-					code: code ? options.editCode : options.addCode,
-					json: data
-				}).done(function(data) {
-					sucDetail();
-				});
-			};
+    for (var i = 0, len = btnHandlers.length; i < len; i++) {
+        $('#' + btnHandlers[i].id).on('click', btnHandlers[i].handler);
+    }
 
-			if (options.beforeSubmitAsync) {
-				options.beforeSubmitAsync.callback = request;
-				options.beforeSubmitAsync(data);
-			} else {
-				request();
-			}
+    $('#backBtn').click(function() {
+        goBack();
+    });
+    $('#subBtn').click(function() {
+        if ($('#jsForm').valid()) {
+            var data = $('#jsForm').serializeObject();
+            $('#jsForm').find('.btn-file [type=file]').parent().next().each(function(i, el) {
+                var values = [];
+                var imgs = $(el).find('.img-ctn');
+                imgs.each(function(index, img) {
+                    values.push($(img).attr('data-src') || $(img).find('img').attr('data-src'));
+                });
+                data[el.id] = values.join('||');
+            });
+            if ($('#jsForm').find('#province')[0]) {
+                var province = $('#province').val();
+                var city = $('#city').val();
+                var area = $('#area').val();
+                if (!city) {
+                    data['city'] = province;
+                    data['area'] = province;
+                } else if (!area) {
+                    data['city'] = province;
+                    data['area'] = city;
+                }
+            }
+            for (var i = 0, len = fields.length; i < len; i++) {
+                var item = fields[i];
+                if (item.equal && (!$('#' + item.field).is(':hidden') || !$('#' + item.field + 'Img').is(':hidden'))) {
+                    data[item.equal] = $('#' + item.field).val() || $('#' + item.field).attr('src');
+                } else if (item.emptyValue && !data[item.field]) {
+                    data[item.field] = item.emptyValue;
+                } else if (item.readonly && item.pass) {
+                    data[item.field] = $('#' + item.field).attr('data-value') || $('#' + item.field).html();
+                }
+                if (item.type == 'select' && item.passValue) {
+                    data[item.field] = $('#' + item.field).find('option:selected').html();
+                }
+            }
+            data['id'] = data['code'];
+            if (options.beforeSubmit) {
+                if (!options.beforeSubmit(data)) {
+                    return;
+                }
+            }
 
-		}
-	});
-	if (options.container) {
-		options.container.closest('form').validate({'rules': rules});
-	} else {
-		$("#jsForm").validate({'rules': rules});
-	}
+            var request = function() {
+                reqApi({
+                    code: code ? options.editCode : options.addCode,
+                    json: data
+                }).done(function(data) {
+                    sucDetail();
+                });
+            };
+
+            if (options.beforeSubmitAsync) {
+                options.beforeSubmitAsync.callback = request;
+                options.beforeSubmitAsync(data);
+            } else {
+                request();
+            }
+
+        }
+    });
+    if (options.container) {
+        options.container.closest('form').validate({ 'rules': rules });
+    } else {
+        $("#jsForm").validate({ 'rules': rules });
+    }
 
     for (var i = 0, len = dropDownList.length; i < len; i++) {
         var item = dropDownList[i];
@@ -1332,10 +1332,10 @@ function buildDetail(options) {
         if (item.data) {
             data = $('#' + item.field).renderDropdown2(item.data);
         } else if (item.key) {
-        	if(item.keyCode)
-        	data = $('#' + item.field).renderDropdown(Dict.getName2(item.key, item.keyCode), '', '', item.defaultOption ? '<option value="0">' + item.defaultOption + '</option>' : '');
-        	else
-            data = $('#' + item.field).renderDropdown(Dict.getName(item.key), '', '', item.defaultOption ? '<option value="0">' + item.defaultOption + '</option>' : '');
+            if (item.keyCode)
+                data = $('#' + item.field).renderDropdown(Dict.getName2(item.key, item.keyCode), '', '', item.defaultOption ? '<option value="0">' + item.defaultOption + '</option>' : '');
+            else
+                data = $('#' + item.field).renderDropdown(Dict.getName(item.key), '', '', item.defaultOption ? '<option value="0">' + item.defaultOption + '</option>' : '');
 
         } else if (item.listCode) {
             data = $('#' + item.field).renderDropdown($.extend({
@@ -1367,7 +1367,7 @@ function buildDetail(options) {
             $.extend(pageParams, item.params || {});
             data = $('#' + item.field).renderDropdown($.extend({
                 listCode: item.pageCode,
-		keyCode1: item.keyCode1,
+                keyCode1: item.keyCode1,
                 params: pageParams,
                 keyName: item.keyName,
                 valueName: item.valueName,
@@ -1375,7 +1375,7 @@ function buildDetail(options) {
             }, (item.defaultOption ? { defaultOption: '<option value="0">' + item.defaultOption + '</option>' } : {})));
             $('#' + item.field)[0].pageOptions = {
                 pageCode: item.pageCode,
-		keyCode1: item.keyCode1,
+                keyCode1: item.keyCode1,
                 keyName: item.keyName,
                 valueName: item.valueName,
                 dict: item.dict,
@@ -1448,30 +1448,30 @@ function buildDetail(options) {
                 });
             })(item);
 
-		}
-		
-		if (item.onKeyup) {
+        }
 
-			(function(i) {
-				$('#' + i.field).on('keyup', function(e) {
-					i.onKeyup(this.value);
-				});
-			})(item);
+        if (item.onKeyup) {
 
-		}
+            (function(i) {
+                $('#' + i.field).on('keyup', function(e) {
+                    i.onKeyup(this.value);
+                });
+            })(item);
 
-	}
-	
-	var detailParams = {code: code, id: code};
-	if (code && typeof code == 'object') {
-		detailParams = code;
-		code = true;
-		for (var i in detailParams) {
-			if (!detailParams[i]) {
-				code = false;
-			}
-		}
-	}
+        }
+
+    }
+
+    var detailParams = { code: code, id: code };
+    if (code && typeof code == 'object') {
+        detailParams = code;
+        code = true;
+        for (var i in detailParams) {
+            if (!detailParams[i]) {
+                code = false;
+            }
+        }
+    }
 
     if (!code) {
         for (var i = 0, len = fields.length; i < len; i++) {
@@ -1544,7 +1544,7 @@ function buildDetail(options) {
                         if (item.pageCode) {
                             $('#' + item.field).html('<table id="' + item.field + 'List"></table>');
                             var searchParams = {};
-//                          searchParams[item['key']] = item.o2mvalue || $('#code').val();
+                            //                          searchParams[item['key']] = item.o2mvalue || $('#code').val();
                             searchParams = item.o2mvalue || $('#code').val();
                             item.searchParams1 && $.extend(searchParams, item.searchParams1);
                             var options1 = {
@@ -1595,13 +1595,13 @@ function buildDetail(options) {
                             }
                         }
                         if (!item.multiple) {
-                        	
-                        	if(item.keyCode)
-                        		list = Dict.getName2(item.key, item.keyCode),
-	                            $('#' + item.field).html(Dict.getName2(item.key, item.keyCode, realValue || '0'));
-					        	else
-	                            list = Dict.getName(item.key),
-	                            $('#' + item.field).html(Dict.getName(item.key, realValue || '0'));
+
+                            if (item.keyCode)
+                                list = Dict.getName2(item.key, item.keyCode),
+                                $('#' + item.field).html(Dict.getName2(item.key, item.keyCode, realValue || '0'));
+                            else
+                                list = Dict.getName(item.key),
+                                $('#' + item.field).html(Dict.getName(item.key, realValue || '0'));
                         } else {
                             var dv = '';
                             if (realValue) {
@@ -1762,21 +1762,21 @@ function buildDetail(options) {
 
                     }
                     if (item.formatter) {
-                       if (item.type == 'select' && item.data) {
-                        var realValue = item.formatter(displayValue, data);
-                        if (item.value) {
-                            if (item.value.call) {
-                                realValue = item.value(data);
-                            } else {
-                                realValue = item.value;
+                        if (item.type == 'select' && item.data) {
+                            var realValue = item.formatter(displayValue, data);
+                            if (item.value) {
+                                if (item.value.call) {
+                                    realValue = item.value(data);
+                                } else {
+                                    realValue = item.value;
+                                }
                             }
-                        }
-                        $('#' + item.field).html(item.data[realValue] || '-');
-                        $('#' + item.field).attr('data-value', realValue);
-                        if (item.onChange) {
-                            item.onChange(realValue);
-                        }
-                    }else  if (item.type == 'img') {
+                            $('#' + item.field).html(item.data[realValue] || '-');
+                            $('#' + item.field).attr('data-value', realValue);
+                            if (item.onChange) {
+                                item.onChange(realValue);
+                            }
+                        } else if (item.type == 'img') {
                             var imgData = item.formatter(displayValue, data);
                             var sp = imgData && imgData.split('||') || [];
                             var imgsHtml = '';
@@ -1818,8 +1818,8 @@ function buildDetail(options) {
                                 var dSrc = OSS.picBaseUrl + '/' + $(this).parents("[data-src]").attr('data-src');
                                 window.open(dSrc, '_blank');
                             });
-                            
-                        }  else {
+
+                        } else {
                             $('#' + item.field).html(item.formatter(displayValue, data));
                         }
                     }
@@ -1843,12 +1843,12 @@ function buildDetail(options) {
                         sp.length && sp.forEach(function(item) {
                             var suffix = item.slice(item.lastIndexOf('.') + 1);
                             var src = (item.indexOf('http://') > -1 ? item : (OSS.picBaseUrl + '/' + item));
-//                          var src1 = (item.indexOf('http://') > -1 ? item.substring(item.lastIndexOf("/") + 1) : item);
+                            //                          var src1 = (item.indexOf('http://') > -1 ? item.substring(item.lastIndexOf("/") + 1) : item);
                             var src1 = item;
-                            if(item.indexOf('http://') > -1){
-                            	var name = src.substring(src.lastIndexOf("/")+1);
-                            }else{
-                            	var name = src1.substring(0, src1.lastIndexOf("_")) + "." + suffix;
+                            if (item.indexOf('http://') > -1) {
+                                var name = src.substring(src.lastIndexOf("/") + 1);
+                            } else {
+                                var name = src1.substring(0, src1.lastIndexOf("_")) + "." + suffix;
                             }
                             if (isDocOrAviOrZip(suffix)) {
                                 imgsHtml += '<div class="img-ctn" data-src="' + src1 + '" style="display: inline-block;position: relative;">' +
@@ -2118,14 +2118,14 @@ $.fn.highlight = function(type) {
 };
 
 function setImgDisabled(el) {
-	var count = el.find('.img-ctn').length;
-	if (count >= 1) {
-		el.prev().addClass('disabled');
-		el.prev().find('input').prop('disabled', true);
-	} else {
-		el.prev().removeClass('disabled');
-		el.prev().find('input').prop('disabled', false);
-	}
+    var count = el.find('.img-ctn').length;
+    if (count >= 1) {
+        el.prev().addClass('disabled');
+        el.prev().find('input').prop('disabled', true);
+    } else {
+        el.prev().removeClass('disabled');
+        el.prev().find('input').prop('disabled', false);
+    }
 }
 
 function uploadInit() {
@@ -3481,3 +3481,14 @@ function getDefaultFileIcon() {
     var src = __inline("../images/default_file.png");
     return src;
 }
+//设置自动退出
+$(function() {
+    var validTimer;
+    $(document).on('mousemove', function(e) {
+        clearTimeout(validTimer);
+        validTimer = setTimeout(function() {
+            sessionStorage.setItem('token', '');
+            location.href = '../signin.html?kind=' + (sessionStorage.getItem('loginKind') || '01');
+        }, +OSS.userValidTime * 60 * 1000);
+    });
+});
