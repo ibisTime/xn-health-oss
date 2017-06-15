@@ -1,7 +1,7 @@
 $(function() {
     var view = 1;
     var accountNumber;
-    var accountNumberPing;
+    var accountNumberJF;
 
     reqApi({
         code: '802503',
@@ -10,8 +10,10 @@ $(function() {
         }
     }).then(function(data) {
         $("#amount1-CNY").text("￥" + data[0].amount / 1000);
+        accountNumberCNY = data[0].accountNumber;
+
         $("#amount1-JF").text("￥" + data[1].amount / 1000);
-        accountNumberPing = data[0].accountNumber;
+        accountNumberJF = data[1].accountNumber;
     });
 
 
@@ -22,22 +24,32 @@ $(function() {
         }
     }).then(function(data) {
         $("#amount-CNY").text("￥" + data[0].amount / 1000);
-        accountNumber = data[0].accountNumber;
+        accountNumberTg = data[0].accountNumber;
     });
 
+    $("#CNYaccoutBtn").click(
+        function() {
+            window.location.href = 'account_detail.html?accountNumber=' + accountNumberCNY;
+        }
+    );
+    $("#JFaccoutBtn").click(
+        function() {
+            window.location.href = 'account_detail.html?accountNumber=' + accountNumberJF;
+        }
+    );
     $("#accoutBtn").click(
         function() {
-            window.location.href = 'account_detail.html?accountNumber=' + accountNumber;
+            window.location.href = 'account_detail.html?accountNumber=' + accountNumberTg;
         }
     );
-    $("#accoutPingBtn").click(
-        function() {
-            window.location.href = 'account_detail.html?ping=1&accountNumberPing=' + accountNumberPing;
-        }
-    );
-    $("#accouBtn").click(
-        function() {
-            window.location.href = 'account_quxian.html?accountNumber=' + accountNumberPing;
-        }
-    );
+    // $("#accoutPingBtn").click(
+    //     function() {
+    //         window.location.href = 'account_detail.html?ping=1&accountNumberPing=' + accountNumberPing;
+    //     }
+    // );
+    // $("#accouBtn").click(
+    //     function() {
+    //         window.location.href = 'account_quxian.html?accountNumber=' + accountNumberPing;
+    //     }
+    // );
 });

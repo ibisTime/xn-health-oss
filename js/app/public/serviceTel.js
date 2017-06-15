@@ -1,50 +1,47 @@
 $(function() {
     var code;
     reqApi({
-        code: "807717",
+        code: '807717',
         json: {
-            ckey: "aboutUs"
+            ckey: 'telephone'
         },
         sync: true
     }).then(function(data) {
         code = data.id;
     });
-
+    var view = !!getQueryString('v');
+    
     var fields = [{
-        title: '关于我们',
-        field: 'note',
-        type: "textarea",
-    }, {
         field: 'cvalue',
-        value: "关于我们",
-        type: 'hidden'
-    }, {
-        field: "id",
-        value: code,
-        hidden: true
+        type: 'hidden',
+        value: '服务热线'
+    },{
+        title: '服务热线',
+        field: 'note',
+        required: true
     }];
-
+    
     var options = {
         fields: fields,
         code: code,
+        editCode: '807711',
         detailCode: '807716',
         buttons: [{
-            title: "确定",
+            title: '保存',
             handler: function() {
                 if ($('#jsForm').valid()) {
-                    var data = {};
-                    data["cvalue"] = $("#cvalue").val();
-                    data["note"] = $("#note").val();
-                    data["id"] = $("#id").val();
+                    var data = $('#jsForm').serializeObject();
+                    data['id'] = data['code'];
                     reqApi({
-                        code: "807711",
+                        code: '807711',
                         json: data
-                    }).done(function() {
-                        toastr.info("操作成功");
+                    }).done(function(data) {
+                        toastr.success('操作成功');
                     });
                 }
             }
         }]
     };
+    
     buildDetail(options);
 });

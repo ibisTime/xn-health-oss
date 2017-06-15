@@ -5,9 +5,26 @@ $(function() {
         title: '',
         checkbox: true
     }, {
+        field : 'mobile',
+        title : '登录名',
+        search: true
+    }, {
         field: 'name',
         title: '店铺名称',
         search: true
+    },{
+        field: 'category',
+        title: '大类',
+        type: 'select',
+        listCode: '808007',
+        params: {
+            type:"2",
+            // status: '2',
+            parentCode: 0
+        },
+        keyName: 'code',
+        valueName: 'name',
+        required: true,
     }, {
         field: 'type',
         title: '分类',
@@ -52,6 +69,7 @@ $(function() {
         pageCode: '808215',
         searchParams: {
             companyCode: OSS.companyCode,
+            level: "1",
             // userId:sessionStorage.getItem("userId")
         }
     });

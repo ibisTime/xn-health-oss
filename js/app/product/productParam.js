@@ -51,7 +51,7 @@ $(function() {
 		deleteCode: '808031',
 		searchParams:{
 			productCode: code,
-			companyCode: OSS.company
+			companyCode: OSS.companyCode
 		}
 	});
 	

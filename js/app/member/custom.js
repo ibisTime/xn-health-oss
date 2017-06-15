@@ -11,18 +11,6 @@ $(function() {
             title: "昵称",
             field: "nickname",
             // search: true
-        },
-        {
-            title: '姓名',
-            field: 'realName',
-            // formatter: function(value, row, index) {
-            //     return row['realName'] ? row['realName'] : value;
-            // },
-            search: true
-        },
-        {
-            title: "身份证号",
-            field: "idNo",
         }, {
             title: '手机号',
             field: 'mobile',

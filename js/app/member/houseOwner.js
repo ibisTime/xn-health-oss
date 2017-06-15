@@ -1,126 +1,118 @@
 $(function() {
-    var userKind = {
-        "f1": "C端用户",
-        "f2": "B端用户"
-    }
+    var userId = getUserId();
     var columns = [{
-            field: '',
-            title: '',
-            checkbox: true
-        }, {
-            title: "昵称",
-            field: "nickname",
-            // search: true
-        },
-        {
-            title: '姓名',
-            field: 'realName',
-            // formatter: function(value, row, index) {
-            //     return row['realName'] ? row['realName'] : value;
-            // },
-            search: true
-        },
-        {
-            title: "身份证号",
-            field: "idNo",
-        }, {
-            title: '手机号',
-            field: 'mobile',
-            search: true
-        }, {
-            title: "状态",
-            field: "status",
-            type: "select",
-            key: "user_status",
-            formatter: Dict.getNameForList("user_status"),
-            search: true
-        }, {
-            title: "注册时间",
-            field: "createDatetime",
-            formatter: dateTimeFormat
-        }, {
-            title: '备注',
-            field: 'remark'
-        }
-    ];
+        field: '',
+        title: '',
+        checkbox: true
+    }, {
+        field : 'mobile',
+        title : '登录名',
+        search: true
+    },{
+        field: 'name',
+        title: '店铺名称',
+        search: true
+    }, {
+        field: 'bookMobile',
+        title: '联系电话',
+    }, {
+        field: 'smsMobile',
+        title: '短信手机号',
+    }, {
+        field: 'status',
+        title: '状态',
+        type: 'select',
+        key: "store_status",
+        keyCode: '808907',
+        formatter: Dict.getNameForList("store_status", "808907"),
+        search: true,
+    }, {
+        field: 'updateDatetime',
+        title: '入驻时间',
+        formatter: dateTimeFormat,
+    }, {
+        field: 'remark',
+        title: '备注'
+    }];
+
     buildList({
-        router: 'custom',
         columns: columns,
-        pageCode: '805054',
+        pageCode: '808215',
         searchParams: {
-            kind: "f1"
+            companyCode: OSS.companyCode,
+            level: "2",
+            // userId:sessionStorage.getItem("userId")
         }
     });
-    $('#rockBtn').click(function() {
+
+    //审核
+    $('#examineBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
-        if (selRecords[0].status == 2) {
-            toastr.info("该账户已被注销");
+
+        if (selRecords[0].status != 0) {
+            toastr.info("当前店铺状态不能审核!");
             return;
         }
-        var status = selRecords[0].status,
-            toStatus;
-        status == 0 ? toStatus = 2 : toStatus = 0;
-        confirm("确定注销该账户？").then(function() {
+
+        window.location.href = "store_examine.html?Code=" + selRecords[0].code;
+    });
+
+    //上架
+    $('#up2Btn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        if (selRecords[0].status == 2 || selRecords[0].statu == 3) {
+            toastr.info("已上架!");
+            return;
+        }
+
+        if (selRecords[0].status != 1 && selRecords[0].status != 4) {
+            toastr.info("当前店铺状态不能上架!");
+            return;
+        }
+
+        window.location.href = "store_up2.html?Code=" + selRecords[0].code;
+    });
+
+    //下架
+    $('#downBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        if (selRecords[0].status != 2 && selRecords[0].status != 3) {
+            toastr.info("还未上架");
+            return;
+        }
+        confirm("确认下架？").then(function() {
             reqApi({
-                code: '805052',
-                json: {
-                    userId: selRecords[0].userId,
-                    toStatus: toStatus
-                }
+                code: '808205',
+                json: { "code": selRecords[0].code }
             }).then(function() {
                 toastr.info("操作成功");
                 $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
             });
-
-        });
+        }, function() {});
 
     });
-    $('#activeBtn').click(function() {
+
+    $('#detail2Btn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
-        if (selRecords[0].status == 0) {
-            toastr.info("该账户是已正常状态");
-            return;
-        }
-        confirm("确定激活该账户？").then(function() {
-            reqApi({
-                code: '805052',
-                json: {
-                    userId: selRecords[0].userId,
-                    toStatus: '0'
-                }
-            }).then(function() {
-                toastr.info("操作成功");
-                $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-            });
 
-        });
+        window.location.href = "store_detail.html?Code=" + selRecords[0].code;
     });
-    $('#accountBtn').click(function() {
-        var selRecords = $('#tableList').bootstrapTable('getSelections');
-        if (selRecords.length <= 0) {
-            toastr.info("请选择记录");
-            return;
-        }
-        window.location.href = "account.html?userId=" + selRecords[0].userId;
-
-    });
-
-    $("#orderBtn").click(function() {
-        var selRecords = $('#tableList').bootstrapTable('getSelections');
-        if (selRecords.length <= 0) {
-            toastr.info("请选择记录");
-            return;
-        }
-        window.location.href = "custom_achieve.html?userId=" + selRecords[0].userId;
-
-    });
-    $("#ledgerBtn").remove();
+    $("#editBtn").remove();
 });

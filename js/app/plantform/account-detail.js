@@ -1,9 +1,8 @@
 $(function() {
     var accountNumber = getQueryString('accountNumber');
-    var accountNumberPing = getQueryString('accountNumberPing');
-    var isPing = getQueryString('ping');
-    var accountNumberValue = isPing ? accountNumberPing : accountNumber;
-
+    // var accountNumberPing = getQueryString('accountNumberPing');
+    // var isPing = getQueryString('ping');
+    // var accountNumberValue = isPing ? accountNumberPing : accountNumber;
 
     var columns = [{
             field: '',
@@ -18,21 +17,24 @@ $(function() {
             title: '渠道类型',
             type: "select",
             key: "channel_type",
-            formatter: Dict.getNameForList('channel_type'),
+            keyCode:"802006",
+            formatter: Dict.getNameForList("channel_type","802006"),
             search: true,
         }, {
             field: 'bizType',
             title: '业务类型',
             key: "biz_type",
+            listCode: "802006",
             search: true,
             type: 'select',
-            formatter: Dict.getNameForList('biz_type'),
+            formatter: Dict.getNameForList('biz_type',"802006"),
         }, {
             field: 'status',
             title: '流水状态',
             type: 'select',
             key: "jour_status",
-            formatter: Dict.getNameForList("jour_status"),
+            listCode: "802006",
+            formatter: Dict.getNameForList("jour_status","802006"),
             search: true
         }, {
             field: 'transAmount',
@@ -53,7 +55,8 @@ $(function() {
         pageCode: '802520',
         searchParams: {
             companyCode: OSS.companyCode,
-            accountNumber: accountNumberValue
+            userId: accountNumber ? "" : getUserId(),
+            accountNumber: accountNumber,
         }
     });
 

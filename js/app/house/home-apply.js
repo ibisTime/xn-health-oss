@@ -1,19 +1,18 @@
 $(function() {
 
     var code = getQueryString('code');
-    //	var pCode = getQueryString('pCode')
+    //  var pCode = getQueryString('pCode')
 
     var typeData = {}
     reqApi({
-        code:'808007'
+        code:'808007',
+        json: {
+          companyCode: OSS.companyCode, 
+          systemCode: OSS.companyCode  
+        }
     }).done(function(d) {
                     
         d.forEach(function(v,i){
-            // if (code ="FL2017061016211611994528") {
-            //    continue;
-            // }else{
-                
-            // }
             typeData[v.code] = v.name; 
             
         })
@@ -45,56 +44,56 @@ $(function() {
     },{
         field: 'category',
         title: '大类',
-		type: 'select',
-		listCode: '808007',
-		params: {
-			type:"2",
-			// status: '2',
+        type: 'select',
+        listCode: '808007',
+        params: {
+            type:"2",
+            // status: '2',
             parentCode: 0
-		},
-		keyName: 'code',
-		valueName: 'name',
+        },
+        keyName: 'code',
+        valueName: 'name',
         required: true,
-		onChange:function(v,data){
-			reqApi({
+        onChange:function(v,data){
+            reqApi({
                 code: '808007',
                 json: {
-                	type:"2",
-					// status: '2',
-                	parentCode: v
+                    type:"2",
+                    // status: '2',
+                    parentCode: v,
                 },
                 sync: true
             }).done(function(d) {
-            	var data1 = {};
-            	if(d.length && v){
-            		
-            		d.forEach(function(v,i){
-            			data1[v.code] = v.name;
-            		})
-            	}
-            	$("#type").renderDropdown2(data1);
+                var data1 = {};
+                if(d.length && v){
+                    
+                    d.forEach(function(v,i){
+                        data1[v.code] = v.name;
+                    })
+                }
+                $("#type").renderDropdown2(data1);
 
             });
-		},
-		afterset: function(v){
-			console.log("ss");
-		}
+        },
+        afterset: function(v){
+            console.log("ss");
+        }
     }, {
         field: 'type',
         title: '小类',
-		type: 'select',
-		listCode: '808007',
+        type: 'select',
+        listCode: '808007',
         required: true,
-		params: {
-			type:2,
-			// status: '0',
-            parentCode: $("#category").val()
-		},
-		keyName: 'code',
-		valueName: 'name',
-		// formatter: function(v,data){
-		// 	return data.type;
-		// }
+        params: {
+            type:2,
+            // status: '0',
+            parentCode: $("#category").val(),
+        },
+        keyName: 'code',
+        valueName: 'name',
+        // formatter: function(v,data){
+        //  return data.type;
+        // }
     },{
         field: 'name',
         title: '店铺名称',
@@ -111,6 +110,19 @@ $(function() {
         field: 'smsMobile',
         title: '短信手机号',
         required: true,
+    },{
+        field: 'userReferee',
+        title: '申请运营商',
+        type: 'select',
+        required: true,
+        listCode: '805060',
+         params: {
+            start:"1",
+            limit:"10",
+        },
+        keyName: 'userId',
+        valueName: 'loginName',
+
     },{
         field: 'slogan',
         title: '广告语',
@@ -136,6 +148,9 @@ $(function() {
         type:'select',
         key:"product_location",
         keyCode:'808907',
+        params:{
+             systemCode: OSS.companyCode 
+        },
         required: true,
         type: 'citySelect',
     }, {
@@ -160,20 +175,21 @@ $(function() {
         fields: fields,
         code:{
           code:code,
-          companyCode: OSS.companyCode 
         } ,
-        detailCode: '808216',
         addCode: '808200',
-        editCode: '808203',
         beforeSubmit: function(data) {
-            data.companyCode = OSS.companyCode,
             data.type = "2";
 
             return data;
         }
     }
     buildDetail(options);
-
+        $('#subBtn').show().css({"background-color":"#19BF96","margin-left": "280px","margin-top": "50px"})
+        $('#backBtn').show().css({"background-color":"#19BF96","margin-left": "100px","margin-top": "50px"})
+        $('#backBtn').click(function() {
+              goBack();
+        });
+        
         $('#subBtn').off("click").click(function() {
             if ($('#jsForm').valid()) {
                 var data = $('#jsForm').serializeObject();
@@ -219,10 +235,8 @@ $(function() {
                 var myGeo = new BMap.Geocoder();
                 myGeo.getPoint(addr, function(point) {
                     if (point) {
-                        data.companyCode = OSS.companyCode,
-                        // data.userReferee = userId;
-                        data.userReferee = sessionStorage.getItem('userId');
                         // data.type = "2";
+                        data.updater = "自助申请"
                         data.rate1 = "1";
                         data.rate2 = "0";
                         data.rate3 = "0";

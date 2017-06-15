@@ -25,9 +25,13 @@ $(function() {
         title: '商家类型',
         type: 'select',
         required: true,
-        key: "store_level",
-        keyCode: '808907',
-        formatter:Dict.getNameForList("store_level", "808907"),
+        keyName: "dkey",
+        listCode: '808907',
+        valueName: 'dvalue',
+        params:{
+             parentKey: "store_level"
+        },
+        // formatter:Dict.getNameForList("store_level", "808907"),
         onChange:function(v,data){
             if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
                  $("#category_chosen").parent(".clearfix").hide();

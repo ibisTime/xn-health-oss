@@ -75,6 +75,8 @@ $(function() {
         }
     });
 
+    
+
     //审核
     $('#examineBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
@@ -144,7 +146,7 @@ $(function() {
 
         window.location.href = "store_detail.html?Code=" + selRecords[0].code;
     });
-    $("#editBtn").remove();
+    // $("#editBtn").remove();
      $('#revenueBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
