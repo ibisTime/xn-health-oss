@@ -35,8 +35,7 @@ Dict.getName = function(type, key) {
 		cache: true,
 		sync: true,
 		json: {
-			parentKey: type,
-			companyCode: OSS.companyCode
+			parentKey: type
 		}
 	}).then(function(data) {
 		res = key ? (Dict.findName(data, key) || '-') : data;
@@ -67,7 +66,6 @@ Dict.getName2 = function(type, code, key) {
 		sync: true,
 		json: {
 			parentKey: type,
-			companyCode: OSS.companyCode
 		}
 	}).then(function(data) {
 		res = key ? (Dict.findName(data, key) || '-') : data;
@@ -88,8 +86,7 @@ Dict.getNameForList = function(type,code) {
 		cache: true,
 		sync: true,
 		json: {
-			parentKey: type,
-			companyCode: OSS.companyCode
+			parentKey: type
 		}
 	}).then(function(data) {
 		res = function(key) {

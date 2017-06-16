@@ -3,17 +3,18 @@ $(function() {
     var code = getQueryString('code');
 
     var fields = [{
+        field: 'type',
+        title: '类别',
+        type: "select",
+        keyCode:"621906",
+        key: "calorie_kind",
+        // formater: Dict.getNameForList('calorie_kind','621906'),
+        required: true
+    }, {
         field: 'name',
         title: '食物名称',
         required: true,
         maxlength: 32
-    }, {
-        field: 'type',
-        title: '类别',
-        type: "select",
-        key: "calorie_kind",
-        formatter: Dict.getNameForList('calorie_kind'),
-        required: true
     }, {
         field: 'calorie',
         title: '每100克卡路里的含量',

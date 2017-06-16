@@ -11,14 +11,14 @@ $(function() {
         field: 'category',
         title: '分类',
         type: 'select',
-        key: " ",
-        formatter: Dict.getNameForList(' '),
+        key: "category_kind",
+        formatter: Dict.getNameForList('category_kind')
     }, {
         field: 'kind',
         title: '类别',
         type: "select",
-        key: " ",
-        formatter: Dict.getNameForList(' '),
+        key: "information_kind",
+        formatter: Dict.getNameForList('information_kind')
     }, {
         field: 'type',
         title: '类别',

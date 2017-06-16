@@ -1,5 +1,7 @@
 $(function() {
 
+    
+
     var columns = [{
         field: '',
         title: '',
@@ -14,9 +16,9 @@ $(function() {
         field: 'type',
         title: '类别',
         type: "select",
-        // keyCode: "621706",
         key: "calorie_kind",
-        formater: Dict.getNameForList('calorie_kind'),
+        keyCode: "621906",
+        formater: Dict.getNameForList('calorie_kind','621906'),
         search: true
     }, {
         field: 'calorie',
