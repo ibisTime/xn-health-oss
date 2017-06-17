@@ -1,7 +1,6 @@
 $(function() {
 
-    var code = getQueryString('code');
-    //	var pCode = getQueryString('pCode')
+    var code  = getQueryString('code');
 
     var fields = [{
         field: 'kind',
@@ -14,7 +13,6 @@ $(function() {
         type: 'select',
         listCode: '808007',
         params: {
-            companyCode: OSS.companyCode,
             type: "1",
             parentCode: 0
         },
@@ -34,18 +32,19 @@ $(function() {
         title: '图片',
         field: 'pic',
         type: 'img',
-        required: true,
     }];
 
     buildDetail({
         fields: fields,
-        code: code,
+        // code: code,
+        code:{
+            code: code,
+        },
         detailCode: '808006',
         addCode: '808000',
         editCode: '808002',
         beforeSubmit: function(data) {
             data.type = "1";
-
             return data;
         }
     });

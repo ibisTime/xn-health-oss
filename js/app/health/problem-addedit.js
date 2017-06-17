@@ -11,143 +11,88 @@ $(function() {
 	var codeInd=0;
 	var paramIndex=0;
 	
-	var provinceData=[];
 	
 	var fields = [{
-		field: 'kind',
-		type: 'hidden',
-		value: '1'
-	},
-	 // {
-  //       field: 'storeCode',
-		// type: 'hidden',
-		// value: storeCode?storeCode : getUserId(),
-  //   }, 
-    {
-        field: 'category',
-        title: '大类',
-		type: 'select',
-		listCode: '808007',
+        field: 'wjCode',
+        title: '问卷编号',
         required: true,
-		params: {
-			type:"1",
-			status: '1',
-            parentCode: 0
-		},
-		keyName: 'code',
-		valueName: 'name',
-		// hidden: view,
-		onChange:function(v,data){
-			reqApi({
-                code: '808007',
-                json: {
-					status: '1',
-                	parentCode: v
-                },
-                sync: true
-            }).done(function(d) {
-            	var data1 = {};
-            	if(d.length && v){
-            		
-            		d.forEach(function(v,i){
-            			data1[v.code] = v.name;
-            		})
-            	}
-            	
-            	$("#type").renderDropdown2(data1);
-            });
-		},
-		afterset: function(v){
-			console.log("ss");
-		}
-    }, {
+        maxlength: 20,
+        formatter: function(v, data) {
+            return data.question.wjCode;
+        }
+		
+    }, { 
         field: 'type',
         title: '小类',
 		type: 'select',
-		listCode: '808007',
+		listCode: '621906',
 		required: true,
-		params: {
-			type:1,
-			status: '1',
-            parentCode: $("#category").val()
-		},
-		keyName: 'code',
-		valueName: 'name',
+		// params: {
+  //           parentKey: "0",
+		// },
+		keyName: 'dkey',
+		valueName: 'dvalue',
 		required: true,
-//		formatter: function(v,data){
-//			return data.type;
-//		}
+		formatter: function(v, data) {
+            return data.question.type;
+        }
     }, {
-        field: 'name',
-        title: '商品名称',
+        field: 'content',
+        title: '内容',
         required: true,
-        maxlength: 20
+        maxlength: 20,
+        formatter: function(v, data) {
+            return data.question.content;
+        }
     }, {
-        field: 'slogan',
-        title: '广告语',
+        field: 'weight',
+        title: '比重',
         required: true,
         maxlength: 250,
+        formatter: function(v, data) {
+            return data.question.weight;
+        }
     }, {
-        field: 'advPic',
-        title: '广告图',
-        type : 'img',
-        single: true,
-		required: true
-    }, {
-        field: 'pic',
-        title: '展示图',
-        type : 'img',
-		required: true
-    }, {
-        title: '商品详述',
-        field: 'description',
+        field: 'orderNo',
+        title: '顺序',
         required: true,
-        maxlength: 255,
-    },{
-        field: 'remark',
-        title: '备注',
+        maxlength: 250,
+        formatter: function(v, data) {
+            return data.question.orderNo;
+        }
     }];
 	
 	buildDetail({
 		fields: fields,
 		code: code,
-		detailCode: '808026',
-		addCode: '808010',
-		editCode: '808012',
+		detailCode: '621226',
+		addCode: '621220',
+		editCode: '621222',
 		// afterData: function(d){
 //			$("#type").val(d.type);
 		// }
 		buttons: {},
 		beforeSubmit:function(data){
-			if (storeCode){
-				data.storeCode = storeCode;
-			}
-			return data;
+			// if (storeCode){
+			// 	data.storeCode = storeCode;
+			// }
+			// return data;
 		}
 	});
 
 	$('#tableList').bootstrapTable({
-	    columns: [{
-		field : '',
-		title : '',
-		checkbox : true
-	}, {
-        field: 'name',
-        title: '规格名称',
+	    columns: [
+	    {
+        field: '',
+        title: '',
+        checkbox: true
     }, {
-        field: 'originalPrice',
-        title: '原价',
-        amount: true,
-        formatter: moneyFormat,
+        field: 'content',
+        title: '内容',
     }, {
-	    field: 'price1',
-	    title: '人民币价',
-	    amount: true,
-	    formatter: moneyFormat,
+        field: 'score',
+        title: '分数',
     }, {
-		field: 'quantity',
-		title: '库存',
-	}, {
 		field: 'orderNo',
 		title: '序号',
 	}],
@@ -160,9 +105,9 @@ $(function() {
 	});
 	
 	if(code){
-		reqApi({code:'808026',json:{code:code}}).done(function(d){
+		reqApi({code:'621226',json:{code:code}}).done(function(d){
 			pcode = d.code
-			$('#tableList').bootstrapTable('prepend', d.productSpecsList)
+			$('#tableList').bootstrapTable('prepend', d.optionsList)
 		})
 		
 	}
@@ -179,22 +124,12 @@ $(function() {
 		dw.showModal();
 		buildDetail({
 			fields: [ {
-	        field: 'name',
-	        title: '规格名称',
+	        field: 'content',
+	        title: '内容',
 	    }, {
-	        field: 'originalPrice',
-	        title: '原价',
-	        amount: true,
-	        formatter: moneyFormat,
+	        field: 'score',
+	        title: '分数',
 	    }, {
-		    field: 'price1',
-		    title: '人民币价',
-		    amount: true,
-		    formatter: moneyFormat,
-	    }, {
-			field: 'quantity',
-			title: '库存',
-		}, {
 			field: 'orderNo',
 			title: '序号',
 		}],
@@ -271,23 +206,13 @@ $(function() {
 		});
 		
 		buildDetail({
-			fields: [ {
-	        field: 'name',
-	        title: '规格名称',
+			fields: [{
+	        field: 'content',
+	        title: '内容',
 	    }, {
-	        field: 'originalPrice',
-	        title: '原价',
-	        amount: true,
-	        formatter: moneyFormat,
+	        field: 'score',
+	        title: '分数',
 	    }, {
-		    field: 'price1',
-		    title: '人民币价',
-		    amount: true,
-		    formatter: moneyFormat,
-	    }, {
-			field: 'quantity',
-			title: '库存',
-		}, {
 			field: 'orderNo',
 			title: '序号',
 		}],
@@ -330,11 +255,10 @@ $(function() {
 			}]
 		});
 
-		$('#popForm #name').val(selRecords[0].name)
-		$('#popForm #originalPrice').val(moneyFormat(selRecords[0].originalPrice))
-		$('#popForm #price1').val(moneyFormat(selRecords[0].price1))
-		$('#popForm #quantity').val(selRecords[0].quantity)
-		$('#popForm #orderNo').val(selRecords[0].orderNo)
+		$('#popForm #content').val(selRecords[0].content)
+		$('#popForm #score').val(moneyFormat(selRecords[0].score))
+		$('#popForm #orderNo').val(moneyFormat(selRecords[0].orderNo))
+
 		
 		dw.showModal();
 		dw.__center();
@@ -366,10 +290,10 @@ $(function() {
 				}
 			}
 			data['id'] = data['code'];
-			data.productSpecsList = $('#tableList').bootstrapTable("getData",{useCurrentPage:true});
+			data.optionsList = $('#tableList').bootstrapTable("getData",{useCurrentPage:true});
 			
 			reqApi({
-				code: code?'808012':'808010',
+				code: code?'621222':'621220',
 				json: data
 			}).done(function(data) {
 				sucDetail();

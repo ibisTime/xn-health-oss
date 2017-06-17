@@ -1,6 +1,13 @@
 $(function() {
 	var code = getQueryString('code');
 	var pName = getQueryString('pName');
+	var dc = getQueryString('dc')
+	var view = getQueryString('v');
+	var pcode;
+	var codeInd=0;
+	var paramIndex=0;
+	
+	var provinceData=[];
 	
 	var columns = [{
 		field : '',

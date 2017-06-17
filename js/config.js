@@ -15,3 +15,5 @@ OSS.SYS_USER = 'SYS_USER_JKEG';
 // OSS.SYS_ACCOUNT = 'DZTA2017100000000000000';
 //用户登录有效时间
 OSS.userValidTime = 30;
+// 前导页url
+OSS.guideBaseUrl = "oss.jkegdev.hijuniu.com";

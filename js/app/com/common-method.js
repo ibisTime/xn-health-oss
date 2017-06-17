@@ -1963,6 +1963,8 @@ function buildDetail(options) {
                         $('#' + item.field).val(item.amount ? moneyFormat(displayValue) :
                             item.formatter ? item.formatter(displayValue, data) : displayValue);
                     }
+
+                    
                 }
 
                 if ('value' in item) {

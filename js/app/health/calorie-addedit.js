@@ -34,7 +34,7 @@ $(function() {
     buildDetail({
         fields: fields,
         code: code,
-        detailCode: '621116',
+        detailCode: '621155',
         addCode: '621110',
         editCode: '621112'
     });
