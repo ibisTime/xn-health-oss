@@ -21,7 +21,7 @@ $(function() {
         params:{
             parentKey: "questionare_kind",
         },
-        require: true,
+        required: true,
         keyName:'dkey',
         valueName:'dvalue',
         onChange:function(v,data){
@@ -50,30 +50,34 @@ $(function() {
     }, {
         field: 'type',
         title: '分类',
-        type: "select",  
+        type: "select",
+        required: true  
     }, {
         field: 'title',
         title: '标题',
         search: true,
-        require: true
+        required: true
     }, {
         field: 'advPic',
         title: '广告图',
         type: 'img',
         search: true,
-        require: true
+        required: true
     }, {
         field: 'summary',
         title: '摘要',
-        require: true
+        type: 'textarea',
+        required: true,
+        // maxlength: 20
     }, {
         field: 'content',
         title: '内容',
-        require: true
+        required: true,
+        type: 'textarea',
     }, {
         field: 'orderNo',
         title: '顺序',
-        require: true
+        required: true
     }];
 	 
 	buildDetail({
@@ -93,5 +97,18 @@ $(function() {
             return data;
         },
 	});
+
+    
+    $("#summary").siblings(".wangEditor-container").hide();
+    $("#summary").css({ "height": "160px",
+                        "width": "328px",
+                        "position": "relative",
+                        "left": "197px",
+                        "top": "-35px",
+                        "width": "350px",
+                        "line-height": "32px",
+                        "border": "solid 1px #ced9df"});
+    $("#summary").has(".error").css({"left": "358px"});
+         
 
 });

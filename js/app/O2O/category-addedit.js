@@ -7,7 +7,7 @@ $(function() {
         type: 'hidden',
         value: '1'
     }, {
-        title: '大类',
+        title: '所属大类',
         field: 'parentCode',
         required: true,
         type: 'select',
@@ -18,7 +18,7 @@ $(function() {
         },
         keyName: 'code',
         valueName: 'name',
-        defaultOption: '选此创建种类',
+        defaultOption: '选此创建大类',
     }, {
         field: 'name',
         title: '类别名称',

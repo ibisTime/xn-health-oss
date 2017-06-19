@@ -1,5 +1,5 @@
 $(function () {
-    
+    var storeCode = sessionStorage.getItem('storeCode');
     var columns = [{
         field: '',
         title: '',
@@ -37,6 +37,7 @@ $(function () {
 		},
 		keyName: 'code',
 		valueName: 'name',
+        search: true
     }, {
         field: 'type',
         title: '小类',
@@ -68,7 +69,8 @@ $(function () {
         columns: columns,
         searchParams:{
             companyCode: OSS.companyCode,
-            kind: "1"
+            kind: "1",
+            storeCode: storeCode?storeCode:getUserId()
         },
         pageCode: '808025',
         deleteCode:'808011',

@@ -10,7 +10,7 @@ $(function () {
         search: true,
     }, {
         field : 'parentCode',
-        title : '大类',
+        title : '所属大类',
         search: true,
         type: 'select',
         listCode: '808007',

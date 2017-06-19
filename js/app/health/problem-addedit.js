@@ -17,6 +17,7 @@ $(function() {
         title: '问卷编号',
         required: true,
         maxlength: 20,
+        view: view,
         formatter: function(v, data) {
             return data.question.wjCode;
         }
@@ -27,12 +28,14 @@ $(function() {
 		type: 'select',
 		listCode: '621906',
 		required: true,
+		view: view,
 		// params: {
   //           parentKey: "0",
 		// },
 		keyName: 'dkey',
 		valueName: 'dvalue',
 		required: true,
+		view: view,
 		formatter: function(v, data) {
             return data.question.type;
         }
@@ -40,7 +43,8 @@ $(function() {
         field: 'content',
         title: '内容',
         required: true,
-        maxlength: 20,
+        type: "textarea",
+        view: view,
         formatter: function(v, data) {
             return data.question.content;
         }
@@ -49,6 +53,7 @@ $(function() {
         title: '比重',
         required: true,
         maxlength: 250,
+        view: view,
         formatter: function(v, data) {
             return data.question.weight;
         }
@@ -57,6 +62,7 @@ $(function() {
         title: '顺序',
         required: true,
         maxlength: 250,
+        view: view,
         formatter: function(v, data) {
             return data.question.orderNo;
         }
@@ -65,6 +71,7 @@ $(function() {
 	buildDetail({
 		fields: fields,
 		code: code,
+		view: view,
 		detailCode: '621226',
 		addCode: '621220',
 		editCode: '621222',
@@ -75,7 +82,7 @@ $(function() {
 		beforeSubmit:function(data){
 			// if (storeCode){
 			// 	data.storeCode = storeCode;
-			// }
+			// }s
 			// return data;
 		}
 	});

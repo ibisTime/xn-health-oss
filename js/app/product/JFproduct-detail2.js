@@ -49,18 +49,20 @@ $(function() {
 		readonly: view
     }, {
         field: 'description',
-        title: '图文描述',
+        title: '商品详述',
         type: 'textarea',
         required: true,
 		readonly: view
-    },  {
-        field: 'name1',
-        title: '规格名称',
-        required: true,
-        formatter: function(v, data){
-            return data.productSpecsList && data.productSpecsList[0].name;
-        }
-    }, {
+    }
+    // ,  {
+    //     field: 'name1',
+    //     title: '规格名称',
+    //     required: true,
+    //     formatter: function(v, data){
+    //         return data.productSpecsList && data.productSpecsList[0].name;
+    //     }
+    // }
+    , {
         field: 'originalPrice',
         title: '原价',
         required: true,

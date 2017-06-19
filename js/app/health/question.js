@@ -6,22 +6,24 @@ $(function () {
         checkbox: true
     }, {
         field: 'kind',
-        title: '类别',
+        title: '大类',
         type: 'select',
         listCode: "621906",
         keyName:'dkey',
         valueName:'dvalue',
+        search: true,
     }, {
         field: 'type',
-        title: '类别',
+        title: '小类',
         type: 'select',
         listCode: "621906",
         keyName:'dkey',
         valueName:'dvalue',
+        search: true,
     }, {
         field: 'title',
         title: '标题',
-        search: true
+        search: true,
     }, {
         field: 'summary',
         title: '摘要',
@@ -81,6 +83,18 @@ $(function () {
         }
         
         window.location.href = "problem.html?Code=" + selRecords[0].code+"&pName=" + selRecords[0].name;
+    
+    });
+
+    
+    $('#addResultBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        window.location.href = "result.html?Code=" + selRecords[0].code+"&pName=" + selRecords[0].name;
     
     });
     

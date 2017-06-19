@@ -37,6 +37,7 @@ $(function() {
 		keyName: 'code',
 		valueName: 'name',
 		// hidden: view,
+		view:view,
 		onChange:function(v,data){
 			reqApi({
                 code: '808007',
@@ -74,35 +75,42 @@ $(function() {
 		keyName: 'code',
 		valueName: 'name',
 		required: true,
+		view:view,
 //		formatter: function(v,data){
 //			return data.type;
 //		}
     }, {
         field: 'name',
         title: '商品名称',
+        view:view,
         required: true,
         maxlength: 20
     }, {
         field: 'slogan',
         title: '广告语',
+        view:view,
         required: true,
         maxlength: 250,
     }, {
         field: 'advPic',
         title: '广告图',
         type : 'img',
+        view:view,
         single: true,
 		required: true
     }, {
         field: 'pic',
         title: '展示图',
         type : 'img',
+        view:view,
 		required: true
     }, {
         title: '商品详述',
         field: 'description',
+        type: 'textarea',
         required: true,
         maxlength: 255,
+        view:view,
     },{
         field: 'remark',
         title: '备注',
@@ -111,6 +119,7 @@ $(function() {
 	buildDetail({
 		fields: fields,
 		code: code,
+		view:view,
 		detailCode: '808026',
 		addCode: '808010',
 		editCode: '808012',
@@ -136,7 +145,7 @@ $(function() {
         title: '规格名称',
     }, {
         field: 'originalPrice',
-        title: '原价',
+        title: '市场参考价',
         amount: true,
         formatter: moneyFormat,
     }, {
@@ -183,7 +192,7 @@ $(function() {
 	        title: '规格名称',
 	    }, {
 	        field: 'originalPrice',
-	        title: '原价',
+	        title: '市场参考价',
 	        amount: true,
 	        formatter: moneyFormat,
 	    }, {
@@ -276,7 +285,7 @@ $(function() {
 	        title: '规格名称',
 	    }, {
 	        field: 'originalPrice',
-	        title: '原价',
+	        title: '市场参考价',
 	        amount: true,
 	        formatter: moneyFormat,
 	    }, {

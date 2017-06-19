@@ -41,16 +41,23 @@ $(function() {
         title: '人民币总额',
         formatter: moneyFormat,
     }, {
-        title: '积分总额',
-        field: 'amount3',
+        title: '已支人民币总额',
+        field: 'payAmount1',
         formatter: moneyFormat,
         readonly: view,
     }, {
-        title: '已支付积分总额',
-        field: 'payAmount3',
-        formatter: moneyFormat,
+        field: 'payType',
+        title: '支付方式',
+        // listCode: "808907",
+        keyName:"dkey",
+        valueName:"dvalue",
+        // params:{
+        //     parentKey: "pay_type"
+        // },
+        key: "pay_type",
+        formatter: Dict.getNameForList("pay_type", "808907"),
         readonly: view,
-    }, {
+    },{
         field: 'receiver',
         title: '收货人姓名',
         readonly: view,
@@ -73,8 +80,14 @@ $(function() {
                 return data.product.name
             }
         }, {
+            field: 'productSpecsName',
+            title: '规格名称',
+            formatter: function(v, data) {
+                return data.productSpecsName
+            }
+        }, {
             field: 'quantity',
-            title: '商品数量',
+            title: '购买数量',
             formatter: function(v, data) {
                 return data.quantity
             }
@@ -84,12 +97,6 @@ $(function() {
             formatter: function(v, data) {
                 return moneyFormat(data.price1);
                  }
-        }, {
-        field: 'price3',
-        title: '积分价格',
-        formatter: function(v, data) {
-            return moneyFormat(data.price3);
-        }
         }]
     }, {
         field: 'logisticsCode',

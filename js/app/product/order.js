@@ -7,24 +7,12 @@ $(function() {
         field: 'code',
         title: '订单编号',
     }, {
-        field: 'status',
-        title: '订单状态',
-        type: "select",
-        key: "order_status",
-        keyCode: '808907',
-        formatter: Dict.getNameForList("order_status", "808907"),
-        search: true,
-    }, {
         field: 'amount1',
         title: '人民币总额',
         formatter: moneyFormat,
     }, {
-        field: 'amount3',
-        title: '积分总额',
-        formatter: moneyFormat,
-    }, {
-        field: 'payAmount3',
-        title: '已支付积分总额',
+        field: 'payAmount1',
+        title: '已支付人民币总额',
         formatter: moneyFormat,
     }, {
         field: 'applyUser',
@@ -38,7 +26,15 @@ $(function() {
         title: '下单时间',
         type: "datetime",
         formatter: dateTimeFormat
-    }, {
+    },{
+        field: 'status',
+        title: '订单状态',
+        type: "select",
+        key: "order_status",
+        keyCode: '808907',
+        formatter: Dict.getNameForList("order_status", "808907"),
+        search: true,
+    },{
         field: 'remark',
         title: '备注',
     }];
@@ -48,7 +44,8 @@ $(function() {
         pageCode: '808065',
         searchParams: {
             toUser: getUserId(),
-            companyCode: OSS.company
+            companyCode: OSS.company,
+            kind: "1"
         }
     });
 
@@ -59,7 +56,7 @@ $(function() {
             toastr.info("请选择记录");
             return;
         }
-        if (selRecords[0].status != 2) {
+        if (selRecords[0].status != 2 ) {
             toastr.info("当前订单状态不能发货!");
             return;
         }
@@ -100,7 +97,7 @@ $(function() {
             return;
         }
 
-        if (selRecords[0].status == 1 || selRecords[0].status == 2) {
+        if (selRecords[0].status == 1 || selRecords[0].status == 2|| selRecords[0].status == 3) {
             confirm("确认取消订单？").then(function() {
                 reqApi({
                     code: '808056',

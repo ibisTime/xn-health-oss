@@ -33,30 +33,32 @@ $(function() {
     }, {
         title: '商品详述',
         field: 'description',
+        type: 'textarea',
         required: true,
         maxlength: 255,
-    },  {
-        field: 'name1',
-        title: '规格名称',
-        required: true,
-        formatter: function(v, data){
-        	return data.productSpecsList && data.productSpecsList[0].name;
-        }
-    }, {
+    }
+    // ,  {
+    //     field: 'name1',
+    //     title: '规格名称',
+    //     required: true,
+    //     formatter: function(v, data){
+    //     	return data.productSpecsList && data.productSpecsList[0].name;
+    //     }
+    // }
+    , {
         field: 'originalPrice',
-        title: '原价',
+        title: '市场参考价',
         required: true,
         amount: true,
-        formatter: moneyFormat,
         afterSet: function(v, data){
-            $("#originalPrice").val(data.productSpecsList[0].originalPrice)
+            $("#originalPrice").val(data.productSpecsList[0].originalPrice)/1000
         }
     }, {
         field: 'price1',
-        title: '人民币价',
+        title: '积分价',
         required: true,
         afterSet: function(v, data){
-            $("#price1").val(data.productSpecsList[0].price1)
+            $("#price1").val(data.productSpecsList[0].price1)/1000
         }
     }, {
         field: 'quantity',
@@ -82,12 +84,12 @@ $(function() {
 		beforeSubmit:function(data){
 			// $('#form-info').bootstrapTable('getSelections')
 			data.productSpecsList = [{
-				name: $('#name1').val(),
-				originalPrice: $('#originalPrice').val(),
-				price1: $('#price1').val(),
-				quantity: $('#quantity').val()
+				name: $('#name').val(),
+				originalPrice: $('#originalPrice').val()*1000,
+				price1: $('#price1').val()*1000,
+				quantity: $('#quantity').val(),
 			}];
-			console.log(data.productSpecsList)
+			
 			if (storeCode){
 				data.storeCode = storeCode;
 			}

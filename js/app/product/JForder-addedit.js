@@ -37,17 +37,13 @@ $(function() {
         formatter: dateTimeFormat,
         readonly: view,
     }, {
-        field: 'amount1',
-        title: '人民币总额',
-        formatter: moneyFormat,
-    }, {
         title: '积分总额',
-        field: 'amount3',
+        field: 'amount1',
         formatter: moneyFormat,
         readonly: view,
     }, {
         title: '已支付积分总额',
-        field: 'payAmount3',
+        field: 'payAmount1',
         formatter: moneyFormat,
         readonly: view,
     }, {
@@ -72,23 +68,26 @@ $(function() {
             formatter: function(v, data) {
                 return data.product.name
             }
-        }, {
+        }
+        // , {
+        //     field: 'productSpecsName',
+        //     title: '规格名称',
+        //     formatter: function(v, data) {
+        //         // return data.productSpecsName
+        //         $("#name").val()
+        //     }
+        // }
+        , {
             field: 'quantity',
-            title: '商品数量',
+            title: '购买数量',
             formatter: function(v, data) {
                 return data.quantity
             }
         }, {
-            field: 'price1',
-            title: '人民币价格',
-            formatter: function(v, data) {
-                return moneyFormat(data.price1);
-                 }
-        }, {
-        field: 'price3',
+        field: 'price1',
         title: '积分价格',
         formatter: function(v, data) {
-            return moneyFormat(data.price3);
+            return moneyFormat(data.price1);
         }
         }]
     }, {
