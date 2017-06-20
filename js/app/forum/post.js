@@ -1,21 +1,16 @@
 $(function() {
 
-
     var columns = [{
         field: '',
         title: '',
         checkbox: true
+    },{
+        field: 'nickname',
+        title: '发帖人'
     }, {
         field: 'title',
         title: '标题',
         search: true
-    }, {
-        field: 'status',
-        title: '状态',
-        formatter: Dict.getNameForList('post_status'),
-        search: true,
-        key: 'post_status',
-        value: "F"
     }, {
         field: 'location',
         title: '位置',
@@ -29,17 +24,26 @@ $(function() {
         title: 'UI次序',
         field: 'orderNo'
     }, {
-        title: '审核说明',
-        field: 'approveNote',
-        required: true,
-        maxlength: 250
-    }, {
-        field: 'nickname',
-        title: '发帖人'
+        field: 'status',
+        title: '状态',
+        type: "select",
+        // key: 'post_status',
+        listCode: "621906",
+        params:{
+            parentKey:"post_status",
+        },
+        keyName:"dkey",
+        valueName:"dvalue",
+        search: true,
     }, {
         field: 'publishDatetime',
         title: '发布时间',
         formatter: dateTimeFormat
+    }, {
+        title: '审核说明',
+        field: 'approveNote',
+        required: true,
+        maxlength: 250
     }];
 
     buildList({
@@ -49,7 +53,7 @@ $(function() {
         searchParams: {
             companyCode: OSS.companyCode
         },
-        singleSelect: false
+        // singleSelect: false
 
     });
 
@@ -190,5 +194,16 @@ $(function() {
             });
         });
     });
+
+    // $('#detailBtn').click(function() {
+    //     var selRecords = $('#tableList').bootstrapTable('getSelections');
+    //     if (selRecords.length <= 0) {
+    //         toastr.info("请选择记录");
+    //         return;
+    //     }
+        
+    //     window.location.href = "post_addedit.html?code=" + selRecords[0].code+"&v=1";
+
+    // });
 
 })

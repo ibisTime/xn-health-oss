@@ -8,17 +8,21 @@ $(function() {
         field: 'title',
         title: "标题"
     }, {
-        field: 'category',
-        title: '分类',
-        type: 'select',
-        key: "category_kind",
-        formatter: Dict.getNameForList('category_kind')
-    }, {
         field: 'kind',
-        title: '类别',
+        title: '大类',
         type: "select",
-        key: "information_kind",
-        formatter: Dict.getNameForList('information_kind')
+        listCode: "621906",
+        keyName:'dkey',
+        valueName:'dvalue',
+        required: true,
+    }, {
+        field: 'category',
+        title: '小类',
+        type: "select",
+        listCode: "621906",
+        keyName:'dkey',
+        valueName:'dvalue',
+        required: true,
     }, {
         field: 'type',
         title: '类别',
@@ -68,8 +72,8 @@ $(function() {
             toastr.info("请选择记录");
             return;
         }
-        if (selRecords[0].status != "0") {
-            toastr.info("不是可以发布的状态");
+        if (selRecords[0].status == "1") {
+            toastr.info("当前资讯已发布");
             return;
         }
         window.location.href = "information_up.html?Code=" + selRecords[0].code;

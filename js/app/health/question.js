@@ -11,6 +11,9 @@ $(function () {
         listCode: "621906",
         keyName:'dkey',
         valueName:'dvalue',
+        params: {
+            parentKey: "questionare_kind",
+        },
         search: true,
     }, {
         field: 'type',
@@ -19,18 +22,11 @@ $(function () {
         listCode: "621906",
         keyName:'dkey',
         valueName:'dvalue',
-        search: true,
     }, {
         field: 'title',
         title: '标题',
         search: true,
-    }, {
-        field: 'summary',
-        title: '摘要',
-    }, {
-        field: 'content',
-        title: '内容',
-    }, {
+    } ,{
         field: 'orderNo',
         title: '顺序',
     }];
@@ -47,7 +43,7 @@ $(function () {
 
     
 
-    $('#detail2Btn').click(function() {
+    $('#detailBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
@@ -81,8 +77,9 @@ $(function () {
             toastr.info("请选择记录");
             return;
         }
-        
-        window.location.href = "problem.html?Code=" + selRecords[0].code+"&pName=" + selRecords[0].name;
+
+        window.location.href = "problem.html?code=" + selRecords[0].code+"&pName=" + selRecords[0].name+"&wjCode="+selRecords[0].code;
+
     
     });
 
@@ -94,7 +91,8 @@ $(function () {
             return;
         }
         
-        window.location.href = "result.html?Code=" + selRecords[0].code+"&pName=" + selRecords[0].name;
+        window.location.href = "result.html?Code=" + selRecords[0].code+"&pName=" + selRecords[0].name+"&wjCode="+selRecords[0].code;
+
     
     });
     

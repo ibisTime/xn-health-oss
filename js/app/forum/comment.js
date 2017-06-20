@@ -16,34 +16,38 @@ $(function() {
             return data.post.title
         }
     }, {
-        field: 'status',
-        title: '状态',
-        formatter: Dict.getNameForList('post_status'),
-        search: true,
-        key: 'post_status',
-        value: "F"
-    }, {
-        title: '审核说明',
-        field: 'approveNote',
-        required: true,
-        maxlength: 250
-    }, {
         field: 'nickname',
         title: '评论人'
     }, {
         field: 'commDatetime',
         title: '评论时间',
         formatter: dateTimeFormat
+    }, {
+        field: 'status',
+        title: '状态',
+        type: "select",
+        listCode: "621906",
+        params:{
+            parentKey:"post_status",
+        },
+        keyName:"dkey",
+        valueName:"dvalue",
+        search: true,
+    }, {
+        title: '审核说明',
+        field: 'approveNote',
+        required: true,
+        maxlength: 250
     }];
 
     buildList({
-        router: "manage",
+        router: "conmment",
         columns: columns,
         pageCode: "621062",
         searchParams: {
             companyCode: OSS.companyCode
         },
-        singleSelect: false
+        // singleSelect: false
 
     });
 
@@ -55,7 +59,7 @@ $(function() {
             return;
         }
         if (selRecords.length == 1 && selRecords[0].status == "F") {
-            window.location.href = "manage_check.html?Code=" + selRecords[0].code;
+            window.location.href = "comment_check.html?Code=" + selRecords[0].code;
         } else {
             var dataCode = []
             for (var i = 0; i < selRecords.length; i++) {

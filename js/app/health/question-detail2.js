@@ -1,107 +1,88 @@
 $(function() {
-	
-	var code = getQueryString('code');
-	var view = getQueryString('v');
-	
-	var typeData = {}
-	reqApi({
-		code:'808007'
-	}).done(function(d) {
-            		
-		d.forEach(function(v,i){
-			typeData[v.code] = v.name;
-		})
-    });
-	
-	var fields = [{
-		field: 'kind',
-		type: 'hidden',
-		value: '1'
-	}
-	// , {
- //        field: 'companyCode',
- //        title: '商户',
-        // formatter: function(v ,data){
-        // 	return data.store.name
-        // }
-    // }
-    , {
-        field: 'category',
-        title: '大类',
-		type: 'select',
-        readonly: view,
-		data: typeData,
-		keyName: 'code',
-		valueName: 'name',
+    
+    var code = getQueryString('code');
+    var view = getQueryString('v');
+    
+    var fields = [{
+        field: 'kind',
+        title: '类别',
+        type: "select",
+        listCode: "621906",
+        params:{
+            parentKey: "questionare_kind",
+        },
         required: true,
+        keyName:'dkey',
+        valueName:'dvalue',
+        onChange:function(v,data){
+            reqApi({
+                code: '621906',
+                json: {
+                    parentKey: v
+                },
+                sync: true
+            }).done(function(d) {
+                var data1 = {};
+                if(d.length && v){
+                    
+                    d.forEach(function(v,i){
+                        data1[v.dkey] = v.dvalue;
+                    })
+                    $("#type_chosen").parent().show();
+                }else{
+                    $("#type_chosen").parent().hide();
+                }
+                
+                $("#type").renderDropdown2(data1);
+                
+            });
+        }
     }, {
         field: 'type',
-        title: '小类',
-		type: 'select',
-        readonly: view,
-		data: typeData,
-		keyName: 'code',
-		valueName: 'name',
+        title: '分类',
+        type: "select",
+        required: true  
     }, {
-        field: 'name',
-        title: '商品名称',
-        required: true,
-		readonly: view
-    }, {
-        field: 'slogan',
-        title: '广告语',
-        required: true,
-		readonly: view
+        field: 'title',
+        title: '标题',
+        search: true,
+        required: true
     }, {
         field: 'advPic',
         title: '广告图',
-        type : 'img',
-		required: true,
-		readonly: view
+        type: 'img',
+        search: true,
+        required: true
     }, {
-        field: 'pic',
-        title: '展示图',
-        type : 'img',
-		required: true,
-		readonly: view
-    }, {
-        field: 'description',
-        title: '图文描述',
+        field: 'summary',
+        title: '摘要',
         type: 'textarea',
         required: true,
-		readonly: view
+        // maxlength: 20
     }, {
-//      field: 'price1',
-//      title: '人民币价',
-//      amount: true,
-//      formatter: moneyFormat,
-//      required: true,
-//  }, {
-//      field: 'price2',
-//      title: '购物币价',
-//      amount: true,
-//      formatter: moneyFormat,
-//      required: true,
-//  }, {
-//      field: 'price3',
-//      title: '钱包币价',
-//      amount: true,
-//      formatter: moneyFormat,
-//      required: true,
-//  }, {
-        field: 'remark',
-        title: '备注',
-        readonly: view
+        field: 'content',
+        title: '内容',
+        required: true,
+        type: 'textarea',
+    }, {
+        field: 'orderNo',
+        title: '顺序',
+        required: true
     }];
-	
-	buildDetail({
-		fields: fields,
-		code: code,
-		view: view,
-		searchParams:{
-            companyCode: OSS.companyCode
+     
+    buildDetail({
+        fields: fields,
+        code: code,
+        view: view,
+        detailCode: '621206',
+        beforeSubmit: function(data) {
+            if (!data.type){
+                data.type = "0";
+            }
+
+            return data;
         },
-		detailCode: '808026',
-	});
-	
+    });
+         
+
 });

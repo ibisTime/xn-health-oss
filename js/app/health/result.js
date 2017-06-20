@@ -1,16 +1,11 @@
 $(function () {
+    var code = getQueryString('code');
+    var wjCode = getQueryString('wjCode');
     
     var columns = [{
         field: '',
         title: '',
         checkbox: true
-    }, {
-        field: 'wjCode',
-        title: '问卷编号',
-        required: true,
-        formatter:function(v,data){
-            return data.code
-        }
     }, {
         field: 'title',
         title: '标题',
@@ -33,6 +28,7 @@ $(function () {
         columns: columns,
         searchParams:{
             companyCode: OSS.companyCode,
+            wjCode :wjCode 
         },
         pageCode: '621237',
         deleteCode:'621231',
@@ -54,8 +50,9 @@ $(function () {
                        );
     
     $('#addBtn1').click(function() {
-        
-        window.location.href = "result_addedit.html?";
+ 
+        window.location.href = "result_addedit.html?&wjCode="+wjCode;
+
 
     });
 
@@ -85,18 +82,9 @@ $(function () {
         }
         
         window.location.href = "result_addedit.html?Code=" + selRecords[0].code+"&v=1";
+
     });
 
-    $('#addResultBtn').click(function() {
-        var selRecords = $('#tableList').bootstrapTable('getSelections');
-        if (selRecords.length <= 0) {
-            toastr.info("请选择记录");
-            return;
-        }
-        
-        window.location.href = "result.html?Code=" + selRecords[0].code+"&pName=" + selRecords[0].name;
-    
-    });
 
     $('#backBtn').click(function() {
          window.location.href = "question.html?";

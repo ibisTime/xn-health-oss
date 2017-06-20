@@ -106,7 +106,6 @@ $(function() {
         title: '商家描述',
         type: 'textarea',
         required: true,
-        minlength: 20,
         readonly: view
     },{
         field: 'uiLocation',

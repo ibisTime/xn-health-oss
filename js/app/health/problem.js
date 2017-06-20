@@ -1,13 +1,12 @@
 $(function () {
-    
+
+    var code = getQueryString('code');
+    var wjCode = getQueryString('wjCode');
+    var wTCode
     var columns = [{
         field: '',
         title: '',
         checkbox: true
-    }, {
-        field: 'wjCode',
-        title: '问卷编号',
-        
     }, {
         field: 'type',
         title: '类别',
@@ -15,6 +14,9 @@ $(function () {
         listCode: "621906",
         keyName:'dkey',
         valueName:'dvalue',
+        params: {
+            parentKey: "question_type",
+        },
         search: true,
     }, {
         field: 'orderNo',
@@ -24,6 +26,7 @@ $(function () {
     buildList({
         columns: columns,
         searchParams:{
+            code:code,
             companyCode: OSS.companyCode,
         },
         pageCode: '621227',
@@ -44,8 +47,9 @@ $(function () {
                        );
     
     $('#addBtn1').click(function() {
-        
-        window.location.href = "problem_addedit.html?";
+
+
+        window.location.href = "problem_addedit.html?wjCode="+ wjCode;
 
     });
 
@@ -58,7 +62,7 @@ $(function () {
             return;
         }
         
-        window.location.href = "problem_addedit.html?Code=" + selRecords[0].code+"&dc="+selRecords[0].companyCode;
+        window.location.href = "problem_addedit.html?Code=" + selRecords[0].code+"&dc="+selRecords[0].companyCode+"&wjCode="+ selRecords[0].code;
 
     });
 
@@ -74,23 +78,34 @@ $(function () {
             return;
         }
         
-        window.location.href = "problem_addedit.html?Code=" + selRecords[0].code+"&v=1";
+        window.location.href = "problem_detail2.html?Code=" + selRecords[0].code+"&v=1&wjCode="+ selRecords[0].code;
     });
 
-    $('#addResultBtn').click(function() {
-        var selRecords = $('#tableList').bootstrapTable('getSelections');
-        if (selRecords.length <= 0) {
-            toastr.info("请选择记录");
-            return;
-        }
-        
-        window.location.href = "result.html?Code=" + selRecords[0].code+"&pName=" + selRecords[0].name;
-    
-    });
 
     $('#backBtn').click(function() {
         window.location.href = "question.html?";
     });
+
+    $("#deleteBtn1").click(function(){
+        
+        var selRecords=$('#tableList').bootstrapTable('getSelections');
+        var code = selRecords[0].code;
+
+        if (selRecords.length != 1 ) {
+            toastr.info("请选择记录");
+            return;
+        }
+        $('#tableList').bootstrapTable('remove', {
+            field:"code",
+            values:[selRecords[0].code]
+        });
+     if(code){
+         reqApi({code:'621221',json:{code:code}}).done(function(res){
+             $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
+         })
+     }
+        toastr.info("删除成功");
+    })
     
     
 });

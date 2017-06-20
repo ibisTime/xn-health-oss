@@ -2,24 +2,16 @@ $(function() {
 	
 	var code = getQueryString('code');
 	var view = getQueryString('v');
+    var wjCode = getQueryString('wjCode');
 	
 	var fields = [{
-        field: 'wjCode',
-        title: '问卷编号',
-        required: true,
-        view: view,
-        formatter:function(v,data){
-            return data.code
-        }
-    }, {
         field: 'title',
         title: '标题',
         required: true,
         view: view,
     }, {
         field: 'content',
-        title: '内容',
-        type: 'textarea',
+        title: '结果',
         required: true,
         view: view,
     }, {
@@ -42,6 +34,7 @@ $(function() {
 		addCode: '621230',
 		editCode: '621232',
 		beforeSubmit: function(data) {
+             data.wjCode = wjCode,
              data.verdictList = [{
                 title : $("#title").val(),
                 content : $("#content").val(),

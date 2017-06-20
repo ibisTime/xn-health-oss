@@ -1,17 +1,6 @@
 $(function() {
 	
 	var code = getQueryString('code');
-	var dc = getQueryString('dc')
-	var view = getQueryString('v');
-	var storeCode = sessionStorage.getItem('storeCode')
-	
-	var dc = getQueryString('dc')
-	var view = getQueryString('v');
-	var pcode;
-	var codeInd=0;
-	var paramIndex=0;
-	
-	var provinceData=[];
 	
 	var fields = [{
         field: 'kind',
@@ -83,9 +72,6 @@ $(function() {
 	buildDetail({
 		fields: fields,
 		code: code,
-		code: {
-			code: code,
-		},
 		detailCode: '621206',
 		addCode: '621200',
 		editCode: '621202',
@@ -108,7 +94,6 @@ $(function() {
                         "width": "350px",
                         "line-height": "32px",
                         "border": "solid 1px #ced9df"});
-    $("#summary").has(".error").css({"left": "358px"});
          
 
 });

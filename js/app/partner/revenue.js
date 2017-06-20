@@ -30,9 +30,9 @@ $(function () {
     }, {
         field: 'payType',
         title: '支付类型',
-        key: "store_pay_type",
+        key: "pay_type",
         keyCode:"808907",
-        formatter: Dict.getNameForList("store_pay_type","808907"),
+        formatter: Dict.getNameForList("pay_type","808907"),
     }, {
         field: 'payDatetime',
         title: '支付时间',

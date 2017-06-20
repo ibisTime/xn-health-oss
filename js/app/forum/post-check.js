@@ -4,6 +4,10 @@ $(function() {
 
 
     var fields = [{
+        title: '发帖人',
+        field: 'nickname',
+        readonly: true
+    },{
         title: '标题',
         field: 'title',
         readonly: true
@@ -17,20 +21,22 @@ $(function() {
         readonly: true,
         type: 'img'
     }, {
-        title: '发帖人',
-        field: 'nickname',
-        readonly: true
-    }, {
+        field: 'status',
+        title: '状态',
+        type: "select",
+        // key: 'post_status',
+        listCode: "621906",
+        params:{
+            parentKey:"post_status",
+        },
+        keyName:"dkey",
+        valueName:"dvalue",
+        readonly: true,
+    },  {
         title: '发帖时间',
         field: 'publishDatetime',
         readonly: true,
         formatter: dateTimeFormat
-    }, {
-        title: '状态',
-        field: 'status',
-        readonly: true,
-        type: 'select',
-        key: 'post_status'
     }, {
         title: '审核说明',
         field: 'approveNote',

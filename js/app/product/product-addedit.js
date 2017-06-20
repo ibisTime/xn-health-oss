@@ -17,13 +17,11 @@ $(function() {
 		field: 'kind',
 		type: 'hidden',
 		value: '1'
-	},
-	 // {
-  //       field: 'storeCode',
-		// type: 'hidden',
-		// value: storeCode?storeCode : getUserId(),
-  //   }, 
-    {
+	},{
+        field: 'storeCode',
+		type: 'hidden',
+		value: storeCode?storeCode : getUserId(),
+    }, {
         field: 'category',
         title: '大类',
 		type: 'select',
@@ -109,7 +107,6 @@ $(function() {
         field: 'description',
         type: 'textarea',
         required: true,
-        maxlength: 255,
         view:view,
     },{
         field: 'remark',
@@ -128,7 +125,7 @@ $(function() {
 		// }
 		buttons: {},
 		beforeSubmit:function(data){
-			if (storeCode){
+			if (!storeCode){
 				data.storeCode = storeCode;
 			}
 			return data;

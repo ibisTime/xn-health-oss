@@ -8,36 +8,39 @@ $(function() {
         field: 'name',
         title: '店铺名称',
         search: true
-    }, {
-        field: 'level',
-        title: '店铺类型',
-        type: 'select',
-        key: "store_level",
-        keyCode: '808907',
-        formatter:Dict.getNameForList("store_level", "808907"),
-    }, {
-        field: 'category',
-        title: '大类',
-        type: 'select',
-        listCode: '808007',
-        keyName: 'code',
-        valueName: 'name',
-        params: {
-            type: '2',
-        },
-        search: true
-    }, {
-        field: 'type',
-        title: '小类',
-        type: 'select',
-        listCode: '808007',
-        keyName: 'code',
-        valueName: 'name',
-        params: {
-            type: '2',
-        },
-        search: true
     }
+    // , {
+    //     field: 'level',
+    //     title: '店铺类型',
+    //     type: 'select',
+    //     key: "store_level",
+    //     keyCode: '808907',
+    //     formatter:Dict.getNameForList("store_level", "808907"),
+    // }
+    // , {
+    //     field: 'category',
+    //     title: '大类',
+    //     type: 'select',
+    //     listCode: '808007',
+    //     keyName: 'code',
+    //     valueName: 'name',
+    //     params: {
+    //         type: '2',
+    //         parentCode: "0"
+    //     },  
+    //     search: true
+    // }, {
+    //     field: 'type',
+    //     title: '小类',
+    //     type: 'select',
+    //     listCode: '808007',
+    //     keyName: 'code',
+    //     valueName: 'name',
+    //     params: {
+    //         type: '2',
+    //     },
+    //     search: true
+    // }
     // , {
     //     field: 'legalPersonName',
     //     title: '法人姓名',
@@ -70,8 +73,8 @@ $(function() {
         pageCode: '808215',
         searchParams: {
             companyCode: OSS.companyCode,
-            // userId:sessionStorage.getItem("userId")
             userReferee: sessionStorage.getItem('userId'),
+            level: "2"
         }
     });
 

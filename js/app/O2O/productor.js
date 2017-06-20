@@ -8,18 +8,38 @@ $(function () {
         field: 'name',
         title: '商户类别',
         search: true,
-    } , {
+    }
+    //  , {
+    //     field: 'level',
+    //     title: '店铺类型',
+    //     type: 'select',
+    //     key: "store_level",
+    //     keyCode: '808907',
+    //     formatter:Dict.getNameForList("store_level", "808907"),
+    // }
+    , {
         field: 'category',
-        title: '参与类型',
-		type: 'select',
-		listCode: '808007',
-		params:{
-            companyCode: OSS.companyCode,
-			type: '2',
-			parentCode: '0',
-		},
-		keyName: 'code',
-		valueName: 'name',
+        title: '大类',
+        type: 'select',
+        listCode: '808007',
+        keyName: 'code',
+        valueName: 'name',
+        params: {
+            type: '2',
+            parentCode: "0"
+        },  
+        search: true
+    }, {
+        field: 'type',
+        title: '小类',
+        type: 'select',
+        listCode: '808007',
+        keyName: 'code',
+        valueName: 'name',
+        params: {
+            type: '2',
+        },
+        search: true
     }, {
         field: 'status',
         title: '状态',
@@ -48,7 +68,8 @@ $(function () {
         deleteCode:'808011',
 		searchParams:{
             storeCode:code,
-			companyCode: OSS.companyCode
+			companyCode: OSS.companyCode,
+            level: "1"
 		},
     });
     

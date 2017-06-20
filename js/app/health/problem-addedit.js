@@ -1,6 +1,7 @@
 $(function() {
 	
 	var code = getQueryString('code');
+	var wjCode = getQueryString('wjCode');
 	var dc = getQueryString('dc')
 	var view = getQueryString('v');
 	var storeCode = sessionStorage.getItem('storeCode')
@@ -12,38 +13,33 @@ $(function() {
 	var paramIndex=0;
 	
 	
-	var fields = [{
-        field: 'wjCode',
-        title: '问卷编号',
-        required: true,
-        maxlength: 20,
-        view: view,
-        formatter: function(v, data) {
-            return data.question.wjCode;
-        }
-		
-    }, { 
+	var fields = [{ 
         field: 'type',
-        title: '小类',
+        title: '类别',
 		type: 'select',
-		listCode: '621906',
+		listCode: "621906",
 		required: true,
 		view: view,
-		// params: {
-  //           parentKey: "0",
-		// },
+		params: {
+            parentKey: "question_type",
+		},
 		keyName: 'dkey',
 		valueName: 'dvalue',
-		required: true,
 		view: view,
+		// beforeSet:function(){
+		// 	if (data.question.type = 0) {
+		// 		return data.question.type;
+		// 	}else{
+		// 		$("#type").hide();
+		// 	}
+		// }
 		formatter: function(v, data) {
             return data.question.type;
         }
     }, {
         field: 'content',
-        title: '内容',
+        title: '题目',
         required: true,
-        type: "textarea",
         view: view,
         formatter: function(v, data) {
             return data.question.content;
@@ -96,12 +92,15 @@ $(function() {
     }, {
         field: 'content',
         title: '内容',
+        required: true,
     }, {
         field: 'score',
         title: '分数',
+        required: true,
     }, {
 		field: 'orderNo',
 		title: '序号',
+		required: true,
 	}],
 		singleSelect: true,//禁止多选
 		clickToSelect: true,//自动选中
@@ -133,12 +132,15 @@ $(function() {
 			fields: [ {
 	        field: 'content',
 	        title: '内容',
+	        required: true,
 	    }, {
 	        field: 'score',
 	        title: '分数',
+	        required: true,
 	    }, {
 			field: 'orderNo',
 			title: '序号',
+			required: true,
 		}],
 				container: $('#formContainer'),
 				buttons: [{
@@ -216,12 +218,15 @@ $(function() {
 			fields: [{
 	        field: 'content',
 	        title: '内容',
+	        required: true,
 	    }, {
 	        field: 'score',
 	        title: '分数',
+	        required: true,
 	    }, {
 			field: 'orderNo',
 			title: '序号',
+			required: true,
 		}],
 			container: $('#formContainer'),
 			buttons: [{
@@ -263,8 +268,8 @@ $(function() {
 		});
 
 		$('#popForm #content').val(selRecords[0].content)
-		$('#popForm #score').val(moneyFormat(selRecords[0].score))
-		$('#popForm #orderNo').val(moneyFormat(selRecords[0].orderNo))
+		$('#popForm #score').val(selRecords[0].score)
+		$('#popForm #orderNo').val(selRecords[0].orderNo)
 
 		
 		dw.showModal();
@@ -298,7 +303,7 @@ $(function() {
 			}
 			data['id'] = data['code'];
 			data.optionsList = $('#tableList').bootstrapTable("getData",{useCurrentPage:true});
-			
+			data.wjCode = wjCode;
 			reqApi({
 				code: code?'621222':'621220',
 				json: data

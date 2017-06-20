@@ -25,9 +25,10 @@ $(function() {
         keyName: 'code',
         valueName: 'name',
         required: true,
+        // search: true
     }, {
         field: 'type',
-        title: '分类',
+        title: '小类',
         type: 'select',
         listCode: '808007',
         keyName: 'code',

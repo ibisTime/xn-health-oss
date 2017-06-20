@@ -35,7 +35,6 @@ $(function() {
         field: 'description',
         type: 'textarea',
         required: true,
-        maxlength: 255,
     }
     // ,  {
     //     field: 'name1',
