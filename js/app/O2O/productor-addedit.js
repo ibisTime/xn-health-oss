@@ -23,6 +23,7 @@ $(function() {
     var fields = [ {
         field: 'mobile',
         title: '登录名(手机号)',
+        readonly: true,
         required: true,
     },{
         field: 'legalPersonName',
@@ -44,9 +45,11 @@ $(function() {
             if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
                  $("#category_chosen").parent(".clearfix").hide();
                  $("#type_chosen").parent(".clearfix").hide();
+                 $("#rate1").parent(".clearfix").hide();
             }else{
                 $("#category_chosen").parent(".clearfix").show();
                  $("#type_chosen").parent(".clearfix").show();
+                 $("#rate1").parent(".clearfix").show();
             }
         }
 
@@ -239,6 +242,7 @@ $(function() {
                             data.type = "FL2017061219492431865712";
                             data.level = "2";
                         }
+
                         reqApi({
                             code: code ? options.editCode : options.addCode,
                             json: data

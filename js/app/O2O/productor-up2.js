@@ -14,9 +14,15 @@ $(function() {
         field: 'uiLocation',
         title: '位置',
         type: 'select',
-        key: 'store_location',
-        keyCode: '808907',
-        formatter: Dict.getNameForList("store_location", "808907"),
+        listCode: '808907',
+        keyName: 'dkey',
+        valueName: 'dvalue',
+        params:{
+        	parentKey: "store_location"
+        },
+        formatter: function(v,data){
+        	return data.uiLocation
+        },
         required: true,
     }, {
         field: 'rate1',

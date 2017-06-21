@@ -25,32 +25,34 @@ $(function() {
         field: 'legalPersonName',
         title: '法人姓名',
         required: true,
-    },{
-        field: 'level',
-        title: '商家类型',
-        key: "store_level",
-        keyCode: '808907',
-        formatter:Dict.getNameForList("store_level", "808907"),
+    }
+    // ,{
+    //     field: 'level',
+    //     title: '商家类型',
+    //     key: "store_level",
+    //     keyCode: '808907',
+    //     formatter:Dict.getNameForList("store_level", "808907"),
 
-    }, {
-        field: 'category',
-        title: '大类',
-        type:'select',
-        data: typeData,
-        keyName: 'code',
-        valueName: 'name',
-    }, {
-        field: 'type',
-        title: '小类',
-        type:'select',
-        data: typeData,
-        keyName: 'code',
-        valueName: 'name',
-    }, {
-        title: '折扣',
-        field: 'rate1',
-        required: true,
-    }, {
+    // }, {
+    //     field: 'category',
+    //     title: '大类',
+    //     type:'select',
+    //     data: typeData,
+    //     keyName: 'code',
+    //     valueName: 'name',
+    // }, {
+    //     field: 'type',
+    //     title: '小类',
+    //     type:'select',
+    //     data: typeData,
+    //     keyName: 'code',
+    //     valueName: 'name',
+    // }, {
+    //     title: '折扣',
+    //     field: 'rate1',
+    //     required: true,
+    // }
+    , {
         field: 'name',
         title: '商品名称',
         required: true,

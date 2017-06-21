@@ -23,7 +23,7 @@ $(function () {
             return data.store.name;
         }
     },{
-        field: 'price',
+        field: 'payAmount1',
         title: '支付金额',
         formatter: moneyFormat
     }, {

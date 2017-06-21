@@ -2,6 +2,7 @@ $(function() {
     var code = getQueryString('code');
     var noteConfig = {
         title: '参数值',
+        // type: "textarea",
         field: 'note',
         required: true
     };
@@ -12,9 +13,9 @@ $(function() {
         },
         sync: true
     }).then(function(data) {
-        if (data.ckey == "aboutUs") {
+        if (data.ckey == "aboutus") {
             noteConfig.type = "textarea";
-        } else if (data.ckey == "fugouPic" || data.ckey == "yuyuePic") {
+        } else if (data.ckey == "jfPic") {
             noteConfig.type = "img";
         }
     })
@@ -23,13 +24,14 @@ $(function() {
         title: '参数键',
         field: 'ckey',
         required: true,
-        maxlength: 20
-    }, noteConfig, {
+        maxlength: 20,
+        type: 'hidden',
+    },  {
         title: '参数说明',
         field: 'cvalue',
         required: true,
         maxlength: 255
-    }, {
+    },noteConfig, {
         title: '备注',
         field: 'remark',
         maxlength: 250

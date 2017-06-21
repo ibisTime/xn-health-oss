@@ -6,8 +6,7 @@ $(function () {
         checkbox: true
     }, {
         field: 'name',
-        title: '商户类别',
-        search: true,
+        title: '商户名',
     }
     //  , {
     //     field: 'level',
@@ -69,6 +68,7 @@ $(function () {
 		searchParams:{
             storeCode:code,
 			companyCode: OSS.companyCode,
+            userReferee: sessionStorage.getItem('userId'),
             level: "1"
 		},
     });

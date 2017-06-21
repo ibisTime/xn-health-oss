@@ -3,17 +3,18 @@ $(function() {
 
 
     var fields = [
-        //     {
-        //     title: '热门位置',
-        //     field: 'location',
-        //     type: "select",
-        //     data: {
-        //         "1": "热门",
-        //         "0": "普通"
-        //     },
-        //     required: true,
-        // },
-        {
+            {
+            title: '热门位置',
+            field: 'location',
+            type: "select",
+            listCode: "621906",
+            params:{
+                parentKey:"post_location",
+            },
+            keyName:"dkey",
+            valueName:"dvalue",
+            required: true,
+        },{
             title: 'UI次序',
             field: 'orderNo',
             required: true,

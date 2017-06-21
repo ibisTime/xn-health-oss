@@ -14,11 +14,13 @@ $(function() {
     }, {
         field: 'location',
         title: '位置',
-        type: 'select',
-        data: {
-            "1": "热门",
-            "0": "普通"
+        type: "select",
+        listCode: "621906",
+        params:{
+            parentKey:"post_location",
         },
+        keyName:"dkey",
+        valueName:"dvalue",
         search: true
     }, {
         title: 'UI次序',
@@ -158,19 +160,13 @@ $(function() {
             toastr.info("请选择一条记录");
             return;
         }
-        if (selRecords[0].location == '0') {
+        if (selRecords[0].location == '0' ||selRecords[0].location == '') {
             window.location.href = "post_hot.html?code=" + selRecords[0].code;
         }
 
-        confirm("确定取消该帖子的热门位置？").then(function() {
-            reqApi({
-                code: '621014',
-                json: { code: selRecords[0].code }
-            }).then(function() {
-                toastr.info("操作成功");
-                $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-            });
-        });
+        // confirm("确定取消该帖子的热门位置？").then(function() {
+            
+        // }, function() {});
     });
     //删除
     $('#multideleteBtn').click(function() {
@@ -192,7 +188,7 @@ $(function() {
                 toastr.info("操作成功");
                 $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
             });
-        });
+        }, function() {});
     });
 
     // $('#detailBtn').click(function() {

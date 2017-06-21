@@ -24,90 +24,94 @@ $(function() {
         field: 'mobile',
         title: '登录名(手机号)',
         required: true,
+        readonly: true,
     },{
         field: 'legalPersonName',
         title: '法人姓名',
         required: true,
-    },{
-        field: 'level',
-        title: '商家类型',
-        type: 'select',
-        required: true,
-        keyName: "dkey",
-        listCode: '808907',
-        valueName: 'dvalue',
-        params:{
-             parentKey: "store_level"
-        },
-        // formatter:Dict.getNameForList("store_level", "808907"),
-        onChange:function(v,data){
-            if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
-                 $("#category_chosen").parent(".clearfix").hide();
-                 $("#type_chosen").parent(".clearfix").hide();
-            }else{
-                $("#category_chosen").parent(".clearfix").show();
-                 $("#type_chosen").parent(".clearfix").show();
-            }
-        }
+    }
+  //   ,{
+  //       field: 'level',
+  //       title: '商家类型',
+  //       type: 'select',
+  //       required: true,
+  //       keyName: "dkey",
+  //       listCode: '808907',
+  //       valueName: 'dvalue',
+  //       params:{
+  //            parentKey: "store_level"
+  //       },
+  //       // formatter:Dict.getNameForList("store_level", "808907"),
+  //       onChange:function(v,data){
+  //           if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
+  //                $("#category_chosen").parent(".clearfix").hide();
+  //                $("#type_chosen").parent(".clearfix").hide();
+  //           }else{
+  //               $("#category_chosen").parent(".clearfix").show();
+  //                $("#type_chosen").parent(".clearfix").show();
+  //           }
+  //       }
 
-    },{
-        field: 'category',
-        title: '大类',
-		type: 'select',
-		listCode: '808007',
-		params: {
-			type:"2",
-			// status: '2',
-            parentCode: 0
-		},
-		keyName: 'code',
-		valueName: 'name',
-        required: true,
-		onChange:function(v,data){
-			reqApi({
-                code: '808007',
-                json: {
-                	type:"2",
-					// status: '2',
-                	parentCode: v
-                },
-                sync: true
-            }).done(function(d) {
-            	var data1 = {};
-            	if(d.length && v){
+  //   },{
+  //       field: 'category',
+  //       title: '大类',
+		// type: 'select',
+		// listCode: '808007',
+		// params: {
+		// 	type:"2",
+		// 	// status: '2',
+  //           parentCode: 0
+		// },
+		// keyName: 'code',
+		// valueName: 'name',
+  //       required: true,
+		// onChange:function(v,data){
+		// 	reqApi({
+  //               code: '808007',
+  //               json: {
+  //               	type:"2",
+		// 			// status: '2',
+  //               	parentCode: v
+  //               },
+  //               sync: true
+  //           }).done(function(d) {
+  //           	var data1 = {};
+  //           	if(d.length && v){
             		
-            		d.forEach(function(v,i){
-            			data1[v.code] = v.name;
-            		})
-            	}
-            	$("#type").renderDropdown2(data1);
+  //           		d.forEach(function(v,i){
+  //           			data1[v.code] = v.name;
+  //           		})
+  //           	}
+  //           	$("#type").renderDropdown2(data1);
 
-            });
-		},
-		afterset: function(v){
-			console.log("ss");
-		}
-    }, {
-        field: 'type',
-        title: '小类',
-		type: 'select',
-		listCode: '808007',
-        required: true,
-		params: {
-			type:2,
-			// status: '0',
-            parentCode: $("#category").val()
-		},
-		keyName: 'code',
-		valueName: 'name',
+  //           });
+		// },
+		// afterset: function(v){
+		// 	console.log("ss");
+		// }
+  //   }, {
+  //       field: 'type',
+  //       title: '小类',
+		// type: 'select',
+		// listCode: '808007',
+  //       required: true,
+		// params: {
+		// 	type:2,
+		// 	// status: '0',
+  //           parentCode: $("#category").val()
+		// },
+		// keyName: 'code',
+		// valueName: 'name',
 		// formatter: function(v,data){
 		// 	return data.type;
 		// }
-    }, {
-        title: '折扣',
-        field: 'rate1',
-        required: true,
-    },{
+    // }
+    // , {
+    //     title: '折扣',
+    //     field: 'rate1',
+    //     required: true,
+    // }
+    ,{
         field: 'name',
         title: '店铺名称',
         required: true,
@@ -231,16 +235,14 @@ $(function() {
                         // data.userReferee = userId;
                         data.userReferee = sessionStorage.getItem('userId');
                         // data.type = "2";
-                        // data.rate1 = "1";
+                        data.rate1 = "0";
                         data.rate2 = "0";
                         data.rate3 = "0";
                         data.longitude = point.lng;
                         data.latitude = point.lat;
-                        if(!data.category){
-                            data.category = "FL2017061017094351316235";
-                            data.type = "FL2017061219492431865712";
-                            data.level = "2";
-                        }
+                        data.category = "FL2017061016211611994528";
+                        data.type = "FL2017061219492431865712";
+                        data.level = "2";
                         reqApi({
                             code: code ? options.editCode : options.addCode,
                             json: data

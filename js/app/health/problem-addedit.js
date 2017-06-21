@@ -49,6 +49,7 @@ $(function() {
         title: '比重',
         required: true,
         maxlength: 250,
+        number: true,
         view: view,
         formatter: function(v, data) {
             return data.question.weight;

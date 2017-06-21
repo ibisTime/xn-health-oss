@@ -6,18 +6,13 @@ $(function() {
             field: '',
             title: '',
             checkbox: true
-        }, {
-            field: 'ckey',
-            title: '参数键',
-            search: true
-        },
-        {
-            field: 'note',
-            title: '参数值'
-        },
-        {
+        },{
             field: 'cvalue',
             title: '参数说明'
+        },{
+            field: 'note',
+            title: '参数值',
+            search: true
         }, {
             field: 'remark',
             title: '备注'

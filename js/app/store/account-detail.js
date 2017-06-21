@@ -50,7 +50,7 @@ $(function() {
         }, {
             field: 'transAmount',
             title: '变动金额',
-            // formatter: moneyFormat
+            formatter: moneyFormat
         }, {
             field: 'createDatetime',
             title: '创建时间',

@@ -111,6 +111,19 @@ $(function() {
         required: true,
         maxlength: 255,
         view:view,
+    }, {
+        field: 'orderNo',
+        title: '序号',
+        required: true,
+    }, {
+        field: 'location',
+        title: '位置',
+        type: 'select',
+        key: 'product_location',
+        keyCode:'808907',
+        formatter: Dict.getNameForList("product_location",'808907'),
+        search: true,
+        required: true,
     },{
         field: 'remark',
         title: '备注',

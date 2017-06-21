@@ -17,7 +17,8 @@ $(function() {
         key: 'product_location',
         keyCode:'808907',
         formatter: Dict.getNameForList("product_location",'808907'),
-        search: true
+        search: true,
+        required: true,
     }];
 	
 	buildDetail({

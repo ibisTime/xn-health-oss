@@ -7,7 +7,7 @@ $(function() {
     }, {
         field : 'mobile',
         title : '登录名',
-        search: true
+        // search: true
     }, {
         field: 'name',
         title: '店铺名称',
@@ -25,7 +25,7 @@ $(function() {
         keyName: 'code',
         valueName: 'name',
         required: true,
-        // search: true
+        search: true
     }, {
         field: 'type',
         title: '小类',

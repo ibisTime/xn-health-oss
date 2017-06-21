@@ -26,7 +26,7 @@ $(function () {
     buildList({
         columns: columns,
         searchParams:{
-            code:code,
+            wjCode:wjCode,
             companyCode: OSS.companyCode,
         },
         pageCode: '621227',

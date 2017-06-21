@@ -1,7 +1,48 @@
 $(function() {
-
-    var code = getQueryString('code');
+        var code = getQueryString('code');
     //  var pCode = getQueryString('pCode')
+    $("#partnerLongin").attr("href","http://"+OSS.guideBaseUrl+"/signin.html?kind=05");
+    $("#storeLongin").attr("href","http://"+OSS.guideBaseUrl+"/signin.html?kind=f2");
+    $("#storeApply").attr("href","http://"+OSS.guideBaseUrl+"/store/store_apply.html");//商户
+    $("#houseApply").attr("href","http://"+OSS.guideBaseUrl+"/house/home_apply.html");//名宿
+    $("#houseLongin").attr("href","http://"+OSS.guideBaseUrl+"/signin.html?kind=11");
+
+    reqApi({
+        code: '807717',
+        json: {
+            ckey: 'telephone'
+        },
+        sync: true
+    }).then(function(data) {
+
+        $("#tel").text("欢迎致电："+data.note);
+    });
+
+    reqApi({
+        code: '807717',
+        json: {
+            ckey: 'time'
+        },
+        sync: true
+    }).then(function(data) {
+
+        $("#time").text("服务时间："+data.note);
+    });
+
+    $("#aboutus").on('click',function(){
+            reqApi({
+            code: '807717',
+            json: {
+                ckey: 'aboutUs'
+            },
+            sync: true
+        }).then(function(data) {
+
+            $("#banner").html(data.note);
+        });
+    })
+
+
 
     var typeData = {}
     reqApi({
@@ -19,7 +60,15 @@ $(function() {
     });
 
 
-    var fields = [ {
+    var fields = [{
+        field: 'mobile',
+        title: '登录名(手机号)',
+        required: true,
+    },{
+        field: 'legalPersonName',
+        title: '法人姓名',
+        required: true,
+    },{
         field: 'level',
         title: '商家类型',
         type: 'select',
@@ -60,7 +109,7 @@ $(function() {
                 json: {
                     type:"2",
                     // status: '2',
-                    parentCode: v,
+                    parentCode: v
                 },
                 sync: true
             }).done(function(d) {
@@ -87,21 +136,42 @@ $(function() {
         params: {
             type:2,
             // status: '0',
-            parentCode: $("#category").val(),
+            parentCode: $("#category").val()
         },
         keyName: 'code',
         valueName: 'name',
-        // formatter: function(v,data){
-        //  return data.type;
-        // }
+    },
+    {
+        title: '折扣',
+        field: 'rate1',
+        required: true,
     },{
         field: 'name',
         title: '店铺名称',
         required: true,
-    },{
-        field: 'mobile',
-        title: '登录名(手机号)',
+    }, {
+        title: '地址',
+        field: "province1",
+        type:'select',
+        key:"product_location",
+        keyCode:'808907',
         required: true,
+        type: 'citySelect',
+    }, {
+        title: '详细地址',
+        field: 'address',
+        required: true,
+        maxlength: 255,
+    }, {
+        title: '经度',
+        field: 'longitude',
+        west: true,
+        hidden: true
+    }, {
+        title: "纬度",
+        field: 'latitude',
+        north: true,
+        hidden: true
     },{
         field: 'bookMobile',
         title: '预定联系电话',
@@ -142,32 +212,6 @@ $(function() {
         title: '商家描述',
         type:'textarea',
         required: true,
-    }, {
-        title: '地址',
-        field: "province1",
-        type:'select',
-        key:"product_location",
-        keyCode:'808907',
-        params:{
-             systemCode: OSS.companyCode 
-        },
-        required: true,
-        type: 'citySelect',
-    }, {
-        title: '详细地址',
-        field: 'address',
-        required: true,
-        maxlength: 255,
-    }, {
-        title: '经度',
-        field: 'longitude',
-        west: true,
-        hidden: true
-    }, {
-        title: "纬度",
-        field: 'latitude',
-        north: true,
-        hidden: true
     }
     ];
 
@@ -239,7 +283,7 @@ $(function() {
                     if (point) {
                         // data.type = "2";
                         data.updater = "自助申请"
-                        data.rate1 = "1";
+                        // data.rate1 = "0";
                         data.rate2 = "0";
                         data.rate3 = "0";
                         data.longitude = point.lng;
@@ -263,10 +307,5 @@ $(function() {
             }
         });
 
-    $("#partnerLongin").attr("href","http://"+OSS.guideBaseUrl+"/signin.html?kind=05");
-    $("#storeLongin").attr("href","http://"+OSS.guideBaseUrl+"/signin.html?kind=f2");
-    $("#storeApply").attr("href","http://"+OSS.guideBaseUrl+"/store/store_apply.html");
-    $("#houseApply").attr("href","http://"+OSS.guideBaseUrl+"/house/home_apply.html");
-    $("#houseLongin").attr("href","http://"+OSS.guideBaseUrl+"/signin.html?kind=11");
 
 });
