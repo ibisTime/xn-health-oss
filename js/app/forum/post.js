@@ -4,9 +4,6 @@ $(function() {
         field: '',
         title: '',
         checkbox: true
-    },{
-        field: 'nickname',
-        title: '发帖人'
     }, {
         field: 'title',
         title: '标题',
@@ -25,6 +22,9 @@ $(function() {
     }, {
         title: 'UI次序',
         field: 'orderNo'
+    },{
+        field: 'nickname',
+        title: '发帖人'
     }, {
         field: 'status',
         title: '状态',
@@ -41,11 +41,6 @@ $(function() {
         field: 'publishDatetime',
         title: '发布时间',
         formatter: dateTimeFormat
-    }, {
-        title: '审核说明',
-        field: 'approveNote',
-        required: true,
-        maxlength: 250
     }];
 
     buildList({
@@ -160,9 +155,10 @@ $(function() {
             toastr.info("请选择一条记录");
             return;
         }
-        if (selRecords[0].location == '0' ||selRecords[0].location == '') {
-            window.location.href = "post_hot.html?code=" + selRecords[0].code;
-        }
+        window.location.href = "post_hot.html?code=" + selRecords[0].code;
+        // if (selRecords[0].location == '0' ||selRecords[0].location == '') {
+            
+        // }
 
         // confirm("确定取消该帖子的热门位置？").then(function() {
             

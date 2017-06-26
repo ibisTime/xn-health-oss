@@ -53,8 +53,8 @@ $(function() {
             return dateTimeFormat(data.updateDatetime)
         }
     }, {
-        title: 'remark ',
-        field: '备注',
+        title: '备注 ',
+        field: 'remark',
         formatter:function(v,data){
             return data.remark
         }

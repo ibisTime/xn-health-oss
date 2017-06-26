@@ -1,5 +1,5 @@
 $(function () {
-    $("logo").attr("href","http://"+OSS.guideBaseUrl);
+    $(".logo a").attr("href","http://"+OSS.guideBaseUrl);
 	$("#partnerLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=05");
 	$("#storeLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=f2");
 	$("#storeApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/store_apply.html");
@@ -33,7 +33,7 @@ $(function () {
     reqApi({
         code: '806052',
         json: {
-            location: '3'
+            location: '5'
         },
         sync: true
     }).then(function(data) {

@@ -33,15 +33,10 @@ $(function() {
         keyName:"dkey",
         valueName:"dvalue",
         search: true,
-    }, {
-        title: '审核说明',
-        field: 'approveNote',
-        required: true,
-        maxlength: 250
     }];
 
     buildList({
-        router: "conmment",
+        router: "comment",
         columns: columns,
         pageCode: "621062",
         searchParams: {

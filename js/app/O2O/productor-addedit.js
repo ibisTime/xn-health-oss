@@ -23,7 +23,7 @@ $(function() {
     var fields = [ {
         field: 'mobile',
         title: '登录名(手机号)',
-        readonly: true,
+        // readonly: true,
         required: true,
     },{
         field: 'legalPersonName',

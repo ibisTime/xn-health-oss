@@ -1,6 +1,6 @@
 $(function() {
 
-
+    var codeTimeNum=60;
 
     $("#subBtn").click(function() {
         var sms = $("#smsCaptcha").val();
@@ -26,16 +26,33 @@ $(function() {
         if (mobile == '') {
             toastr.info('手机号不能为空')
         } else {
-            var data = {};
-            data['mobile'] = $('#newMobile').val();
-            data['kind'] = 'f2';
-            data["bizType"] = "805047";
-            reqApi({
-                code: 805904,
-                json: data
-            }).done(function() {
-                toastr.info('发送成功！')
-            });
+            if(codeTimeNum==60){
+
+                timer = setInterval(function(){
+                    codeTimeNum--;
+
+                    $("#smsBtn").attr("value",""+codeTimeNum+"s");
+
+                    if(codeTimeNum<0){
+                        clearInterval(timer);
+                        codeTimeNum=60;
+
+                        $("#smsBtn").attr("value","发送短信");
+                    }
+                },1000);
+
+                var data = {};
+                data['mobile'] = $('#newMobile').val();
+                data['kind'] = 'f2';
+                data["bizType"] = "805047";
+                reqApi({
+                    code: 805904,
+                    json: data
+                }).done(function() {
+                    toastr.info('发送成功！')
+                });
+            }
+           
         }
 
     });

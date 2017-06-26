@@ -4,16 +4,14 @@ $(function() {
     var view = !!getQueryString('v');
 
     var fields = [{
-        field: '',
-        title: '',
-        checkbox: true
-    }, {
         field: 'content',
         title: '评论内容',
-        search: true
     }, {
-        field: 'location',
+        field: 'title',
         title: '针对帖子',
+        formatter: function(v, data) {
+            return data.post.title
+        }
     }, {
         field: 'nickname',
         title: '评论人'
@@ -33,6 +31,15 @@ $(function() {
         valueName:"dvalue",
         search: true,
     }, {
+        title: '审核人',
+        field: 'approver',
+        required: true,
+        maxlength: 250
+    }, {
+        title: '审核时间',
+        field: 'approveDatetime',
+        formatter: dateTimeFormat
+    }, {
         title: '审核说明',
         field: 'approveNote',
         required: true,
@@ -43,7 +50,7 @@ $(function() {
         fields: fields,
         code: code,
         view:view,
-        detailCode: '621006',
+        detailCode: '621063',
     };
 
     buildDetail(options);

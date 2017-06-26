@@ -1,6 +1,7 @@
 $(function() {
 
     var code = getQueryString('code');
+    var view = !!getQueryString('v');
     //	var pCode = getQueryString('pCode')
 
     var typeData = {}
@@ -24,7 +25,7 @@ $(function() {
         field: 'mobile',
         title: '登录名(手机号)',
         required: true,
-        readonly: true,
+        view: view,
     },{
         field: 'legalPersonName',
         title: '法人姓名',
@@ -170,6 +171,7 @@ $(function() {
 
     var options = {
         fields: fields,
+        view:view,
         code:{
           code:code,
           companyCode: OSS.companyCode 

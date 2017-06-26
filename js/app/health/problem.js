@@ -8,17 +8,26 @@ $(function () {
         title: '',
         checkbox: true
     }, {
-        field: 'type',
-        title: '类别',
-        type: 'select',
-        listCode: "621906",
-        keyName:'dkey',
-        valueName:'dvalue',
-        params: {
-            parentKey: "question_type",
-        },
-        search: true,
-    }, {
+        field: 'content',
+        title: '题目',
+        required: true,
+        formatter: function(v, data) {
+            return data.content;
+        }
+    }
+    // , {
+    //     field: 'type',
+    //     title: '类别',
+    //     type: 'select',
+    //     listCode: "621906",
+    //     keyName:'dkey',
+    //     valueName:'dvalue',
+    //     params: {
+    //         parentKey: "question_type",
+    //     },
+    //     search: true,
+    // }
+    , {
         field: 'orderNo',
         title: '顺序',
     }];
@@ -61,8 +70,8 @@ $(function () {
             toastr.info("请选择记录");
             return;
         }
-        
-        window.location.href = "problem_addedit.html?Code=" + selRecords[0].code+"&dc="+selRecords[0].companyCode+"&wjCode="+ selRecords[0].code;
+        console.log(selRecords[0])
+        window.location.href = "problem_addedit.html?code=" + selRecords[0].code+"&dc="+selRecords[0].companyCode+"&wjCode="+ selRecords[0].wjCode;
 
     });
 
@@ -78,7 +87,7 @@ $(function () {
             return;
         }
         
-        window.location.href = "problem_detail2.html?Code=" + selRecords[0].code+"&v=1&wjCode="+ selRecords[0].code;
+        window.location.href = "problem_detail2.html?code=" + selRecords[0].code+"&v=1&wjCode="+ selRecords[0].wjCode;
     });
 
 

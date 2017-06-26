@@ -15,12 +15,12 @@ $(function () {
         title: '内容',
         required: true
     }, {
-        field: 'maxScore',
-        title: '最大值',
-        required: true
-    }, {
         field: 'minScore',
         title: '最小值',
+        required: true
+    }, {
+        field: 'maxScore',
+        title: '最大值',
         required: true
     }];
 

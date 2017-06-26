@@ -5,9 +5,11 @@ $(function() {
         title: '位置',
         field: 'location',
         type: 'select',
-        data: {
-            "1": '热门',
-            "0": "普通"
+        listCode: "621906",
+        keyName:'dkey',
+        valueName:'dvalue',
+        params:{
+            parentKey: "news_location",
         },
         required: true,
     }, {

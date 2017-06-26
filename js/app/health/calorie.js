@@ -16,9 +16,12 @@ $(function() {
         field: 'type',
         title: '类别',
         type: "select",
-        key: "calorie_kind",
-        keyCode: "621906",
-        formater: Dict.getNameForList('calorie_kind','621906'),
+        listCode: "621906",
+        keyName:'dkey',
+        valueName:'dvalue',
+        params:{
+            parentKey: "calorie_kind",
+        },
         search: true
     }, {
         field: 'calorie',

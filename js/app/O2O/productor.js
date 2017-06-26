@@ -39,6 +39,10 @@ $(function () {
             type: '2',
         },
         search: true
+    },{
+        title: '折扣',
+        field: 'rate1',
+        required: true,
     }, {
         field: 'status',
         title: '状态',

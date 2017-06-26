@@ -1,12 +1,18 @@
 $(function () {
-    
+    var dictData;
+    reqApi({
+        code: "621906",
+        sync: true
+    }).then(function(data){
+        dictData = data;
+    })
     var columns = [{
         field: '',
         title: '',
         checkbox: true
     }, {
         field: 'kind',
-        title: '大类',
+        title: '类别',
         type: 'select',
         listCode: "621906",
         keyName:'dkey',
@@ -15,13 +21,21 @@ $(function () {
             parentKey: "questionare_kind",
         },
         search: true,
+            
     }, {
         field: 'type',
-        title: '小类',
-        type: 'select',
-        listCode: "621906",
-        keyName:'dkey',
-        valueName:'dvalue',
+        title: '分类',
+        formatter: function(v, data){
+            if(v == "0"){
+                return "-";
+            }
+            var result = dictData.filter(function (d) {
+                return d.parentKey == data.kind;
+            }).filter(function (d) {
+                return d.dkey == v;
+            })
+            return result.length ? result[0].dvalue : "-";
+        }
     }, {
         field: 'title',
         title: '标题',

@@ -11,22 +11,24 @@ $(function() {
         title: '标题',
     }, {
         field: 'content',
-        title: '评论内容',
+        title: '帖子详情',
     }, {
         title: '图片',
         type: "img",
         field: 'pic'
     }, {
-        title: '位置',
+        title: '地址',
         field: 'address'
     }, {
         field: 'location',
         title: '位置',
         type: 'select',
-        data: {
-            "1": "热门",
-            "0": "普通"
-        }
+        listCode: "621906",
+        params:{
+            parentKey:"post_location",
+        },
+        keyName:"dkey",
+        valueName:"dvalue",
     }, {
         title: 'UI次序',
         field: 'orderNo'

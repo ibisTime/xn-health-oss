@@ -31,24 +31,26 @@ $(function() {
         type: 'hidden',
         value: wjCode,
         
-    }, { 
-        field: 'type',
-        title: '类别',
-        data: typeData,
-        keyName: 'dkey',
-        valueName: 'dvalue',
-        listCode: '621906',
-        required: true,
-        // params: {
-        //     parentKey: "question_type",
-        // },
-        // keyName: 'dkey',
-        // valueName: 'dvalue',
-        view: view,
-        formatter: function(v, data) {
-            return data.question.type;
-        }
-    }, {
+    }
+    // , { 
+    //     field: 'type',
+    //     title: '类别',
+    //     data: typeData,
+    //     keyName: 'dkey',
+    //     valueName: 'dvalue',
+    //     listCode: '621906',
+    //     required: true,
+    //     // params: {
+    //     //     parentKey: "question_type",
+    //     // },
+    //     // keyName: 'dkey',
+    //     // valueName: 'dvalue',
+    //     view: view,
+    //     formatter: function(v, data) {
+    //         return data.question.type;
+    //     }
+    // }
+    , {
         field: 'content',
         title: '内容',
         required: true,

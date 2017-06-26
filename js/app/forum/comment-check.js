@@ -37,7 +37,6 @@ $(function() {
     }, {
         title: '审核说明',
         field: 'approveNote',
-        required: true,
         maxlength: 250
     }];
 

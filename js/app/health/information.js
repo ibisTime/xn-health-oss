@@ -1,5 +1,7 @@
 $(function() {
 
+    
+
     var columns = [{
         field: '',
         title: '',
@@ -9,29 +11,34 @@ $(function() {
         title: "标题"
     }, {
         field: 'kind',
-        title: '大类',
+        title: '类别',
         type: "select",
         listCode: "621906",
+        params: {
+                parentKey: "news_kind",
+            },
         keyName:'dkey',
         valueName:'dvalue',
-        required: true,
+        search: true
     }, {
         field: 'category',
-        title: '小类',
+        title: '大类',
         type: "select",
-        listCode: "621906",
-        keyName:'dkey',
-        valueName:'dvalue',
+        listCode: "621507",
+        params:{
+            parentCode: '0',
+        },
+        keyName:'code',
+        valueName:'name',
         required: true,
     }, {
         field: 'type',
-        title: '类别',
+        title: '小类',
         type: "select",
-        data: {
-            "1": "资讯",
-            "2": "文章"
-        },
-        search: true
+        listCode: "621507",
+        keyName:'code',
+        valueName:'name',
+        required: true,
     }, {
         title: "状态",
         field: 'status',
@@ -48,9 +55,11 @@ $(function() {
         title: '位置',
         field: 'location',
         type: 'select',
-        data: {
-            "1": '热门',
-            "0": "普通"
+        listCode: "621906",
+        keyName:'dkey',
+        valueName:'dvalue',
+        params:{
+            parentKey: "news_location",
         },
         search: true
     }, {
@@ -99,5 +108,35 @@ $(function() {
         }
 
 
+    });
+
+    $('#detailBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        if (selRecords.length>1) {
+            toastr.info("不能多选");
+            return;
+        }
+        
+        window.location.href = "information_detail.html?Code=" + selRecords[0].code+"&v=1";
+    });
+
+    $('#editBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        if (selRecords[0].status == "1") {
+            toastr.info("上架资讯不能修改");
+            return;
+        }
+        
+        window.location.href = "information_addedit.html?Code=" + selRecords[0].code+"&v=1";
     });
 });

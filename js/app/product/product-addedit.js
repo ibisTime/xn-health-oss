@@ -28,7 +28,7 @@ $(function() {
 		listCode: '808007',
         required: true,
 		params: {
-			type:"1",
+			// type:"1",
 			status: '1',
             parentCode: 0
 		},
@@ -140,22 +140,27 @@ $(function() {
 	}, {
         field: 'name',
         title: '规格名称',
+        required: true,
     }, {
         field: 'originalPrice',
         title: '市场参考价',
         amount: true,
+        required: true,
         formatter: moneyFormat,
     }, {
 	    field: 'price1',
 	    title: '人民币价',
 	    amount: true,
+	    required: true,
 	    formatter: moneyFormat,
     }, {
 		field: 'quantity',
 		title: '库存',
+		required: true,
 	}, {
 		field: 'orderNo',
 		title: '序号',
+		required: true,
 	}],
 		singleSelect: true,//禁止多选
 		clickToSelect: true,//自动选中
@@ -187,22 +192,27 @@ $(function() {
 			fields: [ {
 	        field: 'name',
 	        title: '规格名称',
+	        required: true,
 	    }, {
 	        field: 'originalPrice',
 	        title: '市场参考价',
 	        amount: true,
+	        required: true,
 	        formatter: moneyFormat,
 	    }, {
 		    field: 'price1',
 		    title: '人民币价',
 		    amount: true,
+		    required: true,
 		    formatter: moneyFormat,
 	    }, {
 			field: 'quantity',
 			title: '库存',
+			required: true,
 		}, {
 			field: 'orderNo',
 			title: '序号',
+			required: true,
 		}],
 				container: $('#formContainer'),
 				buttons: [{
@@ -280,22 +290,27 @@ $(function() {
 			fields: [ {
 	        field: 'name',
 	        title: '规格名称',
+	        required: true,
 	    }, {
 	        field: 'originalPrice',
 	        title: '市场参考价',
 	        amount: true,
+	        required: true,
 	        formatter: moneyFormat,
 	    }, {
 		    field: 'price1',
 		    title: '人民币价',
 		    amount: true,
+		    required: true,
 		    formatter: moneyFormat,
 	    }, {
 			field: 'quantity',
 			title: '库存',
+			required: true,
 		}, {
 			field: 'orderNo',
 			title: '序号',
+			required: true,
 		}],
 			container: $('#formContainer'),
 			buttons: [{

@@ -45,7 +45,7 @@ $(function() {
         searchParams: {
             toUser: getUserId(),
             companyCode: OSS.company,
-            kind: "1"
+            type: "1"
         }
     });
 

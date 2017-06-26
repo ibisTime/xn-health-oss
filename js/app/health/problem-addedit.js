@@ -12,20 +12,19 @@ $(function() {
 	var codeInd=0;
 	var paramIndex=0;
 	
-	
 	var fields = [{ 
         field: 'type',
         title: '类别',
-		type: 'select',
-		listCode: "621906",
-		required: true,
-		view: view,
-		params: {
-            parentKey: "question_type",
-		},
-		keyName: 'dkey',
-		valueName: 'dvalue',
-		view: view,
+		type: 'hidden',
+		value: "0"
+		// listCode: "621906",
+		// required: true,
+		// view: view,
+		// params: {
+  //           parentKey: "question_type",
+		// },
+		// keyName: 'dkey',
+		// valueName: 'dvalue',
 		// beforeSet:function(){
 		// 	if (data.question.type = 0) {
 		// 		return data.question.type;
@@ -33,10 +32,11 @@ $(function() {
 		// 		$("#type").hide();
 		// 	}
 		// }
-		formatter: function(v, data) {
-            return data.question.type;
-        }
-    }, {
+		// formatter: function(v, data) {
+  //           return data.question.type;
+  //       }
+    },
+    {
         field: 'content',
         title: '题目',
         required: true,
@@ -77,6 +77,7 @@ $(function() {
 		// }
 		buttons: {},
 		beforeSubmit:function(data){
+			data.type = "0";
 			// if (storeCode){
 			// 	data.storeCode = storeCode;
 			// }s
@@ -305,6 +306,7 @@ $(function() {
 			data['id'] = data['code'];
 			data.optionsList = $('#tableList').bootstrapTable("getData",{useCurrentPage:true});
 			data.wjCode = wjCode;
+			data.code =code;
 			reqApi({
 				code: code?'621222':'621220',
 				json: data

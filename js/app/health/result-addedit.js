@@ -15,13 +15,13 @@ $(function() {
         required: true,
         view: view,
     }, {
-        field: 'maxScore',
-        title: '最大值',
+        field: 'minScore',
+        title: '最小值',
         required: true,
         view: view,
     }, {
-        field: 'minScore',
-        title: '最小值',
+        field: 'maxScore',
+        title: '最大值',
         required: true,
         view: view,
     }];

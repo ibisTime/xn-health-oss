@@ -25,8 +25,18 @@ $(function () {
         }
     },{
         field: 'price',
-        title: '支付金额',
+        title: '应付金额',
         formatter: moneyFormat
+    },{
+        field: 'payAmount1',
+        title: '实付金额',
+        formatter: moneyFormat
+    },{
+        field: 'rate1',
+        title: '折扣',
+        formatter: function(v, data) {  
+            return data.store.rate1;
+        }
     }, {
         field: 'payType',
         title: '支付类型',

@@ -50,14 +50,14 @@ $(function() {
         required: true,
         amount: true,
         afterSet: function(v, data){
-            $("#originalPrice").val(data.productSpecsList[0].originalPrice)/1000
+            $("#originalPrice").val(moneyFormat(data.productSpecsList[0].originalPrice))
         }
     }, {
         field: 'price1',
         title: '积分价',
         required: true,
         afterSet: function(v, data){
-            $("#price1").val(data.productSpecsList[0].price1)/1000
+            $("#price1").val(moneyFormat(data.productSpecsList[0].price1))
         }
     }, {
         field: 'quantity',

@@ -147,7 +147,7 @@ $(function() {
             return;
         }
 
-        window.location.href = "store_detail.html?Code=" + selRecords[0].code;
+        window.location.href = "store_detail.html?Code=" + selRecords[0].code+"&v=1";
     });
     // $("#editBtn").remove();
      $('#revenueBtn').click(function() {

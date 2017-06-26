@@ -45,7 +45,7 @@ $(function() {
         searchParams: {
             toUser: getUserId(),
             companyCode: OSS.company,
-            kind:"2"
+            type:"2"//积分订单
         }
     });
 

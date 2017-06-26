@@ -56,6 +56,7 @@ $(function() {
         field: 'summary',
         title: '摘要',
         type: 'textarea',
+        normalArea: true,
         required: true,
         // maxlength: 20
     }, {
@@ -84,16 +85,6 @@ $(function() {
         },
 	});
 
-    
-    $("#summary").siblings(".wangEditor-container").hide();
-    $("#summary").css({ "height": "160px",
-                        "width": "328px",
-                        "position": "relative",
-                        "left": "197px",
-                        "top": "-35px",
-                        "width": "350px",
-                        "line-height": "32px",
-                        "border": "solid 1px #ced9df"});
          
 
 });

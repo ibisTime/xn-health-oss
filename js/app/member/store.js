@@ -37,6 +37,10 @@ $(function() {
             type: '2',
         },
         search: true
+    },{
+        title: '折扣',
+        field: 'rate1',
+        required: true,
     }
     // , {
     //     field: 'legalPersonName',
@@ -135,14 +139,14 @@ $(function() {
 
     });
 
-    $('#detail2Btn').click(function() {
+    $('#detailBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
 
-        window.location.href = "store_detail.html?Code=" + selRecords[0].code;
+        window.location.href = "store_detail2.html?Code=" + selRecords[0].code;
     });
     $("#editBtn").remove();
 });

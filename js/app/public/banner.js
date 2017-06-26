@@ -13,7 +13,8 @@ $(function() {
         field: 'location',
         type: "select",
         key: "banner_location",
-        formatter: Dict.getNameForList('banner_location')
+        formatter: Dict.getNameForList('banner_location'),
+        search: true
     }, {
         title: '顺序',
         field: 'orderNo'
