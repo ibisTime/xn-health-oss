@@ -19,7 +19,6 @@ $(function () {
     , {
         field: 'name',
         title: '商户',
-        search: true,
         formatter: function(v, data) {  
             return data.store.name;
         }
@@ -49,7 +48,6 @@ $(function () {
         key: "store_status",
         keyCode:"808907",
         formatter: dateTimeFormat,
-        search: true
     }, {
         field: 'nickname',
         title: '支付用户',

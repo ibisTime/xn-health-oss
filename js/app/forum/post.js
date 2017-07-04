@@ -4,11 +4,21 @@ $(function() {
         field: '',
         title: '',
         checkbox: true
-    }, {
-        field: 'title',
-        title: '标题',
-        search: true
-    }, {
+    },{
+        field: 'nickname',
+        title: '发帖人'
+    }
+    // , {
+    //     title: '内容',
+    //     field: 'content',
+    //     readonly: true
+    // }
+    // , {
+    //     field: 'title',
+    //     title: '标题',
+    //     search: true
+    // }
+    , {
         field: 'location',
         title: '位置',
         type: "select",
@@ -22,9 +32,6 @@ $(function() {
     }, {
         title: 'UI次序',
         field: 'orderNo'
-    },{
-        field: 'nickname',
-        title: '发帖人'
     }, {
         field: 'status',
         title: '状态',

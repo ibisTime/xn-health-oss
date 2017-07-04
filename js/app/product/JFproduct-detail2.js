@@ -67,7 +67,7 @@ $(function() {
         title: '原价',
         required: true,
         formatter: function(v, data){
-            return data.productSpecsList && data.productSpecsList[0].originalPrice;
+            return data.productSpecsList && moneyFormat(data.productSpecsList[0].originalPrice);
         }
     }, {
         field: 'price1',
@@ -75,7 +75,7 @@ $(function() {
         amount: true,
         required: true,
         formatter: function(v, data){
-            return data.productSpecsList && data.productSpecsList[0].price1;
+            return data.productSpecsList && moneyFormat(data.productSpecsList[0].price1);
         }
     }, {
         field: 'quantity',

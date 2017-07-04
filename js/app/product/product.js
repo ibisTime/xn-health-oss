@@ -37,7 +37,7 @@ $(function () {
 		},
 		keyName: 'code',
 		valueName: 'name',
-        search: true
+        search: true,
     }, {
         field: 'type',
         title: '小类',
@@ -48,7 +48,7 @@ $(function () {
         params: {
             type: '1',
         },
-        search: true
+        search: true,
     }, {
         field: 'status',
         title: '状态',
@@ -57,6 +57,13 @@ $(function () {
         keyCode:"808907",
         formatter: Dict.getNameForList("product_status","808907"),
         search: true
+    }, {
+        field: 'location',
+        title: '位置',
+        type: 'select',
+        key: 'product_location',
+        keyCode:'808907',
+        formatter: Dict.getNameForList("product_location",'808907'),
     }, {
         field: 'orderNo',
         title: '序号',

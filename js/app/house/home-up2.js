@@ -51,7 +51,7 @@ $(function() {
                 var data = $('#jsForm').serializeObject();
                 data.code = code;
                 // data.uiLocation = '1';
-                // data.isDefault = "0";
+                data.isDefault = "0";
                 reqApi({
                     code: '808403',
                     json: data

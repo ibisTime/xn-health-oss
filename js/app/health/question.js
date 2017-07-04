@@ -40,6 +40,17 @@ $(function () {
         field: 'title',
         title: '标题',
         search: true,
+    }, {
+        field: 'status',
+        title: '状态',
+        type: 'select',
+        listCode: "621906",
+        keyName:'dkey',
+        valueName:'dvalue',
+        params: {
+            parentKey: "questionare_status",
+        },
+        search: true,
     } ,{
         field: 'orderNo',
         title: '顺序',
@@ -57,7 +68,7 @@ $(function () {
 
     
 
-    $('#detailBtn').click(function() {
+    $('#detailBtn').off("click").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
@@ -74,7 +85,7 @@ $(function () {
  
 
 	//修改
-	$('#edit2Btn').click(function() {
+	$('#edit2Btn').off("click").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
@@ -92,6 +103,11 @@ $(function () {
             return;
         }
 
+        if (selRecords[0].status == 1) {
+            toastr.info("请先下架");
+            return;
+        }
+
         window.location.href = "problem.html?code=" + selRecords[0].code+"&pName=" + selRecords[0].name+"&wjCode="+selRecords[0].code;
 
     
@@ -104,11 +120,72 @@ $(function () {
             toastr.info("请选择记录");
             return;
         }
+
+        if (selRecords[0].status == 1) {
+            toastr.info("请先下架");
+            return;
+        }
         
         window.location.href = "result.html?Code=" + selRecords[0].code+"&pName=" + selRecords[0].name+"&wjCode="+selRecords[0].code;
 
     
     });
     
+    $('#upBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        if (selRecords.length>1) {
+            toastr.info("不能多选");
+            return;
+        }
+        
+        if (selRecords[0].status == 1) {
+            toastr.info("已上架");
+            return;
+        }
+        
+        confirm("确认上架？").then(function() {
+            reqApi({
+                code: '621203',
+                json: { "code": selRecords[0].code }
+            }).then(function() {
+                toastr.info("操作成功");
+                $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
+            });
+        },function(){});
+
+    });
+    
+    $('#downBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        if (selRecords.length>1) {
+            toastr.info("不能多选");
+            return;
+        }
+        
+        if (selRecords[0].status != 1) {
+            toastr.info("还未上架");
+            return;
+        }
+        confirm("确认下架？").then(function() {
+            reqApi({
+                code: '621203',
+                json: { "code": selRecords[0].code }
+            }).then(function() {
+                toastr.info("操作成功");
+                $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
+            });
+        },function(){});
+
+    });
     
 });

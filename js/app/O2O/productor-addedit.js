@@ -25,6 +25,7 @@ $(function() {
         title: '登录名(手机号)',
         // readonly: true,
         required: true,
+        readonly: true
     },{
         field: 'legalPersonName',
         title: '法人姓名',
@@ -151,6 +152,7 @@ $(function() {
         field: 'advPic',
         type: 'img',
         required: true,
+        single: true
     },{
         title: '商家图片',
         field: 'pic',
@@ -238,9 +240,10 @@ $(function() {
                         data.latitude = point.lat;
                         data.storeCode = code;
                         if(!data.category){
-                            data.category = "FL2017061017094351316235";
+                            data.category = "FL2017061016211611994528";
                             data.type = "FL2017061219492431865712";
                             data.level = "2";
+                            data.rate1 = "0";
                         }
 
                         reqApi({

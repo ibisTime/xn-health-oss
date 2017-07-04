@@ -1,6 +1,5 @@
 $(function () {
     var code = getQueryString('code');
-    // var userId = getQueryString('userId');
     var typeData = {}
     reqApi({
         code:'808007'
@@ -19,23 +18,14 @@ $(function () {
     , {
         field: 'name',
         title: '商户',
+        search: true,
         formatter: function(v, data) {  
             return data.store.name;
         }
     },{
-        field: 'price',
-        title: '应付金额',
-        formatter: moneyFormat
-    },{
         field: 'payAmount1',
-        title: '实付金额',
+        title: '支付金额',
         formatter: moneyFormat
-    },{
-        field: 'rate1',
-        title: '折扣',
-        formatter: function(v, data) {  
-            return data.store.rate1;
-        }
     }, {
         field: 'payType',
         title: '支付类型',
@@ -79,17 +69,11 @@ $(function () {
         code: code,
         pageCode: '808245',
 		searchParams:{
-            statusList:["1","2"],
-            storeCode: code,
+            storeCode:sessionStorage.getItem('storeCode'),
+            status:"1",
 			companyCode: OSS.companyCode
 		},
     });
     
-     $('.tools .toolbar').empty();
-
-    $('.tools .toolbar').html('<li style="display:block;" id="backBtn"><span><img src="/static/images/t01.png"></span>返回</li>');
-    $('#backBtn').on('click', function() {
-        goBack();
-    });
     
 });

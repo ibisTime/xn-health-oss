@@ -1,6 +1,8 @@
 $(function() {
     
     var userId = getQueryString('userId');
+    var loginName = getQueryString('loginName');
+    var view = getQueryString('v');
     
     var fields = [{
         field: 'kind',
@@ -10,12 +12,14 @@ $(function() {
         title : '登录名',
         field : 'loginName',
         required: true,
-        maxlength: 20
+        maxlength: 20,
+        readonly: true
     },{
         title : '手机号',
         field : 'mobile',
         mobile:true,
-        required: true
+        required: true,
+        readonly: true
     }, {
         title: '真实姓名',
         field: 'realName',
@@ -46,12 +50,13 @@ $(function() {
     
     buildDetail({
         fields: fields,
+        view:view,
         code:{
             userId: userId
         },
-        // detailCode: '805056',
+        detailCode: '805056',
         addCode: '805042',
-        // editCode: '805182',
+        editCode: '805182',
         beforeSubmit: function(data){
             if(userId){
                 data.userId = userId;

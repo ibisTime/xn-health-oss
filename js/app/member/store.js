@@ -60,6 +60,19 @@ $(function() {
         keyCode: '808907',
         formatter: Dict.getNameForList("store_status", "808907"),
         search: true,
+    },{
+        field: 'userReferee',
+        title: '申请运营商',
+        type: 'select',
+        required: true,
+        listCode: '805060',
+         params: {
+            start:"1",
+            limit:"10",
+        },
+        keyName: 'userId',
+        valueName: 'loginName',
+
     }, {
         field: 'updateDatetime',
         title: '入驻时间',

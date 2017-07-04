@@ -2,6 +2,14 @@ $(function() {
     
     var code = getQueryString('code');
     var view = getQueryString('v');
+
+    var dictData;
+    reqApi({
+        code: "621906",
+        sync: true
+    }).then(function(data){
+        dictData = data;
+    })
     
     var fields = [{
         field: 'kind',
@@ -41,7 +49,18 @@ $(function() {
         field: 'type',
         title: '分类',
         type: "select",
-        required: true  
+        required: true,
+        formatter: function(v, data){
+            if(v == "0"){
+                return "-";
+            }
+            var result = dictData.filter(function (d) {
+                return d.parentKey == data.kind;
+            }).filter(function (d) {
+                return d.dkey == v;
+            })
+            return result.length ? result[0].dvalue : "-";
+        } 
     }, {
         field: 'title',
         title: '标题',

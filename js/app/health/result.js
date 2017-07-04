@@ -65,7 +65,7 @@ $(function () {
             return;
         }
         
-        window.location.href = "result_addedit.html?Code=" + selRecords[0].code+"&dc="+selRecords[0].companyCode;
+        window.location.href = "result_addedit.html?Code=" + selRecords[0].code+"&wjCode="+selRecords[0].wjCode;
 
     });
 

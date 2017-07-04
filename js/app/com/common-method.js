@@ -1132,6 +1132,11 @@ function buildDetail(options) {
         if (item['north']) {
             rules[item.field]['north'] = item['north'];
         }
+
+        var imgLabel = '';
+        if (item.type == 'img') {
+            imgLabel = item.single ? '（单）': '（可多）';
+        }
         if (item.type == 'title') {
             html += '<div ' + (item.field ? 'id="' + item.field + '"' : '') + ' style="' + (item.hidden ? 'display:none;' : '') + '" class="form-title">' + item.title + '</div>';
         } else if (item.type == 'hidden') {
@@ -1155,7 +1160,7 @@ function buildDetail(options) {
                 html += '<li class="clearfix" type="' + (item.amount ? 'amount' : '') + '" style="' + (item.width ? ('width: ' + item.width + ';display:inline-block;') : '') + (item.hidden ? 'display: none;' : '') + '"><label>' + item.title + ':</label><span id="' + item.field + '" name="' + item.field + '"></span></li>';
             }
         } else {
-            html += '<li class="clearfix" type="' + (item.amount ? 'amount' : '') + '" style="' + (item.width ? ('width: ' + item.width + ';display:inline-block;') : '') + (item.hidden ? 'display: none;' : '') + '"><label>' + (item.title ? ('<b>' + ((item.required && '*') || '') + '</b>' + item.title + ':') : '&nbsp;') + '</label>';
+            html += '<li class="clearfix" type="' + (item.amount ? 'amount' : '') + '" style="' + (item.width ? ('width: ' + item.width + ';display:inline-block;') : '') + (item.hidden ? 'display: none;' : '') + '"><label>' + (item.title ? ('<b>' + ((item.required && '*') || '') + '</b>' + item.title + imgLabel + ':') : '&nbsp;') + '</label>';
             if (item.type == 'radio') {
                 for (var k = 0, len1 = item.items.length; k < len1; k++) {
                     var rd = item.items[k];
@@ -1436,6 +1441,10 @@ function buildDetail(options) {
 
     for (var i = 0, len = fields.length; i < len; i++) {
         var item = fields[i];
+        (function(j) {
+            $('#' + j.field).length > 0 && ($('#' + j.field)[0].cfg = j);
+        })(item);
+
         if ('defaultValue' in item) {
             $('#' + item.field).val(item.defaultValue);
         }
@@ -1880,8 +1889,12 @@ function buildDetail(options) {
                             }
                         });
                         $('#' + item.field).html(imgsHtml);
+                        item.single && setImgDisabled($('#' + item.field));
                         $('#' + item.field).find('.zmdi-close-circle-o').on('click', function(e) {
-                            $(this).parents("[data-src]").remove();
+                            var el = $(this).parent().parent(), el_parent = el.parent();
+                            el.remove();
+                            el_parent[0].cfg.single && setImgDisabled(el_parent);
+                            // $(this).parents("[data-src]").remove();
                         });
                         $('#' + item.field).find('.zmdi-download').on('click', function(e) {
                             var dSrc = OSS.picBaseUrl + '/' + $(this).parents("[data-src]").attr('data-src');
@@ -2129,7 +2142,6 @@ function setImgDisabled(el) {
         el.prev().find('input').prop('disabled', false);
     }
 }
-
 function uploadInit() {
     // this 即 editor 对象
     var editor = this;
@@ -2139,6 +2151,11 @@ function uploadInit() {
     var containerId = editor.customUploadContainerId || editor.prev().next().attr('id');
 
     var dropId = editor.id || (editor.attr && editor.attr('id')) || 'jsForm';
+
+    var multi_selection = true;
+    if (editor[0] && editor[0].cfg && editor[0].cfg.single) {
+        multi_selection = false;
+    }
 
     // var token;
 
@@ -2188,6 +2205,7 @@ function uploadInit() {
         drop_element: dropId, //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
         chunk_size: '4mb', //分块上传时，每片的体积
         auto_start: true, //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+        multi_selection: multi_selection,
         init: {
             'FilesAdded': function(up, files) {
                 if (editor.append) {
@@ -2305,6 +2323,13 @@ function uploadInit() {
                         imgCtn.attr("data-src", sourceLink1);
                     }
                     (function(imgCtn, sourceLink) {
+                        editor[0] && editor[0].cfg.single && setImgDisabled(editor);
+
+                        imgCtn.find('.zmdi-close-circle-o').on('click', function(e) {
+                            imgCtn.remove();
+                            editor[0] && editor[0].cfg.single && setImgDisabled(editor);
+                        });
+
                         imgCtn.find('.zmdi-download').on('click', function(e) {
                             window.open(sourceLink, '_blank');
                         }); //zmdi-name

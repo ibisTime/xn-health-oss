@@ -22,6 +22,13 @@ $(function() {
         view: view,
         required: true,
     }, {
+        field: 'summary',
+        title: '摘要',
+        type: 'textarea',
+        normalArea: true,
+        required: true,
+        view: view,
+    }, {
         field: 'remark',
         title: '备注',
         view: view,

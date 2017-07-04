@@ -70,7 +70,6 @@ $(function () {
             toastr.info("请选择记录");
             return;
         }
-        console.log(selRecords[0])
         window.location.href = "problem_addedit.html?code=" + selRecords[0].code+"&dc="+selRecords[0].companyCode+"&wjCode="+ selRecords[0].wjCode;
 
     });

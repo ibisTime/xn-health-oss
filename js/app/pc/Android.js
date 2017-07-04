@@ -46,7 +46,8 @@ $(function () {
 	    	reqApi({
 	        code: '807717',
 	        json: {
-	            ckey: 'aboutUs'
+	            ckey: 'aboutUs',
+                systemCode:OSS.system
 	        },
 	        sync: true
 	    }).then(function(data) {

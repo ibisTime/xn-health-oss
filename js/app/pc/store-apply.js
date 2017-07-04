@@ -42,7 +42,7 @@ $(function() {
             sync: true
         }).then(function(data) {
 
-            $("#banner").html(data.note);
+            $(".banner").html(data.note).find("img").css({"width": "100%","background-size": "cover","margin-top": "-32px"});
         });
     })
 
@@ -88,9 +88,11 @@ $(function() {
             if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
                  $("#category_chosen").parent(".clearfix").hide();
                  $("#type_chosen").parent(".clearfix").hide();
+                 $("#rate1").parent(".clearfix").hide();
             }else{
                 $("#category_chosen").parent(".clearfix").show();
                  $("#type_chosen").parent(".clearfix").show();
+                 $("#rate1").parent(".clearfix").show();
             }
         }
 
@@ -206,6 +208,7 @@ $(function() {
         field: 'advPic',
         type: 'img',
         required: true,
+        single: true
     },{
         title: '商家图片',
         field: 'pic',
@@ -293,9 +296,10 @@ $(function() {
                         data.longitude = point.lng;
                         data.latitude = point.lat;
                         if(!data.category){
-                            data.category = "FL2017061017094351316235";
+                            data.category = "FL2017061016211611994528";
                             data.type = "FL2017061219492431865712";
                             data.level = "2";
+                            data.rate1 = "0";
                         }
                         reqApi({
                             code: code ? options.editCode : options.addCode,

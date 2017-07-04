@@ -28,16 +28,17 @@ $(function() {
         field: 'rate1',
         title: '折扣',
         required: true,
-    }, {
-        field: 'isDefault',
-        title: '是否默认',
-        type:'select',
-        data:{
-                "1": "是",
-                "0": "否",
-        },
-        required: true,
     }
+    // , {
+    //     field: 'isDefault',
+    //     title: '是否默认',
+    //     type:'select',
+    //     data:{
+    //             "1": "是",
+    //             "0": "否",
+    //     },
+    //     required: true,
+    // }
     ];
 	
 	buildDetail({
@@ -56,7 +57,7 @@ $(function() {
 				// data.uiLocation = '1';
 				data.rate2 = "0";
 				data.rate3 = "0";
-				// data.isDefault = "0";
+				data.isDefault = "0";
 	        	reqApi({
 	                code: '808204',
 	                json:  data

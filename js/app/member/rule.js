@@ -7,10 +7,10 @@ $(function() {
             title: '',
             checkbox: true
         },{
-            field: 'cvalue',
+            field: 'note',
             title: '参数说明'
         },{
-            field: 'note',
+            field: 'cvalue',
             title: '参数值',
             search: true
         }, {
@@ -19,10 +19,10 @@ $(function() {
         }
     ];
     buildList({
-        router: 'param',
+        router: 'rule',
         columns: columns,
         searchParams:{
-            type:"2"
+            type:"1"
         },
         pageCode: '807715'
     });

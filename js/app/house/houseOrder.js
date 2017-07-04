@@ -45,4 +45,19 @@ $(function() {
         }
     });
 
+    $('#detailBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        if (selRecords.length > 1) {
+            toastr.info("不能多选");
+            return;
+        }
+
+        window.location.href = "homeOrder_addedit.html?Code=" + selRecords[0].code + "&v=1";
+    });
+
 });

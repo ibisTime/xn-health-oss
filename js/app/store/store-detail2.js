@@ -10,6 +10,15 @@ $(function() {
             typeData[v.code] = v.name;
         })
     });
+
+    var statusStore = {
+        "0": "待审核",
+        '1': "审核通过待上架",
+        '2': "已上架,开店",
+        '3': "已上架，关店",
+        '4': "已下架",
+        "91": "审核不通过"
+    };
     
     var fields = [{
         field: 'kind',
@@ -45,6 +54,19 @@ $(function() {
         formatter: function(v, data) {
             return data[0].store.type;
         }
+    },{
+        field: 'province',
+        title: '商户地址',
+        formatter: function(v, data) {
+            var res = data[0].store.province + data[0].store.city + data[0].store.area + data[0].store.address;
+            return res;
+        }
+    }, {
+        field: 'rate1',
+        title: '折扣',
+        formatter: function(v, data) {
+            return data[0].store.rate1;
+        }
     }, {
         field: 'name',
         title: '商品名称',
@@ -74,6 +96,14 @@ $(function() {
         formatter: function(v, data) {
 
             return data[0].store.pic;
+        }
+    }, {
+        title: '状态',
+        field: "status",
+        type: "select",
+        formatter: function(v, data) {
+            var sta = data[0].store.status
+            return statusStore[sta];
         }
     }, {
         field: 'description',

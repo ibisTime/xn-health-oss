@@ -32,25 +32,23 @@ $(function() {
         keyCode: '808907',
         formatter: Dict.getNameForList("store_level")
 
-    }, {
-        field: 'category',
-        title: '大类',
-        type:'select',
-        data: typeData,
-        keyName: 'code',
-        valueName: 'name',
-    }, {
-        field: 'type',
-        title: '小类',
-        type:'select',
-        data: typeData,
-        keyName: 'code',
-        valueName: 'name',
-    },{
-        title: '折扣',
-        field: 'rate1',
-        required: true,
-    }, {
+    }
+    // , {
+    //     field: 'category',
+    //     title: '大类',
+    //     type:'select',
+    //     data: typeData,
+    //     keyName: 'code',
+    //     valueName: 'name',
+    // }, {
+    //     field: 'type',
+    //     title: '小类',
+    //     type:'select',
+    //     data: typeData,
+    //     keyName: 'code',
+    //     valueName: 'name',
+    // }
+    , {
         field: 'slogan',
         title: '广告语',
     }, {

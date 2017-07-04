@@ -44,7 +44,7 @@ $(function() {
             sync: true
         }).then(function(data) {
 
-            $("#banner").html(data.note);
+            $(".banner").html(data.note).find("img").css({"width": "100%","background-size": "cover","margin-top": "-32px"});
         });
     })
 
@@ -156,7 +156,7 @@ $(function() {
     // }
     ,{
         field: 'name',
-        title: '店铺名称',
+        title: '民宿名称',
         required: true,
     }, {
         title: '地址',
@@ -207,10 +207,11 @@ $(function() {
         title: '广告语',
         required: true,
     },  {
-        title: '店铺缩略图',
+        title: '民宿缩略图',
         field: 'advPic',
         type: 'img',
         required: true,
+        single: true
     },{
         title: '商家图片',
         field: 'pic',

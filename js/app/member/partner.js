@@ -33,14 +33,14 @@ $(function () {
         },
     });
     
-    $('#detail2Btn').click(function() {
+    $('#detailBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
         
-        window.location.href = "partner_detail2.html?userId=" + selRecords[0].userId+"&v=1";
+        window.location.href = "partner_addedit.html?userId=" + selRecords[0].userId+"&v=1";
     });
     
     
@@ -50,7 +50,17 @@ $(function () {
             toastr.info("请选择记录");
             return;
         }
-        window.location.href = "partner_addedit.html?userId="+selRecords[0].userId;
+        window.location.href = "partner_addedit.html?userId="+selRecords[0].userId+"&loginName="+selRecords[0].loginName;
+    });
+
+    $('#revenueBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        window.location.href = "partner_revenue.html?userId="+selRecords[0].userId+"&loginName="+selRecords[0].loginName;
     });
     
     //发货

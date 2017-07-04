@@ -15,13 +15,13 @@ $(function() {
         field: 'reMobile',
         title: '入住人联系方式',
     }, {
-        title: "状态",
-        field: "status",
-        type: 'select',
-        keyCode: '808907',
-        key: "sorder_status",
-        formatter: Dict.getNameForList('sorder_status', "808907"),
-        search: true
+        field: 'amount1',
+        title: '人民币总额',
+        formatter: moneyFormat,
+    }, {
+        title: '已支人民币总额',
+        field: 'payAmount1',
+        formatter: moneyFormat,
     }, {
         title: "支付方式",
         field: "payType",
@@ -31,13 +31,21 @@ $(function() {
         formatter: Dict.getNameForList('pay_type', "808907"),
         search: true
     }, {
+        title: "状态",
+        field: "status",
+        type: 'select',
+        keyCode: '808907',
+        key: "sorder_status",
+        formatter: Dict.getNameForList('sorder_status', "808907"),
+        search: true
+    }, {
         field: 'handleUser',
         title: '处理人'
     }];
     buildList({
         columns: columns,
         pageCode: '808465',
-        singleSelect: false,
+        // singleSelect: false,
         searchParams: {
             companyCode: OSS.companyCode,
             storeUser: getUserId(),
@@ -71,6 +79,28 @@ $(function() {
                 toastr.info("操作成功");
                 $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
             });
-        });
+        },function(){});
+    })
+
+    $("#outBtn").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        var code = selRecords[0].code;
+        // for (var i = selRecords.length; i;) {
+        //     code.push(selRecords[--i].code);
+        // }
+        confirm("确定取消入住？").then(function() {
+            reqApi({
+                code: '808452',
+                json: { "code": code, handleUser: sessionStorage.getItem('userName') }
+            }).then(function() {
+                toastr.info("操作成功");
+                $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
+            });
+        },function(){});
     })
 });

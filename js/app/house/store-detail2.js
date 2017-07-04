@@ -38,7 +38,7 @@ $(function() {
         // }
         {
             field: 'name',
-            title: '店铺名称',
+            title: '民宿名称',
             formatter: function(v, data) {
                 return data[0].store.name;
             }
@@ -64,7 +64,7 @@ $(function() {
             }
         }, {
             field: 'province',
-            title: '店铺地址',
+            title: '民宿地址',
             formatter: function(v, data) {
                 var res = data[0].store.province + data[0].store.city + data[0].store.area + data[0].store.address;
                 return res;

@@ -63,6 +63,13 @@ $(function() {
         field: 'updateDatetime',
         title: '入驻时间',
         formatter: dateTimeFormat,
+    },{
+        field: 'uiLocation',
+        title: '位置',
+        type: 'select',
+        key: 'store_location',
+        keyCode: '808907',
+        formatter: Dict.getNameForList("store_location", "808907"),
     }, {
         field: 'remark',
         title: '备注'
@@ -74,7 +81,7 @@ $(function() {
         searchParams: {
             companyCode: OSS.companyCode,
             userReferee: sessionStorage.getItem('userId'),
-            level: "2"
+            // level: "2"
         }
     });
 
@@ -149,6 +156,17 @@ $(function() {
 
         window.location.href = "store_detail.html?Code=" + selRecords[0].code+"&v=1";
     });
+
+    $('#editBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        window.location.href = "store_addedit.html?Code=" + selRecords[0].code+"&v=1";
+    });
+
     // $("#editBtn").remove();
      $('#revenueBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');

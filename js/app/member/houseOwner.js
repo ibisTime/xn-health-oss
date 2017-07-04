@@ -7,7 +7,6 @@ $(function() {
     }, {
         field : 'mobile',
         title : '登录名',
-        search: true
     },{
         field: 'name',
         title: '店铺名称',
@@ -18,6 +17,27 @@ $(function() {
     }, {
         field: 'smsMobile',
         title: '短信手机号',
+    },{
+        field: 'userReferee',
+        title: '申请运营商',
+        type: 'select',
+        required: true,
+        listCode: '805060',
+         params: {
+            start:"1",
+            limit:"10",
+        },
+        keyName: 'userId',
+        valueName: 'loginName',
+        // beforeSet:function(v,data){
+        //     console.log(data)
+        //  if (data.userReferee != "") {
+        //      return data.userReferee;
+        //  }else{
+        //      return "平台运营商"
+        //  }
+        // }
+
     }, {
         field: 'status',
         title: '状态',
@@ -105,14 +125,14 @@ $(function() {
 
     });
 
-    $('#detail2Btn').click(function() {
+    $('#detailBtn').click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
 
-        window.location.href = "store_detail.html?Code=" + selRecords[0].code;
+        window.location.href = "houseOwner_detail.html?Code=" + selRecords[0].code;
     });
     $("#editBtn").remove();
 });

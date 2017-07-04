@@ -118,16 +118,18 @@ $(function() {
         field: 'uiOrder',
         title: '序号',
         required: true,
-    }, {
-        field: 'isDefault',
-        title: '是否默认',
-        type:'select',
-        data:{
-        	1: "是",
-        	0: "否",
-        },
-        required: true,
-    }, {
+    }
+    // , {
+    //     field: 'isDefault',
+    //     title: '是否默认',
+    //     type:'select',
+    //     data:{
+    //     	1: "是",
+    //     	0: "否",
+    //     },
+    //     required: true,
+    // }
+    , {
         field: 'rate2',
         title: '使用积分比例',
         required: true,
@@ -202,6 +204,7 @@ $(function() {
                     data.level = "1";
                     data.longitude = point.lng;
                     data.latitude = point.lat;
+                    data.isDefault = "0";
                     reqApi({
                         code: code ? options.editCode : options.addCode,
                         json: data

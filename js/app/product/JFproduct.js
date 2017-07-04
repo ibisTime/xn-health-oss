@@ -20,6 +20,13 @@ $(function () {
         field: 'orderNo',
         title: '序号',
     }, {
+        field: 'location',
+        title: '位置',
+        type: 'select',
+        key: 'product_location',
+        keyCode:'808907',
+        formatter: Dict.getNameForList("product_location",'808907'),
+    }, {
         field: 'remark',
         title: '备注',
     }];

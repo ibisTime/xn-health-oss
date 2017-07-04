@@ -3,15 +3,15 @@ $(function() {
 	var code = getQueryString('code');
 	var view = true;
 
-    var typeData = {}
-    reqApi({
-        code:'808007'
-    }).done(function(d) {
+    // var typeData = {}
+    // reqApi({
+    //     code:'808007'
+    // }).done(function(d) {
                     
-        d.forEach(function(v,i){
-            typeData[v.code] = v.name;
-        })
-    });
+    //     d.forEach(function(v,i){
+    //         typeData[v.code] = v.name;
+    //     })
+    // });
 	
 	var fields = [{
 		field: 'kind',
@@ -26,32 +26,89 @@ $(function() {
         title: '法人姓名',
         required: true,
     }
-    // ,{
-    //     field: 'level',
-    //     title: '商家类型',
-    //     key: "store_level",
-    //     keyCode: '808907',
-    //     formatter:Dict.getNameForList("store_level", "808907"),
+   ,{
+        field: 'level',
+        title: '商家类型',
+        type: 'select',
+        required: true,
+        keyName: "dkey",
+        listCode: '808907',
+        valueName: 'dvalue',
+        params:{
+             parentKey: "store_level"
+        },
+        // formatter:Dict.getNameForList("store_level", "808907"),
+        afterSet:function(v,data){
+            if (data.category =="FL2017061016211611994528") {
+                 $("#category").parent(".clearfix").hide();
+                 $("#type").parent(".clearfix").hide();
+                 $("#rate1").parent(".clearfix").hide();
+            }else{
+                $("#category").parent(".clearfix").show();
+                 $("#type").parent(".clearfix").show();
+                 $("#rate1").parent(".clearfix").show();
+            }
+        }
 
-    // }, {
-    //     field: 'category',
-    //     title: '大类',
-    //     type:'select',
-    //     data: typeData,
-    //     keyName: 'code',
-    //     valueName: 'name',
-    // }, {
-    //     field: 'type',
-    //     title: '小类',
-    //     type:'select',
-    //     data: typeData,
-    //     keyName: 'code',
-    //     valueName: 'name',
-    // }, {
-    //     title: '折扣',
-    //     field: 'rate1',
-    //     required: true,
-    // }
+    },{
+        field: 'category',
+        title: '大类',
+        type: 'select',
+        listCode: '808007',
+        params: {
+            type:"2",
+            // status: '2',
+            parentCode: 0
+        },
+        keyName: 'code',
+        valueName: 'name',
+        required: true,
+        onChange:function(v,data){
+            reqApi({
+                code: '808007',
+                json: {
+                    type:"2",
+                    // status: '2',
+                    parentCode: v
+                },
+                sync: true
+            }).done(function(d) {
+                var data1 = {};
+                if(d.length && v){
+                    
+                    d.forEach(function(v,i){
+                        data1[v.code] = v.name;
+                    })
+                }
+                $("#type").renderDropdown2(data1);
+
+            });
+        },
+        afterset: function(v){
+            console.log("ss");
+        }
+    }, {
+        field: 'type',
+        title: '小类',
+        type: 'select',
+        listCode: '808007',
+        required: true,
+        params: {
+            type:2,
+            // status: '0',
+            parentCode: $("#category").val()
+        },
+        keyName: 'code',
+        valueName: 'name',
+        formatter: function(v,data){
+            return data.type;
+        }
+    }
+    , {
+        title: '折扣',
+        field: 'rate1',
+        required: true,
+    }
     , {
         field: 'name',
         title: '商品名称',

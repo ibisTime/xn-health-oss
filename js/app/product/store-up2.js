@@ -17,16 +17,18 @@ $(function() {
         field: 'uiOrder',
         title: '序号',
         required: true,
-    }, {
-        field: 'isDefault',
-        title: '是否默认',
-        type:'select',
-        data:{
-        	1: "是",
-        	0: "否",
-        },
-        required: true,
-    }, {
+    }
+    // , {
+    //     field: 'isDefault',
+    //     title: '是否默认',
+    //     type:'select',
+    //     data:{
+    //     	1: "是",
+    //     	0: "否",
+    //     },
+    //     required: true,
+    // }
+    , {
         field: 'rate2',
         title: '使用积分比例',
         max: 1,
@@ -55,6 +57,7 @@ $(function() {
 		var data = $('#jsForm').serializeObject();
 		data.code = code;
 		data.rate1="0";
+        data.isDefault = "0";
 		
     	reqApi({
             code: '808204',

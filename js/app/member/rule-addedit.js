@@ -2,8 +2,8 @@ $(function() {
     var code = getQueryString('code');
     var noteConfig = {
         title: '参数值',
-        type: "textarea",
-        field: 'note',
+        // type: "textarea",
+        field: 'cvalue',
         required: true
     };
     reqApi({
@@ -28,7 +28,7 @@ $(function() {
         type: 'hidden',
     },  {
         title: '参数说明',
-        field: 'cvalue',
+        field: 'note',
         required: true,
         maxlength: 255
     },noteConfig, {

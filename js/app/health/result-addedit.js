@@ -12,6 +12,8 @@ $(function() {
     }, {
         field: 'content',
         title: '结果',
+        type: 'textarea',
+        normalArea: true,
         required: true,
         view: view,
     }, {

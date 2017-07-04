@@ -7,11 +7,13 @@ $(function() {
         title: '发帖人',
         field: 'nickname',
         readonly: true
-    },{
-        title: '标题',
-        field: 'title',
-        readonly: true
-    }, {
+    }
+    // ,{
+    //     title: '标题',
+    //     field: 'title',
+    //     readonly: true
+    // }
+    , {
         title: '内容',
         field: 'content',
         readonly: true

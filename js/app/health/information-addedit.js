@@ -139,7 +139,6 @@ $(function() {
 
     buildDetail({
         fields: fields,
-        view: view,
         code: code,
         detailCode: '621106',
         addCode: '621100',

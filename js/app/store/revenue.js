@@ -23,9 +23,19 @@ $(function () {
             return data.store.name;
         }
     },{
-        field: 'payAmount1',
-        title: '支付金额',
+        field: 'price',
+        title: '应付金额',
         formatter: moneyFormat
+    },{
+        field: 'payAmount1',
+        title: '实付金额',
+        formatter: moneyFormat
+    },{
+        field: 'rate1',
+        title: '折扣',
+        formatter: function(v, data) {  
+            return data.store.rate1;
+        }
     }, {
         field: 'payType',
         title: '支付类型',
@@ -38,7 +48,6 @@ $(function () {
         key: "store_status",
         keyCode:"808907",
         formatter: dateTimeFormat,
-        search: true
     }, {
         field: 'nickname',
         title: '支付用户',

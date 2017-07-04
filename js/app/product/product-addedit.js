@@ -20,7 +20,7 @@ $(function() {
 	},{
         field: 'storeCode',
 		type: 'hidden',
-		value: storeCode?storeCode : getUserId(),
+		value: storeCode?storeCode : "",
     }, {
         field: 'category',
         title: '大类',
@@ -28,7 +28,7 @@ $(function() {
 		listCode: '808007',
         required: true,
 		params: {
-			// type:"1",
+			type:"1",
 			status: '1',
             parentCode: 0
 		},

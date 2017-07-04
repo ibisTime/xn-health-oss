@@ -7,13 +7,27 @@ $(function() {
             field: '',
             title: '',
             checkbox: true
-        }, {
+        },{
+            title: "登录名",
+            field: "loginName",
+            // search: true
+        },{
             title: "昵称",
             field: "nickname",
             // search: true
         }, {
             title: '手机号',
             field: 'mobile',
+            search: true
+        }, {
+            title: '推荐人',
+            field: 'userRefereeName',
+        }, {
+            title: "用户类型",
+            field: "level",
+            type: "select",
+            key: "user_level",
+            formatter: Dict.getNameForList("user_level"),
             search: true
         }, {
             title: "状态",
@@ -111,4 +125,13 @@ $(function() {
 
     });
     $("#ledgerBtn").remove();
+
+    $('#editBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        window.location.href = "custom_addedit.html?Code=" + selRecords[0].code+'&userId='+selRecords[0].userId;
+    });
 });

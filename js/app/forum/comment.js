@@ -9,13 +9,15 @@ $(function() {
         field: 'content',
         title: '评论内容',
         search: true
-    }, {
-        field: 'location',
-        title: '针对帖子',
-        formatter: function(v, data) {
-            return data.post.title
-        }
-    }, {
+    }
+    // , {
+    //     field: 'location',
+    //     title: '针对帖子',
+        // formatter: function(v, data) {
+        //     return data.post.title
+        // }
+    // }
+    , {
         field: 'nickname',
         title: '评论人'
     }, {

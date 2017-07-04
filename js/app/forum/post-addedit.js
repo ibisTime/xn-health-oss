@@ -6,10 +6,12 @@ $(function() {
     var fields = [{
         field: 'nickname',
         title: '发帖人'
-    }, {
-        field: 'title',
-        title: '标题',
-    }, {
+    }
+    // , {
+    //     field: 'title',
+    //     title: '标题',
+    // }
+    , {
         field: 'content',
         title: '帖子详情',
     }, {
