@@ -3,7 +3,7 @@ $(function() {
     var userId = getQueryString('userId');
     var loginName = getQueryString('loginName');
     var view = getQueryString('v');
-    var level
+    
     var fields = [{
         field: 'kind',
         type: 'hidden',
@@ -25,11 +25,10 @@ $(function() {
         field: 'realName',
         chinese: true,
         required: true,
-        readonly: view
+        view: view
     }, {
         field: 'province',
         title: '地址',
-        readonly: view,
         formatter: function(v, data) {
             if (data.userExt.city == data.userExt.area) {
                 var res = data.userExt.province + data.userExt.city
@@ -40,21 +39,13 @@ $(function() {
         }
     },{
         field: 'userReferee',
-        title: '推荐人',
-        readonly: view,
+        title: '推荐人角色',
+        type: 'select',      
+
     },{
         field: 'userRefereeName',
         title: '推荐人姓名',
-        type: 'select',
-        readonly: view
-        // listCode: '805060',
-        // params:{
-        //     start:"1",
-        //     limit:"10",
-        //     userId: userId,          
-        // },
-        // keyName: 'userId',
-        // valueName: 'loginName',        
+        type: 'select',       
 
     },  {
         title: '证件类型',
@@ -62,7 +53,7 @@ $(function() {
         type: 'select',
         key: 'id_kind',
         keyCode: "807706",
-        view: view
+        
     },{
         title: '证件号',
         field: 'idNo',
@@ -87,6 +78,7 @@ $(function() {
     
     buildDetail({
         fields: fields,
+        view: view,
         code:{
             userId: userId
         },
@@ -97,7 +89,6 @@ $(function() {
             if(userId){
                 data.userId = userId;
             }
-            data.userReferee = getUserId();
             data.kind = 'operator';
             
             return data;

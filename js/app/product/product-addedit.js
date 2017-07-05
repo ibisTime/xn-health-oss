@@ -52,7 +52,6 @@ $(function() {
             			data1[v.code] = v.name;
             		})
             	}
-            	
             	$("#type").renderDropdown2(data1);
             });
 		},

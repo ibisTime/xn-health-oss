@@ -33,7 +33,7 @@ $(function () {
     reqApi({
         code: '806052',
         json: {
-            location: '4'
+            location: '3'
         },
         sync: true
     }).then(function(data) {

@@ -10,10 +10,12 @@ $(function () {
     }, {
         field : 'mobile',
         title : '手机号'
-    }, {
-        title : '分成比例',
-        field : 'divRate',
-    }, {
+    }
+    // , {
+    //     title : '分成比例',
+    //     field : 'divRate',
+    // }
+    , {
         field : 'status',
         title : '状态',
         type: 'select',
@@ -29,7 +31,7 @@ $(function () {
         columns: columns,
         pageCode: '805054',
         searchParams:{
-            kind: '05'
+            kind: 'operator'
         },
     });
     
@@ -40,7 +42,7 @@ $(function () {
             return;
         }
         
-        window.location.href = "partner_addedit.html?userId=" + selRecords[0].userId+"&v=1";
+        window.location.href = "partner_detail.html?userId=" + selRecords[0].userId+"&v=1";
     });
     
     
@@ -50,7 +52,7 @@ $(function () {
             toastr.info("请选择记录");
             return;
         }
-        window.location.href = "partner_addedit.html?userId="+selRecords[0].userId+"&loginName="+selRecords[0].loginName;
+        window.location.href = "partner_addedit.html?userId="+selRecords[0].userId+"&loginName="+selRecords[0].loginName+"&v=1";
     });
 
     $('#revenueBtn').click(function() {
@@ -62,6 +64,88 @@ $(function () {
         
         window.location.href = "partner_revenue.html?userId="+selRecords[0].userId+"&loginName="+selRecords[0].loginName;
     });
+
+    $('#examineBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        if (selRecords.length == 1 &&  selRecords[0].status >= 3) {
+        var dw = dialog({
+                content: '<form class="pop-form" id="popForm" novalidate="novalidate">' +
+                    '<ul class="form-info" id="formContainer"><li style="text-align:center;font-size: 15px;">备注</li></ul>' +
+                    '</form>'
+            });            
+            dw.showModal();
+            buildDetail({
+                fields: [{
+                    field: 'remark',
+                    title: '备注',
+                    maxlength: 250
+                }],
+                container: $('#formContainer'),
+                buttons: [{
+                    title: '通过',
+                    handler: function() {
+
+                        var data = $('#popForm').serializeObject();
+                        data.approveResult = '1';
+                        data.userId = selRecords[0].userId;
+                        data.approver = getUserName();
+                        data.divRate = '0';
+                        data.remark = $("#remark").val();
+                        reqApi({
+                            code: '805183',
+                            json: data
+                        }).done(function(data) {
+                            toastr.info("操作成功");
+
+                            $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
+                            setTimeout(function() {
+                                dw.close().remove();
+                            }, 500)
+                        });
+
+                    }
+                }, {
+                    title: '不通过',
+                    handler: function() {
+                        var data = [];
+                        data.approveResult = '0';
+                        data.userId = selRecords[0].userId;
+                        data.approver = getUserName();
+                        data.divRate = '0';
+                        data.remark = $("#remark").val();
+                        reqApi({
+                            code: '805183',
+                            json: data
+                        }).done(function(data) {
+                            toastr.info("操作成功");
+                            $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
+                            setTimeout(function() {
+                                dw.close().remove();
+                            }, 500)
+                        });
+                    }
+                }, {
+                    title: '取消',
+                    handler: function() {
+                        dw.close().remove();
+                    }
+                }]
+            });
+
+            dw.__center();
+        } else {
+
+            toastr.info("该状态不能审核!");
+            return;
+
+        }
+
+    });    
     
     //发货
     $('#fahuoBtn').click(function() {

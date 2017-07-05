@@ -1,72 +1,72 @@
 $(function() {
 
     var code = getQueryString('code');
-    //  var pCode = getQueryString('pCode')
-    var typeData = {}
+    // //  var pCode = getQueryString('pCode')
+    // var typeData = {}
 
-    $(".logo a").attr("href","http://"+OSS.guideBaseUrl);
-    $("#partnerLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=05");
-    $("#storeLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=f2");
-    $("#storeApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/store_apply.html");//商户
-    $("#houseApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/home_apply.html");//名宿
-    $("#houseLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=11");
-    $("#iosDownload").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/IOS.html");
-    $("#androidDownload").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/Android.html");
+    // $(".logo a").attr("href","http://"+OSS.guideBaseUrl);
+    // $("#partnerLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=05");
+    // $("#storeLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=f2");
+    // $("#storeApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/store_apply.html");//商户
+    // $("#houseApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/home_apply.html");//名宿
+    // $("#houseLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=11");
+    // $("#iosDownload").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/IOS.html");
+    // $("#androidDownload").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/Android.html");
 
-    reqApi({
-        code: '807717',
-        json: {
-            ckey: 'telephone'
-        },
-        sync: true
-    }).then(function(data) {
+    // reqApi({
+    //     code: '807717',
+    //     json: {
+    //         ckey: 'telephone'
+    //     },
+    //     sync: true
+    // }).then(function(data) {
 
-        $("#tel").text("欢迎致电："+data.note);
-    });
+    //     $("#tel").text("欢迎致电："+data.note);
+    // });
 
-    reqApi({
-        code: '807717',
-        json: {
-            ckey: 'time'
-        },
-        sync: true
-    }).then(function(data) {
+    // reqApi({
+    //     code: '807717',
+    //     json: {
+    //         ckey: 'time'
+    //     },
+    //     sync: true
+    // }).then(function(data) {
 
-        $("#time").text("服务时间："+data.note);
-    });
+    //     $("#time").text("服务时间："+data.note);
+    // });
 
-     $("#aboutus").on('click',function(){
-            reqApi({
-            code: '807717',
-            json: {
-                ckey: 'aboutUs'
-            },
-            sync: true
-        }).then(function(data) {
+    //  $("#aboutus").on('click',function(){
+    //         reqApi({
+    //         code: '807717',
+    //         json: {
+    //             ckey: 'aboutUs'
+    //         },
+    //         sync: true
+    //     }).then(function(data) {
 
-            $(".banner").html(data.note).find("img").css({"width": "100%","background-size": "cover","margin-top": "-32px"});
-        });
-    })
+    //         $(".banner").html(data.note).find("img").css({"width": "100%","background-size": "cover","margin-top": "-32px"});
+    //     });
+    // })
 
 
-    reqApi({
-        code:'808007',
-        json: {
-          companyCode: OSS.companyCode, 
-          systemCode: OSS.companyCode  
-        }
-    }).done(function(d) {
+    // reqApi({
+    //     code:'808007',
+    //     json: {
+    //       companyCode: OSS.companyCode, 
+    //       systemCode: OSS.companyCode  
+    //     }
+    // }).done(function(d) {
                     
-        d.forEach(function(v,i){
-            typeData[v.code] = v.name; 
+    //     d.forEach(function(v,i){
+    //         typeData[v.code] = v.name; 
             
-        })
-    });
+    //     })
+    // });
 
 
     var fields = [  {
         field: 'mobile',
-        title: '登录名(手机号)',
+        title: '登录名/手机号',
         required: true,
     },{
         field: 'legalPersonName',
@@ -191,16 +191,59 @@ $(function() {
         required: true,
     },{
         field: 'userReferee',
-        title: '申请运营商',
+        title: '推荐人',
         type: 'select',
-        required: true,
-        listCode: '805060',
-         params: {
-            start:"1",
-            limit:"10",
+        data: {
+            "0": "市/区运营商",
+            "1": "o2o商家",
+            "2":"供应商",
+            "3":"名宿主",
         },
-        keyName: 'userId',
-        valueName: 'loginName',
+        onChange:function(v,data){
+            if(v == "0" ){
+                kind = "operator";
+            }else if (v == "1") {
+                kind = "o2o";
+            }else if (v == "2") {
+                kind = "supplier";
+            }else if (v == "3") {
+                kind = "mingsu";
+            }
+
+        reqApi({
+                code: '805060',
+                json: {
+                    kind:kind,
+                    start:"1",
+                    limit:"10",                    
+                },
+                sync: true
+            }).done(function(d) {
+                var data1 = {};
+
+                if(d.list.length ){
+                    d.list.forEach(function(d,i){
+                        data1[d.userId] = d.loginName;
+
+                    })
+                }
+                $("#tj_mobile").renderDropdown2(data1);
+
+            });            
+        }        
+
+    },{
+        field: 'tj_mobile',
+        title: '推荐人手机号',
+        type: 'select',
+        // listCode: '805060',
+        // params:{
+        //     start:"1",
+        //     limit:"10",
+        //     userId: userId,          
+        // },
+        // keyName: 'userId',
+        // valueName: 'loginName',        
 
     },{
         field: 'slogan',
@@ -230,10 +273,10 @@ $(function() {
         code:{
           code:code,
         } ,
-        addCode: '808200',
+        addCode: '808209',
         beforeSubmit: function(data) {
             data.type = "2";
-
+                        
             return data;
         }
     }
@@ -299,6 +342,11 @@ $(function() {
                         data.category = "FL2017061016211611994528";
                         data.type = "FL2017061219492431865712";
                         data.level = "2";
+                        if($("#tj_mobile").text()){
+                            data.userReferee = $("#tj_mobile").val()
+                        }else{
+                            data.userReferee = "";
+                        }                         
                         reqApi({
                             code: code ? options.editCode : options.addCode,
                             json: data

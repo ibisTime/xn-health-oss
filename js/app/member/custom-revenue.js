@@ -1,79 +1,66 @@
-$(function () {
-    var code = getQueryString('code');
-    var typeData = {}
-    reqApi({
-        code:'808007'
-    }).done(function(d) {
-                    
-        d.forEach(function(v,i){
-            typeData[v.code] = v.name;
-        })
-    });
+$(function() {
+    var userId = getQueryString('userId');
 
     var columns = [{
-        field: '',
-        title: '',
-        checkbox: true
-    }
-    , {
-        field: 'name',
-        title: '商户',
-        search: true,
-        formatter: function(v, data) {  
-            return data.store.name;
+            field: '',
+            title: '',
+            checkbox: true
+        }, {
+            field: "realName",
+            title: "用户名"
+        },
+        {
+            field: 'channelType',
+            title: '渠道类型',
+            type: "select",
+            key: "channel_type",
+            keyCode:"802006",
+            formatter: Dict.getNameForList("channel_type","802006"),
+            search: true,
+        }, {
+            field: 'bizType',
+            title: '业务类型',
+            key: "biz_type",
+            keyCode: "802006",
+            search: true,
+            type: 'select',
+            formatter: Dict.getNameForList('biz_type',"802006"),
+        }, {
+            field: 'status',
+            title: '流水状态',
+            type: 'select',
+            key: "jour_status",
+            keyCode: "802006",
+            formatter: Dict.getNameForList("jour_status","802006"),
+            search: true
+        }, {
+            field: 'transAmount',
+            title: '变动金额',
+            formatter: moneyFormat
+        }, {
+            field: 'createDatetime',
+            title: '创建时间',
+            formatter: dateTimeFormat
+        }, {
+            field: 'bizNote',
+            title: "备注"
         }
-    },{
-        field: 'payAmount1',
-        title: '支付金额',
-        formatter: moneyFormat
-    }, {
-        field: 'payType',
-        title: '支付类型',
-        key: "pay_type",
-        keyCode:"808907",
-        formatter: Dict.getNameForList("pay_type","808907"),
-    }, {
-        field: 'payDatetime',
-        title: '支付时间',
-        key: "store_status",
-        keyCode:"808907",
-        formatter: dateTimeFormat,
-    }, {
-        field: 'nickname',
-        title: '支付用户',
-        formatter: function(v, data) {  
-            return data.user.nickname;
-        }
-    }, {
-        field: 'mobile',
-        title: '支付手机号',
-        formatter: function(v, data) {  
-            return data.user.mobile;
-        }
-    }
-    , {
-        field: 'status',
-        title: '状态',
-        type: "select",
-        key: "store_purchase_status",
-        keyCode:"808907",
-        formatter: Dict.getNameForList("store_purchase_status","808907"),
-        search: true
-    } , {
-        field: 'remark',
-        title: '备注',
-    }];
+    ];
 
     buildList({
         columns: columns,
-        code: code,
-        pageCode: '808245',
-		searchParams:{
-            storeCode:sessionStorage.getItem('storeCode'),
-            status:"1",
-			companyCode: OSS.companyCode
-		},
+        pageCode: '802520',
+        searchParams: {
+            // currency: currency,
+            userId: userId,
+            companyCode: OSS.companyCode
+        }
     });
-    
-    
+
+    $('.tools .toolbar').empty();
+
+    $('.tools .toolbar').html('<li style="display:block;" id="backBtn"><span><img src="/static/images/t01.png"></span>返回</li>');
+    $('#backBtn').on('click', function() {
+        goBack();
+    });
 });
