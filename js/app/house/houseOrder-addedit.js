@@ -3,11 +3,13 @@ $(function() {
     var code = getQueryString('code');
     var view = getQueryString('v');
 
-    var fields = [{
-        field: 'kind',
-        type: 'hidden',
-        value: '1'
-    }, {
+    var fields = [
+    // {
+    //     field: 'kind',
+    //     type: 'hidden',
+    //     value: '1'
+    // }, 
+    {
         field: 'orderCode',
         title: '订单编号',
         readonly: view,

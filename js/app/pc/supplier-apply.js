@@ -1,65 +1,98 @@
 $(function() {
-    
-    var userId = getQueryString('userId');
-    var loginName = getQueryString('loginName');
-    var view = getQueryString('v');
-    var level
-    
+    var code = getQueryString('code');
+    var typeData = {};
+    var level1;
+    reqApi({
+        code:'808007',
+        json: {
+          companyCode: OSS.companyCode, 
+          systemCode: OSS.companyCode  
+        }
+    }).done(function(d) {
+                    
+        d.forEach(function(v,i){
+            typeData[v.code] = v.name; 
+            
+        })
+    });
+
+
     var fields = [{
-        field: 'kind',
-        type: 'hidden',
-        value: '1'
-    },{
-        title : '登录名/手机号',
-        field : 'loginName',
+        field: 'mobile',
+        title: '登录名/手机号',
         required: true,
-        maxlength: 20,
-        readonly: view
-    }
-    // ,{
-    //     title : '手机号',
-    //     field : 'mobile',
-    //     mobile:true,
-    //     required: true,
-    //     readonly: view
-    // }
-    , {
-        title: '真实姓名',
-        field: 'realName',
-        chinese: true,
+    },{
+        field: 'legalPersonName',
+        title: '法人姓名',
+        required: true,
+    },{
+        title: '折扣',
+        field: 'rate1',
+        required: true,
+    },{
+        field: 'name',
+        title: '店铺名称',
         required: true,
     }, {
         title: '地址',
         field: "province1",
-        type:'select1',
+        type:'select',
         key:"product_location",
         keyCode:'808907',
         required: true,
         type: 'citySelect',
+    }, {
+        title: '详细地址',
+        field: 'address',
+        required: true,
+        maxlength: 255,
+    }, {
+        title: '经度',
+        field: 'longitude',
+        west: true,
+        hidden: true
+    }, {
+        title: "纬度",
+        field: 'latitude',
+        north: true,
+        hidden: true
     },{
         field: 'userReferee',
-        field1: 'tj_mobile',
-        title: '推荐人/手机号',
+        title: '推荐人类型',
         type: 'select',
         data: {
             "0": "市/区运营商",
-            "1": "VIP会员",
+            "1":"VIP会员",
+            // "1": "o2o商家",
+            // "2":"供应商",
+            // "3":"名宿主",
+            // "4":"VIP会员",
         },
         onChange:function(v,data){
-            if(v == "1" ){
-                kind = "f1";
-                level = "1";
-            }else{
+            if(v == "0" ){
                 kind = "operator";
+                level1 = ""; 
+            }else if (v == "1") {
+                // kind = "o2o";
+                kind = "f1";
+                level1 = "1";                
             }
+            // else if (v == "2") {
+            //     kind = "supplier";
+            // }else if (v == "3") {
+            //     kind = "mingsu";
+            // }else if (v == "4") {
+            //     kind = "f1";
+            //     level1 = "1";
+            // }
 
         reqApi({
                 code: '805060',
                 json: {
                     kind:kind,
                     start:"1",
-                    limit:"10",                    
-                    level:level?level:""
+                    limit:"10",
+                    level:level1?level1:""                    
                 },
                 sync: true
             }).done(function(d) {
@@ -89,57 +122,45 @@ $(function() {
         // keyName: 'userId',
         // valueName: 'loginName',        
 
-    }, {
-        title: '证件类型',
-        field: 'idKind',
-        type: 'select',
-        key: 'id_kind',
-        keyCode: "807706",
-        view: view
     },{
-        title: '证件号',
-        field: 'idNo',
-        idCard: true,
-        view: view
+        field: 'slogan',
+        title: '广告语',
+        required: true,
+    },  {
+        title: '店铺缩略图',
+        field: 'advPic',
+        type: 'img',
+        required: true,
+        single: true
+    },{
+        title: '商家图片',
+        field: 'pic',
+        type: 'img',
+        required: true,
+    },{
+        field: 'description',
+        title: '商家描述',
+        type:'textarea',
+        required: true,
     }
-    // ,{
-    //     title : '分成比例',
-    //     field : 'divRate',
-    //     number:true,
-    //     max: 1,
-    //     min: 0,
-    //     required: true,
-    //     view: view
-    // }
-    , {
-        title: '备注',
-        field: 'remark',
-        maxlength: 250,
-        view: view
-    }];
+    ];
+
     var options = {
         fields: fields,
         code:{
-            userId: userId
-        },
-        addCode: '805180',
-        beforeSubmit: function(data){
-            if($("#tj_mobile").text()){
-                data.userReferee = $("#tj_mobile").val()
-            }
-            data.divRate = "0";
-            data.mobile = $("#loginName").val();
-            
+          code:code,
+        } ,
+        detailCode: '808216',
+        addCode: '808209',
+        editCode: '808203',
+        beforeSubmit: function(data) {
+            data.type = "2";
+
             return data;
         }
-    }    
-
+    }
     buildDetail(options);
-    
-    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>初始密码为 888888</p>";
-    $(h).insertAfter("#loginName");
-
-        $('#subBtn').show().css({"background-color":"#19BF96","margin-top": "50px"})
+        $('#subBtn').show().css({"background-color":"#19BF96","margin-left": "280px","margin-top": "50px"})
         $('#backBtn').show().css({"background-color":"#19BF96","margin-left": "100px","margin-top": "50px"})
         $('#backBtn').click(function() {
               goBack();
@@ -193,23 +214,22 @@ $(function() {
                         // data.type = "2";
                         data.updater = "自助申请"
                         // data.rate1 = "0";
-                        // data.rate2 = "0";
-                        // data.rate3 = "0";
-                        // data.longitude = point.lng;
-                        // data.latitude = point.lat;
-                        // if(!data.category){
-                        //     data.category = "FL2017061016211611994528";
-                        //     data.type = "FL2017061219492431865712";
-                        //     data.level = "2";
-                        //     data.rate1 = "0";
-                        // }
+                        data.rate2 = "0";
+                        data.rate3 = "0";
+                        data.longitude = point.lng;
+                        data.latitude = point.lat;
+                        data.category = " ";
+                        data.type = "FL2017061017265753557143";//供应商
+                        data.level = "3";
+                        data.bookMobile = $("#mobile").val();
+                        data.smsMobile = $("#mobile").val();
                         if($("#tj_mobile").text()){
                             data.userReferee = $("#tj_mobile").val()
-                        }
-                        data.divRate = "0";
-                        data.mobile = $("#loginName").val();                        
+                        }else{
+                            data.userReferee = "";
+                        }                         
                         reqApi({
-                            code: options.addCode,
+                            code: code ? options.editCode : options.addCode,
                             json: data
                         }).done(function(data) {
                             sucDetail();
@@ -220,6 +240,7 @@ $(function() {
                 });
 
             }
-        });    
-    
+        });
+
+
 });

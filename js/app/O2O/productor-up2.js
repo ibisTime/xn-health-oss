@@ -1,12 +1,14 @@
 $(function() {
 	
 	var code = getQueryString('code');
-	
-	var fields = [{
-		field: 'kind',
-		type: 'hidden',
-		value: '1'
-	}, {
+	var rate2;
+	var fields = [
+	// {
+	// 	field: 'kind',
+	// 	type: 'hidden',
+	// 	value: '1'
+	// },
+	 {
         field: 'uiOrder',
         title: '序号',
         required: true,
@@ -21,7 +23,8 @@ $(function() {
         	parentKey: "store_location"
         },
         formatter: function(v,data){
-        	return data.uiLocation
+        	rate2 = data.rate2;
+        	return data.uiLocation;
         },
         required: true,
     }, {
@@ -55,7 +58,7 @@ $(function() {
 				var data = $('#jsForm').serializeObject();
 				data.code = code;
 				// data.uiLocation = '1';
-				data.rate2 = "0";
+				data.rate2 = rate2;
 				data.rate3 = "0";
 				data.isDefault = "0";
 	        	reqApi({

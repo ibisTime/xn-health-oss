@@ -1,6 +1,7 @@
 $(function() {
 
     var code = getQueryString('code');
+    var level1;
     // //  var pCode = getQueryString('pCode')
     // var typeData = {}
 
@@ -154,6 +155,15 @@ $(function() {
     //     field: 'rate1',
     //     required: true,
     // }
+    // ,{
+    //     title: '折扣比例',
+    //     field: 'rate1',
+    //     required: true,
+    // },{
+    //     title: '分润比例',
+    //     field: 'rate2',
+    //     required: true,
+    // }
     ,{
         field: 'name',
         title: '民宿名称',
@@ -191,31 +201,39 @@ $(function() {
         required: true,
     },{
         field: 'userReferee',
-        title: '推荐人',
+        title: '推荐人类型',
         type: 'select',
         data: {
             "0": "市/区运营商",
-            "1": "o2o商家",
-            "2":"供应商",
-            "3":"名宿主",
+            "1":"VIP会员",
+            // "1": "o2o商家",
+            // "2":"供应商",
+            // "3":"名宿主",
+            // "4":"VIP会员",
         },
         onChange:function(v,data){
             if(v == "0" ){
                 kind = "operator";
+                level1 = ""; 
             }else if (v == "1") {
-                kind = "o2o";
-            }else if (v == "2") {
-                kind = "supplier";
-            }else if (v == "3") {
-                kind = "mingsu";
+                // kind = "o2o";
+                kind = "f1";
+                level1 = "1";                
             }
+            // else if (v == "2") {
+            //     kind = "supplier";
+            // }else if (v == "4") {
+            //     kind = "f1";
+            //     level1 = "1";
+            // }
 
         reqApi({
                 code: '805060',
                 json: {
                     kind:kind,
                     start:"1",
-                    limit:"10",                    
+                    limit:"10",
+                    level:level1?level1:""                    
                 },
                 sync: true
             }).done(function(d) {
@@ -306,7 +324,7 @@ $(function() {
                         data['city'] = province;
                         data['area'] = province;
                     } else if (!area) {
-                        data['city'] = province;
+                        data['city'] = city;
                         data['area'] = city;
                     }
                 }

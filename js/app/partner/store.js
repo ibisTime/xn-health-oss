@@ -1,5 +1,14 @@
 $(function() {
     var userId = getUserId();
+
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };   
+
     var columns = [{
         field: '',
         title: '',
@@ -8,49 +17,61 @@ $(function() {
         field: 'name',
         title: '店铺名称',
         search: true
+    }, {
+        field: 'level',
+        title: '店铺类型',
+        type: 'select',
+        key: "store_level",
+        keyCode: '808907',
+        formatter:Dict.getNameForList("store_level", "808907"),
     }
-    // , {
-    //     field: 'level',
-    //     title: '店铺类型',
-    //     type: 'select',
-    //     key: "store_level",
-    //     keyCode: '808907',
-    //     formatter:Dict.getNameForList("store_level", "808907"),
-    // }
-    // , {
-    //     field: 'category',
-    //     title: '大类',
-    //     type: 'select',
-    //     listCode: '808007',
-    //     keyName: 'code',
-    //     valueName: 'name',
-    //     params: {
-    //         type: '2',
-    //         parentCode: "0"
-    //     },  
-    //     search: true
-    // }, {
-    //     field: 'type',
-    //     title: '小类',
-    //     type: 'select',
-    //     listCode: '808007',
-    //     keyName: 'code',
-    //     valueName: 'name',
-    //     params: {
-    //         type: '2',
-    //     },
-    //     search: true
-    // }
-    // , {
-    //     field: 'legalPersonName',
-    //     title: '法人姓名',
-    // }
+    , {
+        field: 'category',
+        title: '大类',
+        type: 'select',
+        listCode: '808007',
+        keyName: 'code',
+        valueName: 'name',
+        params: {
+            type: '2',
+            parentCode: "0"
+        },  
+        search: true
+    }, {
+        field: 'type',
+        title: '小类',
+        type: 'select',
+        listCode: '808007',
+        keyName: 'code',
+        valueName: 'name',
+        params: {
+            type: '2',
+        },
+        search: true
+    }, {
+        field: 'legalPersonName',
+        title: '法人姓名',
+    }
     , {
         field: 'bookMobile',
         title: '联系电话',
     }, {
         field: 'smsMobile',
         title: '短信手机号',
+    },{
+        field: 'userReferee',
+        title: '推荐人',
+        type: 'select',
+        formatter: function(v, data) {
+            var res1 = data.referrer.kind ;
+            var res2 = data.referrer.mobile;
+            if(res1 && res2){
+                return userRefereeType[res1]+ '/' +res2
+            }else{
+               return "-" 
+            }
+            
+        }        
     }, {
         field: 'status',
         title: '状态',
@@ -80,8 +101,6 @@ $(function() {
         pageCode: '808215',
         searchParams: {
             companyCode: OSS.companyCode,
-            userReferee: sessionStorage.getItem('userId'),
-            // level: "2"
         }
     });
 
@@ -234,7 +253,7 @@ $(function() {
         window.location.href = "store_detail.html?Code=" + selRecords[0].code+"&v=1";
     });
 
-    $('#editBtn').click(function() {
+    $('#editBtn').off("click").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");

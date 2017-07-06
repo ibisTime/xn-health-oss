@@ -36,6 +36,12 @@ $(function () {
         formatter: function(v, data) {  
             return data.store.rate1;
         }
+    },{
+        title: '分润',
+        field: 'rate2',
+        formatter: function(v, data) {  
+            return data.store.rate2;
+        }
     }, {
         field: 'payType',
         title: '支付类型',

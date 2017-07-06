@@ -4,11 +4,13 @@ $(function() {
 	var view = 1;
 	var userId = getUserId();
 	
-	var fields = [{
-		field: 'kind',
-		type: 'hidden',
-		value: '1'
-	}, {
+	var fields = [
+ //    {
+	// 	field: 'kind',
+	// 	type: 'hidden',
+	// 	value: '1'
+	// },
+     {
         field: 'name',
         title: '店铺名称',
         readonly: view,

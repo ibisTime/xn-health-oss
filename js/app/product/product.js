@@ -76,7 +76,7 @@ $(function () {
         columns: columns,
         searchParams:{
             companyCode: OSS.companyCode,
-            kind: "1",
+            kind: "o2o",
             storeCode: storeCode?storeCode:getUserId()
         },
         pageCode: '808025',

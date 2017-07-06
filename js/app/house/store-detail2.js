@@ -24,11 +24,12 @@ $(function() {
 
 
 
-    var fields = [{
-            field: 'kind',
-            type: 'hidden',
-            value: '1'
-        },
+    var fields = [
+    // {
+    //         field: 'kind',
+    //         type: 'hidden',
+    //         value: '1'
+    //     },
         // , {
         //        field: 'companyCode',
         //        title: '商户',

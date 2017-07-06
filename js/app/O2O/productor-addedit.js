@@ -1,8 +1,8 @@
 $(function() {
 
     var code = getQueryString('code');
-    //  var pCode = getQueryString('pCode')
-
+    var view = getQueryString('v')
+    var level1,kind;
     var typeData = {}
     reqApi({
         code:'808007'
@@ -25,11 +25,12 @@ $(function() {
         title: '登录名(手机号)',
         // readonly: true,
         required: true,
-        readonly: true
+        readonly: view
     },{
         field: 'legalPersonName',
         title: '法人姓名',
         required: true,
+        readonly: view
     },{
         field: 'level',
         title: '商家类型',
@@ -41,19 +42,7 @@ $(function() {
         params:{
              parentKey: "store_level"
         },
-        // formatter:Dict.getNameForList("store_level", "808907"),
-        onChange:function(v,data){
-            if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
-                 $("#category_chosen").parent(".clearfix").hide();
-                 $("#type_chosen").parent(".clearfix").hide();
-                 $("#rate1").parent(".clearfix").hide();
-            }else{
-                $("#category_chosen").parent(".clearfix").show();
-                 $("#type_chosen").parent(".clearfix").show();
-                 $("#rate1").parent(".clearfix").show();
-            }
-        }
-
+        readonly: view,
     },{
         field: 'category',
         title: '大类',
@@ -105,8 +94,12 @@ $(function() {
         keyName: 'code',
         valueName: 'name',
     },{
-        title: '折扣',
+        title: '折扣比例',
         field: 'rate1',
+        required: true,
+    },{
+        title: '分润比例',
+        field: 'rate2',
         required: true,
     },{
         field: 'name',
@@ -140,6 +133,74 @@ $(function() {
         title: '预定联系电话',
         required: true,
     },{
+        field: 'userReferee',
+        title: '推荐人',
+        type: 'select',
+        readonly: view,
+        // data: {
+        //     "0": "市/区运营商",
+        //     "1":"VIP会员",
+        //     // "1": "o2o商家",
+        //     // "2":"供应商",
+        //     // "3":"名宿主",
+
+        // },
+        // onChange:function(v,data){
+        //     if(v == "0" ){
+        //         kind = "operator";
+        //         level1 = ""; 
+        //     }else if (v == "1") {
+        //         // kind = "o2o";
+        //         kind = "f1";
+        //         level1 = "1";                
+        //     }
+        //     // else if (v == "2") {
+        //     //     kind = "supplier";
+        //     // }else if (v == "3") {
+        //     //     kind = "mingsu";
+        //     // }else if (v == "4") {
+        //     //     kind = "f1";
+        //     //     level1 = "1";
+        //     // }
+
+        // reqApi({
+        //         code: '805060',
+        //         json: {
+        //             kind:kind,
+        //             start:"1",
+        //             limit:"10",
+        //             level:level1?level1:""                    
+        //         },
+        //         sync: true
+        //     }).done(function(d) {
+        //         var data1 = {};
+
+        //         if(d.list.length ){
+        //             d.list.forEach(function(d,i){
+        //                 data1[d.userId] = d.loginName;
+
+        //             })
+        //         }
+        //         $("#tj_mobile").renderDropdown2(data1);
+
+        //     });            
+        // }        
+
+    // },{
+    //     field: 'tj_mobile',
+    //     title: '推荐人手机号',
+    //     type: 'select',
+    //     // listCode: '805060',
+    //     // params:{
+    //     //     start:"1",
+    //     //     limit:"10",
+    //     //     userId: userId,          
+    //     // },
+    //     // keyName: 'userId',
+    //     // valueName: 'loginName',        
+
+    },
+    {
         field: 'smsMobile',
         title: '短信手机号',
         required: true,
@@ -203,7 +264,7 @@ $(function() {
                         data['city'] = province;
                         data['area'] = province;
                     } else if (!area) {
-                        data['city'] = province;
+                        data['city'] = city;
                         data['area'] = city;
                     }
                 }
@@ -234,11 +295,12 @@ $(function() {
                         data.userReferee = sessionStorage.getItem('userId');
                         // data.type = "2";
                         // data.rate1 = "1";
-                        data.rate2 = "0";
+                        // data.rate2 = "0";
                         data.rate3 = "0";
                         data.longitude = point.lng;
                         data.latitude = point.lat;
                         data.storeCode = code;
+                        data.level = "1";
                         if(!data.category){
                             data.category = "FL2017061016211611994528";
                             data.type = "FL2017061219492431865712";

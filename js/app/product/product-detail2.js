@@ -13,11 +13,12 @@ $(function() {
     
     var provinceData=[];
     
-    var fields = [{
-        field: 'kind',
-        type: 'hidden',
-        value: '1'
-    },
+    var fields = [
+    // {
+    //     field: 'kind',
+    //     type: 'hidden',
+    //     value: '1'
+    // },
      // {
   //       field: 'storeCode',
         // type: 'hidden',

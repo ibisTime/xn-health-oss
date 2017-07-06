@@ -1,16 +1,16 @@
 $(function () {
   $(".logo a").attr("href","http://"+OSS.guideBaseUrl);
-  
-  $("#partnerLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=05");
+  // 运营商
+  $("#partnerLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=operator");
   $("#partnerApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/partner_apply.html");
-
-  $("#storeLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=f2");
+  // o2o商户
+  $("#storeLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=o2o");
   $("#storeApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/store_apply.html");
-
+  // 民宿
   $("#houseApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/home_apply.html");
-  $("#houseLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=11");
-
-  $("#supplierLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=f2");
+  $("#houseLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=mingsu");
+  // 供应商
+  $("#supplierLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=supplier");
   $("#supplierApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/supplier_apply.html");  
 
   $("#iosDownload").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/IOS.html");

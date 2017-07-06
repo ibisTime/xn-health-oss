@@ -3,7 +3,8 @@ $(function() {
     var userId = getQueryString('userId');
     var loginName = getQueryString('loginName');
     var view = getQueryString('v');
-    var level
+    var level;
+    var level1;
     
     var fields = [{
         field: 'kind',
@@ -39,7 +40,7 @@ $(function() {
     },{
         field: 'userReferee',
         field1: 'tj_mobile',
-        title: '推荐人/手机号',
+        title: '推荐人类型',
         type: 'select',
         data: {
             "0": "市/区运营商",
@@ -48,7 +49,7 @@ $(function() {
         onChange:function(v,data){
             if(v == "1" ){
                 kind = "f1";
-                level = "1";
+                level1 = "1";
             }else{
                 kind = "operator";
             }
@@ -59,7 +60,7 @@ $(function() {
                     kind:kind,
                     start:"1",
                     limit:"10",                    
-                    level:level?level:""
+                    level:level1?level1:""
                 },
                 sync: true
             }).done(function(d) {
@@ -205,6 +206,8 @@ $(function() {
                         // }
                         if($("#tj_mobile").text()){
                             data.userReferee = $("#tj_mobile").val()
+                        }else{
+                            data.userReferee = ""
                         }
                         data.divRate = "0";
                         data.mobile = $("#loginName").val();                        

@@ -1,5 +1,6 @@
 $(function() {
         var code = getQueryString('code');
+        var level1;
     //  var pCode = getQueryString('pCode')
     
     // $(".logo a").attr("href","http://"+OSS.guideBaseUrl);
@@ -72,31 +73,33 @@ $(function() {
         field: 'legalPersonName',
         title: '法人姓名',
         required: true,
-    },{
-        field: 'level',
-        title: '商家类型',
-        type: 'select',
-        required: true,
-        keyName: "dkey",
-        listCode: '808907',
-        valueName: 'dvalue',
-        params:{
-             parentKey: "store_level"
-        },
-        // formatter:Dict.getNameForList("store_level", "808907"),
-        onChange:function(v,data){
-            if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
-                 $("#category_chosen").parent(".clearfix").hide();
-                 $("#type_chosen").parent(".clearfix").hide();
-                 $("#rate1").parent(".clearfix").hide();
-            }else{
-                $("#category_chosen").parent(".clearfix").show();
-                 $("#type_chosen").parent(".clearfix").show();
-                 $("#rate1").parent(".clearfix").show();
-            }
-        }
+    }
+    // ,{
+    //     field: 'level',
+    //     title: '商家类型',
+    //     type: 'select',
+    //     required: true,
+    //     keyName: "dkey",
+    //     listCode: '808907',
+    //     valueName: 'dvalue',
+    //     params:{
+    //          parentKey: "store_level"
+    //     },
+    //     // formatter:Dict.getNameForList("store_level", "808907"),
+    //     onChange:function(v,data){
+    //         if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
+    //              $("#category_chosen").parent(".clearfix").hide();
+    //              $("#type_chosen").parent(".clearfix").hide();
+    //              $("#rate1").parent(".clearfix").hide();
+    //         }else{
+    //             $("#category_chosen").parent(".clearfix").show();
+    //              $("#type_chosen").parent(".clearfix").show();
+    //              $("#rate1").parent(".clearfix").show();
+    //         }
+    //     }
 
-    },{
+    // }
+    ,{
         field: 'category',
         title: '大类',
         type: 'select',
@@ -146,10 +149,13 @@ $(function() {
         },
         keyName: 'code',
         valueName: 'name',
-    },
-    {
-        title: '折扣',
+    },{
+        title: '折扣比例',
         field: 'rate1',
+        required: true,
+    },{
+        title: '分润比例',
+        field: 'rate2',
         required: true,
     },{
         field: 'name',
@@ -188,31 +194,42 @@ $(function() {
         required: true,
     },{
         field: 'userReferee',
-        title: '推荐人',
+        title: '推荐人类型',
         type: 'select',
         data: {
             "0": "市/区运营商",
-            "1": "o2o商家",
-            "2":"供应商",
-            "3":"名宿主",
+            "1":"VIP会员",
+            // "1": "o2o商家",
+            // "2":"供应商",
+            // "3":"名宿主",
+            // "4":"VIP会员",
+
         },
         onChange:function(v,data){
             if(v == "0" ){
                 kind = "operator";
+                level1 = ""; 
             }else if (v == "1") {
-                kind = "o2o";
-            }else if (v == "2") {
-                kind = "supplier";
-            }else if (v == "3") {
-                kind = "mingsu";
+                // kind = "o2o";
+                kind = "f1";
+                level1 = "1";                 
             }
+            // else if (v == "2") {
+            //     kind = "supplier";
+            // }else if (v == "3") {
+            //     kind = "mingsu";
+            // }else if (v == "4") {
+            //     kind = "f1";
+            //     level1 = "1";
+            // }
 
         reqApi({
                 code: '805060',
                 json: {
                     kind:kind,
                     start:"1",
-                    limit:"10",                    
+                    limit:"10",
+                    level:level1?level1:""                    
                 },
                 sync: true
             }).done(function(d) {
@@ -305,7 +322,7 @@ $(function() {
                         data['city'] = province;
                         data['area'] = province;
                     } else if (!area) {
-                        data['city'] = province;
+                        data['city'] = city;
                         data['area'] = city;
                     }
                 }
@@ -333,21 +350,20 @@ $(function() {
                     if (point) {
                         // data.type = "2";
                         data.updater = "自助申请"
-                        // data.rate1 = "0";
-                        data.rate2 = "0";
                         data.rate3 = "0";
                         data.longitude = point.lng;
                         data.latitude = point.lat;
-                        if(!data.category){
-                            data.category = "FL2017061016211611994528";
-                            data.type = "FL2017061219492431865712";
-                            data.level = "2";
-                            data.rate1 = "0";
-                        };
+                        data.level = "1";
+                        // if(!data.category){
+                        //     data.category = "FL2017061016211611994528";
+                        //     data.type = "FL2017061219492431865712";
+                        //     data.level = "2";
+                        //     data.rate1 = "0";
+                        // };
                         if($("#tj_mobile").text()){
                             data.userReferee = $("#tj_mobile").val()
                         }else{
-                            data.userReferee = "";
+                            data.userReferee = "SYS_USER_JKEG";
                         }                         
                         reqApi({
                             code: code ? options.editCode : options.addCode,

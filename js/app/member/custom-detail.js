@@ -13,11 +13,13 @@ $(function() {
         })
     });
     
-    var fields = [{
-        field: 'kind',
-        type: 'hidden',
-        value: '1'
-    },{
+    var fields = [
+    // {
+    //     field: 'kind',
+    //     type: 'hidden',
+    //     value: '1'
+    // },
+    {
         title: "登录名",
         field: "loginName",
         // search: true

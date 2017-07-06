@@ -16,6 +16,17 @@ $(function () {
     //     field : 'divRate',
     // }
     , {
+        field: 'province',
+        title: '地址',
+        formatter: function(v, data) {
+            if (data.userExt.city == data.userExt.area) {
+                var res = data.userExt.province + data.userExt.city
+            }else{
+                var res = data.userExt.province + data.userExt.city + data.userExt.area;
+            }
+            return res;
+        }
+    }, {
         field : 'status',
         title : '状态',
         type: 'select',
@@ -35,7 +46,7 @@ $(function () {
         },
     });
     
-    $('#detailBtn').click(function() {
+    $('#detailBtn').off("click").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
@@ -46,7 +57,7 @@ $(function () {
     });
     
     
-    $('#editBtn').click(function() {
+    $('#editBtn').off("click").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
@@ -55,7 +66,7 @@ $(function () {
         window.location.href = "partner_addedit.html?userId="+selRecords[0].userId+"&loginName="+selRecords[0].loginName+"&v=1";
     });
 
-    $('#revenueBtn').click(function() {
+    $('#revenueBtn').off("click").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
@@ -65,7 +76,7 @@ $(function () {
         window.location.href = "partner_revenue.html?userId="+selRecords[0].userId+"&loginName="+selRecords[0].loginName;
     });
 
-    $('#examineBtn').click(function() {
+    $('#examineBtn').off("click").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
