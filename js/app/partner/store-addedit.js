@@ -2,8 +2,20 @@ $(function() {
 
     var code = getQueryString('code');
     var view = !!getQueryString('v');
-    var kind
+    var kind;
+    var level;
+    var legalPersonName;
+    var userReferee;
+    var type;   
     //	var pCode = getQueryString('pCode')
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };
+    
 
     var typeData = {}
     reqApi({
@@ -28,98 +40,114 @@ $(function() {
         required: true,
         readonly: view
     },{
+        field: 'name',
+        title: '店铺名称',
+        required: true,
+    },{
         field: 'legalPersonName',
         title: '法人姓名',
         required: true,
-        readonly: view
-    }
-  //   ,{
-  //       field: 'level',
-  //       title: '商家类型',
-  //       type: 'select',
-  //       required: true,
-  //       keyName: "dkey",
-  //       listCode: '808907',
-  //       valueName: 'dvalue',
-  //       params:{
-  //            parentKey: "store_level"
-  //       },
-  //       readonly: view,
-  //       // formatter:Dict.getNameForList("store_level", "808907"),
-  //       onChange:function(v,data){
-  //           if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
-  //                $("#category_chosen").parent(".clearfix").hide();
-  //                $("#type_chosen").parent(".clearfix").hide();
-  //                $("#rate1").parent(".clearfix").hide();
-  //           }else{
-  //               $("#category_chosen").parent(".clearfix").show();
-  //                $("#type_chosen").parent(".clearfix").show();
-  //                $("#rate1").parent(".clearfix").show();
-  //           }
-  //       }
-
-  //   },{
-  //       field: 'category',
-  //       title: '大类',
-		// type: 'select',
-		// listCode: '808007',
-		// params: {
-		// 	type:"2",
-		// 	// status: '2',
-  //           parentCode: 0
-		// },
-		// keyName: 'code',
-		// valueName: 'name',
-  //       required: true,
-		// onChange:function(v,data){
-		// 	reqApi({
-  //               code: '808007',
-  //               json: {
-  //               	type:"2",
-		// 			// status: '2',
-  //               	parentCode: v
-  //               },
-  //               sync: true
-  //           }).done(function(d) {
-  //           	var data1 = {};
-  //           	if(d.length && v){
+        readonly: view,
+        formatter: function(v,data){
+            legalPersonName = data.legalPersonName
+            return legalPersonName;
+        }        
+    },{
+        field: 'level',
+        title: '商家类型',
+        type: 'select',
+        required: true,
+        keyName: "dkey",
+        listCode: '808907',
+        valueName: 'dvalue',
+        params:{
+             parentKey: "store_level"
+        },
+        readonly: view,
+        formatter:function(v,data){
+            level = data.level;
+            if (data.level =="2") {
+                 $("#category_chosen").parent(".clearfix").hide();
+                 $("#type_chosen").parent(".clearfix").hide();
+                 $("#rate1").parent(".clearfix").hide();
+                 $("#rate2").parent(".clearfix").hide();
+                 return level;
+            }else if(data.level =="1"){
+                $("#category_chosen").parent(".clearfix").show();
+                 $("#type_chosen").parent(".clearfix").show();
+                 $("#rate1").parent(".clearfix").show();
+                 $("#rate1").parent(".clearfix").show();
+                 return level;
+            }else{
+                $("#category_chosen").parent(".clearfix").hide();
+                 $("#type_chosen").parent(".clearfix").hide();
+                 $("#rate1").parent(".clearfix").show();
+                 $("#rate2").parent(".clearfix").hide(); 
+                 return level;               
+            }             
+        },
+    },{
+        field: 'category',
+        title: '大类',
+		type: 'select',
+		listCode: '808007',
+		params: {
+			type:"2",
+			// status: '2',
+            parentCode: 0
+		},
+		keyName: 'code',
+		valueName: 'name',
+        required: true,
+		onChange:function(v,data){
+			reqApi({
+                code: '808007',
+                json: {
+                	type:"2",
+					// status: '2',
+                	parentCode: v
+                },
+                sync: true
+            }).done(function(d) {
+            	var data1 = {};
+            	if(d.length && v){
             		
-  //           		d.forEach(function(v,i){
-  //           			data1[v.code] = v.name;
-  //           		})
-  //           	}
-  //           	$("#type").renderDropdown2(data1);
+            		d.forEach(function(v,i){
+            			data1[v.code] = v.name;
+            		})
+            	}
+            	$("#type").renderDropdown2(data1);
 
-  //           });
-		// },
-		// afterset: function(v){
-		// 	console.log("ss");
-		// }
-  //   }, {
-  //       field: 'type',
-  //       title: '小类',
-		// type: 'select',
-		// listCode: '808007',
-  //       required: true,
-		// params: {
-		// 	type:2,
-		// 	// status: '0',
-  //           parentCode: $("#category").val()
-		// },
-		// keyName: 'code',
-		// valueName: 'name',
-		// formatter: function(v,data){
-		// 	return data.type;
-		// }
-  //   }
-    // , {
-    //     title: '折扣',
-    //     field: 'rate1',
-    //     required: true,
-    // }
-    ,{
-        field: 'name',
-        title: '店铺名称',
+            });
+		},
+		afterset: function(v){
+			console.log("ss");
+		}
+    }, {
+        field: 'type',
+        title: '小类',
+		type: 'select',
+		listCode: '808007',
+        required: true,
+		params: {
+			type:2,
+			// status: '0',
+            parentCode: $("#category").val()
+		},
+		keyName: 'code',
+		valueName: 'name',
+		formatter: function(v,data){
+			type = data.type;
+            return type
+             
+		}
+    }, {
+        field: 'rate1',
+        title: '折扣',
+        required: true,
+    }, {
+        field: 'rate2',
+        title: '分润',
         required: true,
     }, {
         title: '地址',
@@ -152,6 +180,22 @@ $(function() {
         field: 'smsMobile',
         title: '短信手机号',
         required: true,
+    },{
+        field: 'userReferee',
+        title: '推荐人',
+        readonly: view,
+        formatter: function(v, data) {
+            if(data.referrer){
+                userReferee = data.referrer.userId;
+                var res1 = data.referrer.kind ;
+                var res2 = data.referrer.mobile;
+                if(res1 && res2){
+                    return userRefereeType[res1]+ '/' +res2
+                }else{
+                   return "-" 
+                }                
+            }   
+        }        
     },{
         field: 'slogan',
         title: '广告语',
@@ -239,22 +283,26 @@ $(function() {
                 myGeo.getPoint(addr, function(point) {
                     if (point) {
                         data.companyCode = OSS.companyCode,
-                        // data.userReferee = userId;
-                        data.userReferee = sessionStorage.getItem('userId');
+                        data.userReferee = userReferee;
                         // data.type = "2";
-                        data.level = "2";
-                        data.rate1 = "0";
-                        data.rate2 = "0";
+                        data.level = level;
+                        // data.rate1 = "0";
+                        // data.rate2 = "0";
+                        data.legalPersonName = legalPersonName;
                         data.rate3 = "0";
                         data.longitude = point.lng;
                         data.latitude = point.lat;
-                        data.storeCode = code;
-                        if(!data.category){
-                            data.category = "FL2017061016211611994528";
-                            data.type = "FL2017061219492431865712";
-                            data.level = "2";
-                            data.rate1 = "0";
+                        data.type = type
+                        if(area){
+                            data.province = province,
+                            data.city = city,
+                            data.area = area                             
+                        }else{
+                            data.province = province,
+                            data.city = province,
+                            data.area = city                             
                         }
+                        data.storeCode = code;                       
                         reqApi({
                             code: code ? options.editCode : options.addCode,
                             json: data

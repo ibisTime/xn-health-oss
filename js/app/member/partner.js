@@ -1,4 +1,15 @@
 $(function () {
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    }; 
+    var province;
+    var city;
+    var area;
+
     var columns = [{
         field: '',
         title: '',
@@ -10,15 +21,27 @@ $(function () {
     }, {
         field : 'mobile',
         title : '手机号'
-    }
-    // , {
-    //     title : '分成比例',
-    //     field : 'divRate',
-    // }
-    , {
+    },{
+        field: 'userReferee',
+        title: '推荐人',
+        formatter: function(v, data) {
+            if(data.referrer){
+                var res1 = data.referrer.kind ;
+                var res2 = data.referrer.mobile;
+                if(res1 && res2){
+                    return userRefereeType[res1]+ '/' +res2
+                }else{
+                   return "-" 
+                }                
+            }
+        }        
+    }, {
         field: 'province',
         title: '地址',
         formatter: function(v, data) {
+            var province = data.userExt.province
+            var city = data.userExt.city;
+            var area = data.userExt.area
             if (data.userExt.city == data.userExt.area) {
                 var res = data.userExt.province + data.userExt.city
             }else{
@@ -83,74 +106,9 @@ $(function () {
             return;
         }
 
-        if (selRecords.length == 1 &&  selRecords[0].status >= 3) {
-        var dw = dialog({
-                content: '<form class="pop-form" id="popForm" novalidate="novalidate">' +
-                    '<ul class="form-info" id="formContainer"><li style="text-align:center;font-size: 15px;">备注</li></ul>' +
-                    '</form>'
-            });            
-            dw.showModal();
-            buildDetail({
-                fields: [{
-                    field: 'remark',
-                    title: '备注',
-                    maxlength: 250
-                }],
-                container: $('#formContainer'),
-                buttons: [{
-                    title: '通过',
-                    handler: function() {
-
-                        var data = $('#popForm').serializeObject();
-                        data.approveResult = '1';
-                        data.userId = selRecords[0].userId;
-                        data.approver = getUserName();
-                        data.divRate = '0';
-                        data.remark = $("#remark").val();
-                        reqApi({
-                            code: '805183',
-                            json: data
-                        }).done(function(data) {
-                            toastr.info("操作成功");
-
-                            $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-                            setTimeout(function() {
-                                dw.close().remove();
-                            }, 500)
-                        });
-
-                    }
-                }, {
-                    title: '不通过',
-                    handler: function() {
-                        var data = [];
-                        data.approveResult = '0';
-                        data.userId = selRecords[0].userId;
-                        data.approver = getUserName();
-                        data.divRate = '0';
-                        data.remark = $("#remark").val();
-                        reqApi({
-                            code: '805183',
-                            json: data
-                        }).done(function(data) {
-                            toastr.info("操作成功");
-                            $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-                            setTimeout(function() {
-                                dw.close().remove();
-                            }, 500)
-                        });
-                    }
-                }, {
-                    title: '取消',
-                    handler: function() {
-                        dw.close().remove();
-                    }
-                }]
-            });
-
-            dw.__center();
+        if (selRecords.length == 1 ) {
+            window.location.href = "partner_examine.html?userId=" + selRecords[0].userId+"&v=1&code=" + selRecords[0].code;
         } else {
-
             toastr.info("该状态不能审核!");
             return;
 

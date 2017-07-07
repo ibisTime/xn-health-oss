@@ -76,14 +76,11 @@ $(function () {
         columns: columns,
         searchParams:{
             companyCode: OSS.companyCode,
-            kind: "o2o",
-            storeCode: storeCode?storeCode:getUserId()
+            storeCode: storeCode?storeCode:getUserId(),
+            kind: "1"
         },
         pageCode: '808025',
         deleteCode:'808011',
-//		searchParams:{
-//			companyCode: OSS.company
-//		},
     });
     
     $('#up2Btn').click(function() {

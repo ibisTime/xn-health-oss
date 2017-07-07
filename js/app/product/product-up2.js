@@ -2,13 +2,11 @@ $(function() {
 	
 	var code = getQueryString('code');
 	
-	var fields = [
-	// {
-	// 	field: 'kind',
-	// 	type: 'hidden',
-	// 	value: '1'
-	// }, 
-	{
+	var fields = [{
+		field: 'kind',
+		type: 'hidden',
+		value: '1'
+	}, {
         field: 'orderNo',
         title: '序号',
         required: true,

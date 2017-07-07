@@ -2,16 +2,15 @@ $(function() {
 	
 	var code = getQueryString('code');
 	var view = getQueryString('v');
-	
-	var typeData = {};
     var userRefereeType = {
         "operator": "市/区运营商",
         "o2o": "o2o商家",
         "supplier":"供应商",
         "mingsu":"名宿主",
         "f1":"VIP会员",
-    };    
-
+    }; 	
+    
+	var typeData = {}
 	reqApi({
 		code:'808007'
 	}).done(function(d) {
@@ -21,6 +20,54 @@ $(function() {
 		})
     });
 	
+    var remarkField = {
+        title: '备注',
+        field: 'remark',
+        maxlength: 250,
+        readonly: false
+    };
+
+    var examineList = [remarkField]   
+    var buttons = [{
+                    title: '通过',
+                    handler: function() {
+
+                        var data = $('#popForm').serializeObject();
+                        data.approveResult = '1';
+                        data.storeCodeList = [code];
+                        data.approver = getUserName();
+                        data.remark = $("#remark").val();
+                        reqApi({
+                            code: '808202',
+                            json: data
+                        }).done(function(data) {
+                            sucDetail();
+                        });
+
+                    }
+                }, {
+                    title: '不通过',
+                    handler: function() {
+                        var data = [];
+                        data.approveResult = '0';
+                        data.storeCodeList = [code];
+                        data.approver = getUserName();
+                        // data.divRate = '0';
+                        data.remark = $("#remark").val();
+                        reqApi({
+                            code: '808202',
+                            json: data
+                        }).done(function(data) {
+                            sucDetail();
+                        });
+                    }
+                }, {
+                    title: '返回',
+                    handler: function() {
+                        goBack();
+                    }
+                }];    
+
 	var fields = [{
         field: 'mobile',
         title: '登录名(手机号)',
@@ -57,12 +104,8 @@ $(function() {
         field: 'rate1',
         required: true,
     }, {
-        title: '分润',
-        field: 'rate2',
-        required: true,
-    }, {
         field: 'name',
-        title: '店铺名称',
+        title: '供应商名称',
 		readonly: view
     }, {
         title: '地址',
@@ -90,6 +133,10 @@ $(function() {
     },{
         field: 'bookMobile',
         title: '预定联系电话',
+        required: true,
+    },{
+        field: 'smsMobile',
+        title: '短信手机号',
         required: true,
     },{
         field: 'userReferee',
@@ -129,25 +176,30 @@ $(function() {
         type: 'textarea',
         required: true,
 		readonly: view
-    }, {
-        field: 'uiOrder',
-        title: '次序',
-        required: true,
-        number: true,
-        sortable: true,
-    },{
-        field: 'uiLocation',
-        title: '位置',
-        type: 'select',
-        key: 'store_location',
-        keyCode: '808907',
-        formatter: Dict.getNameForList("store_location", "808907"),
-    }];
+    }, 
+    // {
+    //     field: 'uiOrder',
+    //     title: '次序',
+    //     required: true,
+    //     number: true,
+    //     sortable: true,
+    // },{
+    //     field: 'uiLocation',
+    //     title: '位置',
+    //     type: 'select',
+    //     key: 'store_location',
+    //     keyCode: '808907',
+    //     formatter: Dict.getNameForList("store_location", "808907"),
+    // }
+    ];
 	
+    fields = fields.concat(examineList)
+
 	buildDetail({
 		fields: fields,
 		code: code,
 		view: view,
+        buttons: buttons,
 		detailCode: '808216',
 	});
 	

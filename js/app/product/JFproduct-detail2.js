@@ -16,7 +16,7 @@ $(function() {
 	var fields = [{
 		field: 'kind',
 		type: 'hidden',
-		value: '1'
+		value: '2'
 	}
 	// , {
  //        field: 'companyCode',

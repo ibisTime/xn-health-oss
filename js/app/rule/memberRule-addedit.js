@@ -4,6 +4,7 @@ $(function() {
         title: '参数值',
         // type: "textarea",
         field: 'cvalue',
+        number:true,
         required: true
     };
     reqApi({

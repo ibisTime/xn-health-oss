@@ -1,13 +1,25 @@
 $(function() {
     var userId = getUserId();
-
+    var userReferee;
+    // var storeCode = sessionStorage.getItem('storeCode');
     var userRefereeType = {
         "operator": "市/区运营商",
         "o2o": "o2o商家",
         "supplier":"供应商",
         "mingsu":"名宿主",
         "f1":"VIP会员",
-    };   
+    };
+    var city;
+    var area;  
+    reqApi({
+        code:'805056',
+        json:{userId:userId},
+        sync: true
+    }).done(function(d) {    
+        city = d.userExt.city 
+        area = d.userExt.area
+        // city == area?area:""
+    });     
 
     var columns = [{
         field: '',
@@ -16,7 +28,6 @@ $(function() {
     }, {
         field: 'name',
         title: '店铺名称',
-        search: true
     }, {
         field: 'level',
         title: '店铺类型',
@@ -24,6 +35,7 @@ $(function() {
         key: "store_level",
         keyCode: '808907',
         formatter:Dict.getNameForList("store_level", "808907"),
+        search: true
     }
     , {
         field: 'category',
@@ -58,19 +70,27 @@ $(function() {
     }, {
         field: 'smsMobile',
         title: '短信手机号',
+    }, {
+        field: 'rate1',
+        title: '折扣',
+    }, {
+        field: 'rate2',
+        title: '分润',
     },{
         field: 'userReferee',
         title: '推荐人',
         type: 'select',
         formatter: function(v, data) {
-            var res1 = data.referrer.kind ;
-            var res2 = data.referrer.mobile;
-            if(res1 && res2){
-                return userRefereeType[res1]+ '/' +res2
-            }else{
-               return "-" 
-            }
-            
+            if(data.referrer){
+                userReferee = data.referrer.userId;
+                var res1 = data.referrer.kind ;
+                var res2 = data.referrer.mobile;
+                if(res1 && res2){
+                    return userRefereeType[res1]+ '/' +res2
+                }else{
+                   return "-" 
+                }                
+            }   
         }        
     }, {
         field: 'status',
@@ -101,6 +121,9 @@ $(function() {
         pageCode: '808215',
         searchParams: {
             companyCode: OSS.companyCode,
+            userReferee: userReferee,
+            area: area,
+            city: city,
         }
     });
 
@@ -126,73 +149,8 @@ $(function() {
         }
 
         if (selRecords.length == 1 ) {
-        var dw = dialog({
-                content: '<form class="pop-form" id="popForm" novalidate="novalidate">' +
-                    '<ul class="form-info" id="formContainer"><li style="text-align:center;font-size: 15px;">备注</li></ul>' +
-                    '</form>'
-            });            
-            dw.showModal();
-            buildDetail({
-                fields: [{
-                    field: 'remark',
-                    title: '备注',
-                    maxlength: 250
-                }],
-                container: $('#formContainer'),
-                buttons: [{
-                    title: '通过',
-                    handler: function() {
-
-                        var data = $('#popForm').serializeObject();
-                        data.approveResult = '1';
-                        data.storeCodeList = [selRecords[0].code];
-                        data.approver = getUserName();
-                        // data.code = '0';
-                        data.remark = $("#remark").val();
-                        reqApi({
-                            code: '808202',
-                            json: data
-                        }).done(function(data) {
-                            toastr.info("操作成功");
-
-                            $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-                            setTimeout(function() {
-                                dw.close().remove();
-                            }, 500)
-                        });
-
-                    }
-                }, {
-                    title: '不通过',
-                    handler: function() {
-                        var data = [];
-                        data.approveResult = '0';
-                        data.storeCodeList = [selRecords[0].code];
-                        data.approver = getUserName();
-                        // data.divRate = '0';
-                        data.remark = $("#remark").val();
-                        reqApi({
-                            code: '808202',
-                            json: data
-                        }).done(function(data) {
-                            toastr.info("操作成功");
-                            $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-                            setTimeout(function() {
-                                dw.close().remove();
-                            }, 500)
-                        });
-                    }
-                }, {
-                    title: '取消',
-                    handler: function() {
-                        dw.close().remove();
-                    }
-                }]
-            });
-
-            dw.__center();
+            window.location.href = "store_examine.html?Code=" + selRecords[0].code+"&v=1";
         } else {
-
             toastr.info("该状态不能审核!");
             return;
 

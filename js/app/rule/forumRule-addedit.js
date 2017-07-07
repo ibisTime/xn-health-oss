@@ -8,6 +8,7 @@ $(function() {
             field: 'note',
             required: true,
             readonly: true,
+            number:true,
             // value: $("#note").text(),
         }, {
             title: '参数值',

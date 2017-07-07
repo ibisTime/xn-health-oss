@@ -10,7 +10,52 @@ $(function() {
         "mingsu":"名宿主",
         "f1":"VIP会员",
     };    
-    
+    var remarkField = {
+        title: '备注',
+        field: 'remark',
+        maxlength: 250,
+        readonly: false
+    };
+
+    var examineList = [remarkField]   
+    var buttons = [{
+                    title: '通过',
+                    handler: function() {
+
+                        var data = $('#popForm').serializeObject();
+                        data.approveResult = '1';
+                        data.userId = userId;
+                        data.approver = getUserName();
+                        data.remark = $("#remark").val();
+                        reqApi({
+                            code: '805183',
+                            json: data
+                        }).done(function(data) {
+                            sucDetail();
+                        });
+
+                    }
+                }, {
+                    title: '不通过',
+                    handler: function() {
+                        var data = [];
+                        data.approveResult = '0';
+                        data.userId = userId;
+                        data.approver = getUserName();
+                        data.remark = $("#remark").val();
+                        reqApi({
+                            code: '805183',
+                            json: data
+                        }).done(function(data) {
+                            sucDetail();
+                        });
+                    }
+                }, {
+                    title: '返回',
+                    handler: function() {
+                        goBack();
+                    }
+                }];    
     var fields = [
     // {
     //     field: 'kind',
@@ -91,10 +136,13 @@ $(function() {
         maxlength: 250,
         view: view
     }];
+
+    fields = fields.concat(examineList)
     
     buildDetail({
         fields: fields,
         view: view,
+        buttons: buttons,
         code:{
             userId: userId
         },

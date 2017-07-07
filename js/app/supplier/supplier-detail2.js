@@ -11,6 +11,14 @@ $(function() {
         })
     });
 
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };     
+
     var statusStore = {
         "0": "待审核",
         '1': "审核通过待上架",
@@ -26,6 +34,29 @@ $(function() {
     //     type: 'hidden',
     //     value: '1'
     // },
+    // {
+    //     field : 'mobile',
+    //     title : '登录名',
+    //     formatter: function(v, data) { 
+    //         window.sessionStorage.setItem('storeCode', data[0].store.code); 
+    //         return data[0].store.mobile;
+    //     }        
+    //     // search: true
+    // },
+     {
+        field: 'legalPersonName',
+        title: '法人姓名',
+        formatter: function(v, data) { 
+        window.sessionStorage.setItem('storeCode', data[0].store.code);  
+            return data[0].store.legalPersonName;
+        }         
+    }, {
+        field: 'name',
+        title: '店铺名称',
+        formatter: function(v, data) {   
+            return data[0].store.name;
+        }         
+    },
     {
         field: 'level',
         title: '商家类型',
@@ -56,6 +87,12 @@ $(function() {
         formatter: function(v, data) {
             return data[0].store.type;
         }
+    }, {
+        field: 'rate1',
+        title: '折扣',
+        formatter: function(v, data) {
+            return data[0].store.rate1;
+        }
     },{
         field: 'province',
         title: '商户地址',
@@ -63,18 +100,37 @@ $(function() {
             var res = data[0].store.province + data[0].store.city + data[0].store.area + data[0].store.address;
             return res;
         }
-    }, {
-        field: 'rate1',
-        title: '折扣',
+    }
+    // , {
+    //     field: 'name',
+    //     title: '供应商名称',
+    //     formatter: function(v, data) {
+    //         window.sessionStorage.setItem('storeCode', data[0].store.code);
+    //         return data[0].store.name;
+    //     }
+    // }
+    , {
+        field: 'bookMobile',
+        title: '联系电话',
         formatter: function(v, data) {
-            return data[0].store.rate1;
-        }
-    }, {
-        field: 'name',
-        title: '商品名称',
+            return data[0].store.bookMobile;
+        }        
+    },{
+        field: 'userReferee',
+        title: '推荐人',
+        type: 'select',
         formatter: function(v, data) {
-            window.sessionStorage.setItem('storeCode', data[0].store.code);
-            return data[0].store.name;
+            if(data[0].store.referrer){
+                if(data[0].store.referrer){
+                    var res1 = data[0].store.referrer.kind ;
+                    var res2 = data[0].store.referrer.mobile;
+                    if(res1 && res2){
+                        return userRefereeType[res1]+ '/' +res2
+                    }else{
+                       return "-" 
+                    }                
+                }
+            }        
         }
     }, {
         field: 'slogan',

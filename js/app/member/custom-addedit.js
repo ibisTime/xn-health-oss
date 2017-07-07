@@ -1,6 +1,13 @@
 $(function() {
     var code = getQueryString('code');
     var userId = getQueryString('userId');
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };    
 
     var typeData = {}
     reqApi({
@@ -31,10 +38,23 @@ $(function() {
         title: '手机号',
         field: 'mobile',
         readonly: true,
-    }, {
-        title: '推荐人',
+    },{
         field: 'userReferee',
+        title: '推荐人',
         readonly: true,
+        formatter: function(v, data) {
+            if(data.referrer){
+                if(data.referrer){
+                    var res1 = data.referrer.kind ;
+                    var res2 = data.referrer.mobile;
+                    if(res1 && res2){
+                        return userRefereeType[res1]+ '/' +res2
+                    }else{
+                       return "-" 
+                    }                
+                }
+            }        
+        }
     }, {
         title: "用户类型",
         field: "level",

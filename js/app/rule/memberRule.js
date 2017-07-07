@@ -19,7 +19,7 @@ $(function() {
         }
     ];
     buildList({
-        router: 'rule',
+        router: 'memberRule',
         columns: columns,
         searchParams:{
             type:"1"

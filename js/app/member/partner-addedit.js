@@ -3,7 +3,19 @@ $(function() {
     var userId = getQueryString('userId');
     var loginName = getQueryString('loginName');
     var view = getQueryString('v');
-    var level
+    var level;
+    var province;
+    var city;
+    var area;
+    var realName;
+    var userReferee;     
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };    
     var fields = [
     // {
     //     field: 'kind',
@@ -27,12 +39,19 @@ $(function() {
         field: 'realName',
         chinese: true,
         required: true,
-        readonly: view
+        readonly: view,
+        formatter:function(v, data){
+            realName = data.realName
+            return 
+        }
     }, {
         field: 'province',
         title: '地址',
         readonly: view,
         formatter: function(v, data) {
+            province = data.userExt.province
+            city = data.userExt.city;
+            area = data.userExt.area            
             if (data.userExt.city == data.userExt.area) {
                 var res = data.userExt.province + data.userExt.city
             }else{
@@ -44,20 +63,18 @@ $(function() {
         field: 'userReferee',
         title: '推荐人',
         readonly: view,
-    },{
-        field: 'userRefereeName',
-        title: '推荐人姓名',
-        type: 'select',
-        readonly: view
-        // listCode: '805060',
-        // params:{
-        //     start:"1",
-        //     limit:"10",
-        //     userId: userId,          
-        // },
-        // keyName: 'userId',
-        // valueName: 'loginName',        
-
+        formatter: function(v, data) {
+            if(data.referrer){
+                userReferee = data.referrer.userId;
+                var res1 = data.referrer.kind ;
+                var res2 = data.referrer.mobile;
+                if(res1 && res2){
+                    return userRefereeType[res1]+ '/' +res2
+                }else{
+                   return "-" 
+                }                
+            }
+        }        
     },  {
         title: '证件类型',
         field: 'idKind',
@@ -99,9 +116,12 @@ $(function() {
             if(userId){
                 data.userId = userId;
             }
-            data.userReferee = getUserId();
             data.kind = 'operator';
-            
+            data.province = province;
+            data.city = city;
+            data.area = area;             
+            data.realName = realName;
+            data.userReferee = userReferee
             return data;
         }
     });

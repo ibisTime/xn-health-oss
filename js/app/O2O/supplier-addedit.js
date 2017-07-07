@@ -4,7 +4,18 @@ $(function() {
      var view = getQueryString('v')
      var level1;
      var kind;
-    var typeData = {}
+     var legalPersonName;
+     var userReferee;
+    var typeData = {};
+
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };    
+
     reqApi({
         code:'808007'
     }).done(function(d) {
@@ -32,6 +43,10 @@ $(function() {
         title: '法人姓名',
         required: true,
         readonly: view,
+        formatter: function(v,data){
+            legalPersonName = data.legalPersonName
+            return legalPersonName
+        }
     }
     ,{
         field: 'level',
@@ -58,67 +73,13 @@ $(function() {
             }
         }
 
-    }
-    // ,{
-    //     field: 'category',
-    //     title: '大类',
-    //     type: 'select',
-    //     listCode: '808007',
-    //     params: {
-    //         type:"2",
-    //         // status: '2',
-    //         parentCode: 0
-    //     },
-    //     keyName: 'code',
-    //     valueName: 'name',
-    //     required: true,
-    //     readonly: view,
-    //     onChange:function(v,data){
-    //         reqApi({
-    //             code: '808007',
-    //             json: {
-    //                 type:"2",
-    //                 // status: '2',
-    //                 parentCode: v
-    //             },
-    //             sync: true
-    //         }).done(function(d) {
-    //             var data1 = {};
-    //             if(d.length && v){
-                    
-    //                 d.forEach(function(v,i){
-    //                     data1[v.code] = v.name;
-    //                 })
-    //             }
-    //             $("#type").renderDropdown2(data1);
-
-    //         });
-    //     },
-    //     afterset: function(v){
-    //         console.log("ss");
-    //     }
-    // }, {
-    //     field: 'type',
-    //     title: '小类',
-    //     type: 'select',
-    //     listCode: '808007',
-    //     readonly: view,
-    //     required: true,
-    //     params: {
-    //         type:2,
-    //         // status: '0',
-    //         parentCode: $("#category").val()
-    //     },
-    //     keyName: 'code',
-    //     valueName: 'name',
-    // }
-    ,{
+    },{
         title: '折扣',
         field: 'rate1',
         required: true,
     },{
         field: 'name',
-        title: '店铺名称',
+        title: '供应商名称',
         required: true,
     }, {
         title: '地址',
@@ -154,74 +115,20 @@ $(function() {
     },{
         field: 'userReferee',
         title: '推荐人',
-        type: 'select',
         readonly: view,
-        // data: {
-        //     "0": "市/区运营商",
-        //     "1":"VIP会员",
-        //     // "1": "o2o商家",
-        //     // "2":"供应商",
-        //     // "3":"名宿主",
-        //     // "4":"VIP会员",
-        // },
-        // onChange:function(v,data){
-        //     if(v == "0" ){
-        //         kind = "operator";
-        //         level1 = ""; 
-        //     }else if (v == "1") {
-        //         // kind = "o2o";
-        //         kind = "f1";
-        //         level1 = "1";                
-        //     }
-        //     // else if (v == "2") {
-        //     //     kind = "supplier";
-        //     // }else if (v == "3") {
-        //     //     kind = "mingsu";
-        //     // }else if (v == "4") {
-        //     //     kind = "f1";
-        //     //     level1 = "1";
-        //     // }
-
-        // reqApi({
-        //         code: '805060',
-        //         json: {
-        //             kind:kind,
-        //             start:"1",
-        //             limit:"10",
-        //             level:level1?level1:""                    
-        //         },
-        //         sync: true
-        //     }).done(function(d) {
-        //         var data1 = {};
-
-        //         if(d.list.length ){
-        //             d.list.forEach(function(d,i){
-        //                 data1[d.userId] = d.loginName;
-
-        //             })
-        //         }
-        //         $("#tj_mobile").renderDropdown2(data1);
-
-        //     });            
-        // }        
-
-    }
-    // ,{
-    //     field: 'tj_mobile',
-    //     title: '推荐人手机号',
-    //     type: 'select',
-    //     readonly: view,
-    //     // listCode: '805060',
-    //     // params:{
-    //     //     start:"1",
-    //     //     limit:"10",
-    //     //     userId: userId,          
-    //     // },
-    //     // keyName: 'userId',
-    //     // valueName: 'loginName',        
-
-    // }
-    ,{
+        formatter: function(v, data) {
+            if(data.referrer){
+                userReferee = data.referrer.userId;
+                var res1 = data.referrer.kind ;
+                var res2 = data.referrer.mobile;
+                if(res1 && res2){
+                    return userRefereeType[res1]+ '/' +res2
+                }else{
+                   return "-" 
+                }                
+            } 
+        }        
+    },{
         field: 'slogan',
         title: '广告语',
         required: true,
@@ -278,11 +185,17 @@ $(function() {
                     var city = $('#city').val();
                     var area = $('#area').val();
                     if (!city) {
-                        data['city'] = province;
-                        data['area'] = province;
-                    } else if (!area) {
-                        data['city'] = province;
-                        data['area'] = city;
+                        toastr.info("请补全地址");
+                        return                       
+                    }else if (!area) { 
+                        if ($('#area').is(":visible")) {
+                                // 直辖市
+                                toastr.info("请补全地址");
+                                return                                                                 
+                            }else{
+                                data['city'] = province;
+                                data['area'] = city;                                                             
+                            }                    
                     }
                 }
                 for (var i = 0, len = fields.length; i < len; i++) {
@@ -318,18 +231,15 @@ $(function() {
                         data.latitude = point.lat;
                         data.storeCode = code;
                         data.type = "FL2017061017265753557143";
+                        data.userReferee = userReferee;
+                        data.legalPersonName = legalPersonName;
                         // if(!data.category){
                         //     data.category = "FL2017061016211611994528";
                         //     data.type = "FL2017061219492431865712";
                         //     data.level = "2";
                         //     data.rate1 = "0";
                         // }
-                        data.level = "3";
-                        if($("#tj_mobile").text()){
-                            data.userReferee = $("#tj_mobile").val()
-                        }else{
-                            data.userReferee = getUserId();
-                        }                        
+                        data.level = "3";                      
 
                         reqApi({
                             code: code ? options.editCode : options.addCode,

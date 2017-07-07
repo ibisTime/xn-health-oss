@@ -60,7 +60,8 @@ $(function() {
                     kind:kind,
                     start:"1",
                     limit:"10",                    
-                    level:level1?level1:""
+                    level:level1?level1:"",
+                    status:"0"
                 },
                 sync: true
             }).done(function(d) {
@@ -162,10 +163,10 @@ $(function() {
                     var city = $('#city').val();
                     var area = $('#area').val();
                     if (!city) {
-                        data['city'] = province;
-                        data['area'] = province;
+                        toastr.info("请补全地址");
+                        return
                     } else if (!area) {
-                        data['city'] = city;
+                        data['city'] = province;
                         data['area'] = city;
                     }
                 }

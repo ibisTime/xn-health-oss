@@ -1,6 +1,9 @@
 $(function() {
-    var view = true;
-    var code = getQueryString('code');
+	
+	var code = getQueryString('code');
+	var view = getQueryString('v');
+	
+	var typeData = {};
     var userRefereeType = {
         "operator": "市/区运营商",
         "o2o": "o2o商家",
@@ -9,17 +12,63 @@ $(function() {
         "f1":"VIP会员",
     };    
 
-    var typeData = {}
-    reqApi({
-        code:'808007'
-    }).done(function(d) {
-                    
-        d.forEach(function(v,i){
-            typeData[v.code] = v.name;
-        })
+	reqApi({
+		code:'808007'
+	}).done(function(d) {
+            		
+		d.forEach(function(v,i){
+			typeData[v.code] = v.name;
+		})
     });
-    
-    var fields = [{
+
+    var remarkField = {
+        title: '备注',
+        field: 'remark',
+        maxlength: 250,
+        readonly: false
+    };
+
+    var examineList = [remarkField]      
+    var buttons = [{
+                    title: '通过',
+                    handler: function() {
+
+                        var data = $('#popForm').serializeObject();
+                        data.approveResult = '1';
+                        data.storeCodeList = [code];
+                        data.approver = getUserName();
+                        data.remark = $("#remark").val();
+                        reqApi({
+                            code: '808202',
+                            json: data
+                        }).done(function(data) {
+                            sucDetail();
+                        });
+
+                    }
+                }, {
+                    title: '不通过',
+                    handler: function() {
+                        var data = [];
+                        data.approveResult = '0';
+                        data.storeCodeList = [code];
+                        data.approver = getUserName();
+                        // data.divRate = '0';
+                        data.remark = $("#remark").val();
+                        reqApi({
+                            code: '808202',
+                            json: data
+                        }).done(function(data) {
+                            sucDetail();
+                        });
+                    }
+                }, {
+                    title: '返回',
+                    handler: function() {
+                        goBack();
+                    }
+                }];	
+	var fields = [{
         field: 'mobile',
         title: '登录名(手机号)',
         required: true,
@@ -37,19 +86,19 @@ $(function() {
     }, {
         field: 'category',
         title: '大类',
-        type: 'select',
+		type: 'select',
         readonly: view,
-        data: typeData,
-        keyName: 'code',
-        valueName: 'name',
+		data: typeData,
+		keyName: 'code',
+		valueName: 'name',
     }, {
         field: 'type',
         title: '小类',
-        type: 'select',
+		type: 'select',
         readonly: view,
-        data: typeData,
-        keyName: 'code',
-        valueName: 'name',
+		data: typeData,
+		keyName: 'code',
+		valueName: 'name',
     }, {
         title: '折扣',
         field: 'rate1',
@@ -61,7 +110,7 @@ $(function() {
     }, {
         field: 'name',
         title: '店铺名称',
-        readonly: view
+		readonly: view
     }, {
         title: '地址',
         field: "province1",
@@ -108,25 +157,25 @@ $(function() {
         field: 'slogan',
         title: '广告语',
         required: true,
-        readonly: view
+		readonly: view
     }, {
         field: 'advPic',
         title: '广告图',
         type : 'img',
-        required: true,
-        readonly: view
+		required: true,
+		readonly: view
     }, {
         field: 'pic',
         title: '展示图',
         type : 'img',
-        required: true,
-        readonly: view
+		required: true,
+		readonly: view
     }, {
         field: 'description',
         title: '图文描述',
         type: 'textarea',
         required: true,
-        readonly: view
+		readonly: view
     }, {
         field: 'uiOrder',
         title: '次序',
@@ -141,16 +190,15 @@ $(function() {
         keyCode: '808907',
         formatter: Dict.getNameForList("store_location", "808907"),
     }];
-    
-    buildDetail({
-        fields: fields,
-        view: view,
-        code:{
-            code:code,
-            userId:getUserId()
-        },
-        detailCode: '808216',
-    });
-    $("#subBtn").hide();
-    // $("#backBtn").hide();
+	
+    fields = fields.concat(examineList)
+
+	buildDetail({
+		fields: fields,
+		code: code,
+		view: view,
+        buttons: buttons,
+		detailCode: '808216',
+	});
+	
 });

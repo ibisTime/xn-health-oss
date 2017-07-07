@@ -3,7 +3,16 @@ $(function() {
     var code = getQueryString('code');
     var view = getQueryString('v')
     var level1,kind;
-    var typeData = {}
+    var typeData = {};
+    var userReferee;
+    var legalPersonName;
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };    
     reqApi({
         code:'808007'
     }).done(function(d) {
@@ -30,7 +39,11 @@ $(function() {
         field: 'legalPersonName',
         title: '法人姓名',
         required: true,
-        readonly: view
+        readonly: view,
+        formatter: function(v,data){
+            legalPersonName = data.legalPersonName
+            return legalPersonName
+        }
     },{
         field: 'level',
         title: '商家类型',
@@ -135,72 +148,20 @@ $(function() {
     },{
         field: 'userReferee',
         title: '推荐人',
-        type: 'select',
         readonly: view,
-        // data: {
-        //     "0": "市/区运营商",
-        //     "1":"VIP会员",
-        //     // "1": "o2o商家",
-        //     // "2":"供应商",
-        //     // "3":"名宿主",
-
-        // },
-        // onChange:function(v,data){
-        //     if(v == "0" ){
-        //         kind = "operator";
-        //         level1 = ""; 
-        //     }else if (v == "1") {
-        //         // kind = "o2o";
-        //         kind = "f1";
-        //         level1 = "1";                
-        //     }
-        //     // else if (v == "2") {
-        //     //     kind = "supplier";
-        //     // }else if (v == "3") {
-        //     //     kind = "mingsu";
-        //     // }else if (v == "4") {
-        //     //     kind = "f1";
-        //     //     level1 = "1";
-        //     // }
-
-        // reqApi({
-        //         code: '805060',
-        //         json: {
-        //             kind:kind,
-        //             start:"1",
-        //             limit:"10",
-        //             level:level1?level1:""                    
-        //         },
-        //         sync: true
-        //     }).done(function(d) {
-        //         var data1 = {};
-
-        //         if(d.list.length ){
-        //             d.list.forEach(function(d,i){
-        //                 data1[d.userId] = d.loginName;
-
-        //             })
-        //         }
-        //         $("#tj_mobile").renderDropdown2(data1);
-
-        //     });            
-        // }        
-
-    // },{
-    //     field: 'tj_mobile',
-    //     title: '推荐人手机号',
-    //     type: 'select',
-    //     // listCode: '805060',
-    //     // params:{
-    //     //     start:"1",
-    //     //     limit:"10",
-    //     //     userId: userId,          
-    //     // },
-    //     // keyName: 'userId',
-    //     // valueName: 'loginName',        
-
-    },
-    {
+        formatter: function(v, data) {
+            if(data.referrer){
+                userReferee = data.referrer.userId;
+                var res1 = data.referrer.kind ;
+                var res2 = data.referrer.mobile;
+                if(res1 && res2){
+                    return userRefereeType[res1]+ '/' +res2
+                }else{
+                   return "-" 
+                }                
+            }
+        }        
+    },{
         field: 'smsMobile',
         title: '短信手机号',
         required: true,
@@ -239,7 +200,7 @@ $(function() {
         beforeSubmit: function(data) {
             data.companyCode = OSS.companyCode,
             data.type = "2";
-
+            
             return data;
         }
     }
@@ -261,11 +222,17 @@ $(function() {
                     var city = $('#city').val();
                     var area = $('#area').val();
                     if (!city) {
-                        data['city'] = province;
-                        data['area'] = province;
-                    } else if (!area) {
-                        data['city'] = city;
-                        data['area'] = city;
+                        toastr.info("请补全地址");
+                        return                       
+                    }else if (!area) { 
+                        if ($('#area').is(":visible")) {
+                                // 直辖市
+                                toastr.info("请补全地址");
+                                return                                                                 
+                            }else{
+                                data['city'] = province;
+                                data['area'] = city;                                                             
+                            }                    
                     }
                 }
                 for (var i = 0, len = fields.length; i < len; i++) {
@@ -301,6 +268,8 @@ $(function() {
                         data.latitude = point.lat;
                         data.storeCode = code;
                         data.level = "1";
+                        data.userReferee = userReferee;
+                        data.legalPersonName = legalPersonName;
                         if(!data.category){
                             data.category = "FL2017061016211611994528";
                             data.type = "FL2017061219492431865712";

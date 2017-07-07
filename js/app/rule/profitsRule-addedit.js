@@ -4,7 +4,8 @@ $(function() {
         title: '参数值',
         // type: "textarea",
         field: 'cvalue',
-        required: true
+        required: true,
+        number:true,
     };
     reqApi({
         code: '808916',
@@ -30,6 +31,7 @@ $(function() {
         title: '参数说明',
         field: 'note',
         required: true,
+        readonly:true,
         maxlength: 255
     },noteConfig, {
         title: '备注',
@@ -40,8 +42,7 @@ $(function() {
     buildDetail({
         fields: fields,
         code: code,
-        addCode: "808910",
         detailCode: '808916',
-        editCode: '808911'
+        editCode: '808910'
     });
 });

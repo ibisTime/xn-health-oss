@@ -1,5 +1,12 @@
 $(function() {
     var userId = getUserId();
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };    
     var columns = [{
         field: '',
         title: '',
@@ -12,34 +19,7 @@ $(function() {
         field: 'name',
         title: '店铺名称',
         search: true
-    }
-    // ,{
-    //     field: 'category',
-    //     title: '大类',
-    //     type: 'select',
-    //     listCode: '808007',
-    //     params: {
-    //         type:"2",
-    //         // status: '2',
-    //         parentCode: 0
-    //     },
-    //     keyName: 'code',
-    //     valueName: 'name',
-    //     required: true,
-    //     search: true
-    // }, {
-    //     field: 'type',
-    //     title: '小类',
-    //     type: 'select',
-    //     listCode: '808007',
-    //     keyName: 'code',
-    //     valueName: 'name',
-    //     params: {
-    //         type: '2',
-    //     },
-    //     search: true
-    // }
-    ,{
+    },{
         title: '折扣',
         field: 'rate1',
         required: true,
@@ -54,6 +34,23 @@ $(function() {
     }, {
         field: 'smsMobile',
         title: '短信手机号',
+    },{
+        field: 'userReferee',
+        title: '推荐人',
+        type: 'select',
+        formatter: function(v, data) {
+            if(data.referrer){
+                if(data.referrer){
+                    var res1 = data.referrer.kind ;
+                    var res2 = data.referrer.mobile;
+                    if(res1 && res2){
+                        return userRefereeType[res1]+ '/' +res2
+                    }else{
+                       return "-" 
+                    }                
+                }
+            }        
+        }
     }, {
         field: 'status',
         title: '状态',
@@ -62,19 +59,6 @@ $(function() {
         keyCode: '808907',
         formatter: Dict.getNameForList("store_status", "808907"),
         search: true,
-    },{
-        field: 'userReferee',
-        title: '申请运营商',
-        type: 'select',
-        required: true,
-        listCode: '805060',
-         params: {
-            start:"1",
-            limit:"10",
-        },
-        keyName: 'userId',
-        valueName: 'loginName',
-
     }, {
         field: 'updateDatetime',
         title: '入驻时间',
@@ -107,7 +91,7 @@ $(function() {
             return;
         }
 
-        window.location.href = "store_examine.html?Code=" + selRecords[0].code;
+        window.location.href = "supplier_examine.html?Code=" + selRecords[0].code;
     });
 
     //上架
@@ -128,7 +112,7 @@ $(function() {
             return;
         }
 
-        window.location.href = "store_up2.html?Code=" + selRecords[0].code;
+        window.location.href = "supplier_up2.html?Code=" + selRecords[0].code;
     });
 
     //下架
@@ -161,7 +145,7 @@ $(function() {
             return;
         }
 
-        window.location.href = "store_detail2.html?Code=" + selRecords[0].code;
+        window.location.href = "supplier_detail2.html?Code=" + selRecords[0].code;
     });
     $("#editBtn").remove();
 });

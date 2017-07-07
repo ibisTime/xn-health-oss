@@ -233,7 +233,8 @@ $(function() {
                     kind:kind,
                     start:"1",
                     limit:"10",
-                    level:level1?level1:""                    
+                    level:level1?level1:"",
+                    status:"0"                    
                 },
                 sync: true
             }).done(function(d) {
@@ -321,11 +322,17 @@ $(function() {
                     var city = $('#city').val();
                     var area = $('#area').val();
                     if (!city) {
-                        data['city'] = province;
-                        data['area'] = province;
-                    } else if (!area) {
-                        data['city'] = city;
-                        data['area'] = city;
+                        toastr.info("请补全地址");
+                        return                       
+                    }else if (!area) { 
+                        if ($('#area').is(":visible")) {
+                                // 直辖市
+                                toastr.info("请补全地址");
+                                return                                                                 
+                            }else{
+                                data['city'] = province;
+                                data['area'] = city;                                                             
+                            }                    
                     }
                 }
                 for (var i = 0, len = fields.length; i < len; i++) {

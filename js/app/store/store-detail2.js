@@ -10,6 +10,13 @@ $(function() {
             typeData[v.code] = v.name;
         })
     });
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };    
 
     var statusStore = {
         "0": "待审核",
@@ -20,13 +27,15 @@ $(function() {
         "91": "审核不通过"
     };
     
-    var fields = [
-    // {
-    //     field: 'kind',
-    //     type: 'hidden',
-    //     value: '1'
-    // },
-    {
+    var fields = [{
+        field: 'legalPersonName',
+        title: '法人姓名',
+        required: true,
+        formatter: function(v, data) {
+            return data[0].store.legalPersonName;
+        }        
+
+    },{
         field: 'level',
         title: '商家类型',
         key: "store_level",
@@ -56,13 +65,6 @@ $(function() {
         formatter: function(v, data) {
             return data[0].store.type;
         }
-    },{
-        field: 'province',
-        title: '商户地址',
-        formatter: function(v, data) {
-            var res = data[0].store.province + data[0].store.city + data[0].store.area + data[0].store.address;
-            return res;
-        }
     }, {
         field: 'rate1',
         title: '折扣',
@@ -70,12 +72,48 @@ $(function() {
             return data[0].store.rate1;
         }
     }, {
+        title: '分润',
+        field: 'rate2',
+        required: true,
+        formatter: function(v, data) {
+            return data[0].store.rate2;
+        }        
+    }, {
         field: 'name',
-        title: '商品名称',
+        title: '店铺名称',
         formatter: function(v, data) {
             window.sessionStorage.setItem('storeCode', data[0].store.code);
             return data[0].store.name;
         }
+    },{
+        field: 'province',
+        title: '商户地址',
+        formatter: function(v, data) {
+            var res = data[0].store.province + data[0].store.city + data[0].store.area + data[0].store.address;
+            return res;
+        }
+    },{
+        field: 'bookMobile',
+        title: '预定联系电话',
+        required: true,
+        formatter: function(v, data) {
+            return data[0].store.bookMobile;
+        }        
+    },{
+        field: 'userReferee',
+        title: '推荐人',
+        readonly: view,
+        formatter: function(v, data) {
+            if(data[0].store.referrer){
+                var res1 = data[0].store.referrer.kind ;
+                var res2 = data[0].store.referrer.mobile;
+                if(res1 && res2){
+                    return userRefereeType[res1]+ '/' +res2
+                }else{
+                   return "-" 
+                }                
+            }
+        }        
     }, {
         field: 'slogan',
         title: '广告语',

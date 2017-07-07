@@ -34,14 +34,15 @@ $(function () {
         title: '推荐人',
         type: 'select',
         formatter: function(v, data) {
-            var res1 = data.referrer.kind ;
-            var res2 = data.referrer.mobile;
-            if(res1 && res2){
-                return userRefereeType[res1]+ '/' +res2
-            }else{
-               return "-" 
-            }
-            
+            if(data.referrer){
+                var res1 = data.referrer.kind ;
+                var res2 = data.referrer.mobile;
+                if(res1 && res2){
+                    return userRefereeType[res1]+ '/' +res2
+                }else{
+                   return "-" 
+                }                
+            }    
         }        
     },{
         field: 'status',
@@ -174,73 +175,8 @@ $(function () {
         }
 
         if (selRecords.length == 1 ) {
-        var dw = dialog({
-                content: '<form class="pop-form" id="popForm" novalidate="novalidate">' +
-                    '<ul class="form-info" id="formContainer"><li style="text-align:center;font-size: 15px;">备注</li></ul>' +
-                    '</form>'
-            });            
-            dw.showModal();
-            buildDetail({
-                fields: [{
-                    field: 'remark',
-                    title: '备注',
-                    maxlength: 250
-                }],
-                container: $('#formContainer'),
-                buttons: [{
-                    title: '通过',
-                    handler: function() {
-
-                        var data = $('#popForm').serializeObject();
-                        data.approveResult = '1';
-                        data.storeCodeList = [selRecords[0].code];
-                        data.approver = getUserName();
-                        // data.code = '0';
-                        data.remark = $("#remark").val();
-                        reqApi({
-                            code: '808202',
-                            json: data
-                        }).done(function(data) {
-                            toastr.info("操作成功");
-
-                            $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-                            setTimeout(function() {
-                                dw.close().remove();
-                            }, 500)
-                        });
-
-                    }
-                }, {
-                    title: '不通过',
-                    handler: function() {
-                        var data = [];
-                        data.approveResult = '0';
-                        data.storeCodeList = [selRecords[0].code];
-                        data.approver = getUserName();
-                        // data.divRate = '0';
-                        data.remark = $("#remark").val();
-                        reqApi({
-                            code: '808202',
-                            json: data
-                        }).done(function(data) {
-                            toastr.info("操作成功");
-                            $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-                            setTimeout(function() {
-                                dw.close().remove();
-                            }, 500)
-                        });
-                    }
-                }, {
-                    title: '取消',
-                    handler: function() {
-                        dw.close().remove();
-                    }
-                }]
-            });
-
-            dw.__center();
+            window.location.href = "supplier_examine.html?Code=" + selRecords[0].code+"&v=1";
         } else {
-
             toastr.info("该状态不能审核!");
             return;
 

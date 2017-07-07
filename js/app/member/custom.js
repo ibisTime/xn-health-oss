@@ -2,7 +2,15 @@ $(function() {
     var userKind = {
         "f1": "C端用户",
         "f2": "B端用户"
-    }
+    };
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };    
+
     var columns = [{
             field: '',
             title: '',
@@ -19,9 +27,23 @@ $(function() {
             title: '手机号',
             field: 'mobile',
             search: true
-        }, {
+        },{
+            field: 'userReferee',
             title: '推荐人',
-            field: 'userRefereeName',
+            type: 'select',
+            formatter: function(v, data) {
+                if(data.referrer){
+                    if(data.referrer){
+                        var res1 = data.referrer.kind ;
+                        var res2 = data.referrer.mobile;
+                        if(res1 && res2){
+                            return userRefereeType[res1]+ '/' +res2
+                        }else{
+                           return "-" 
+                        }                
+                    }
+                }        
+            }
         }, {
             title: "用户类型",
             field: "level",
@@ -134,6 +156,14 @@ $(function() {
         }
         window.location.href = "./custom_addedit.html?Code=" + selRecords[0].code+'&userId='+selRecords[0].userId;
     });
+    $('#detailBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        window.location.href = "./custom_detail.html?Code=" + selRecords[0].code+'&userId='+selRecords[0].userId;
+    });    
     $('#revenueBtn').off("click").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
@@ -142,5 +172,15 @@ $(function() {
         }
         // console.log(selRecords[0].userId)
         window.location.href = "./custom_revenue.html?userId=" + selRecords[0].userId;
-    });    
+    });
+
+    $('#JF_revenueBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        // console.log(selRecords[0].userId)
+        window.location.href = "./custom_JFrevenue.html?userId=" + selRecords[0].userId;
+    });       
 });

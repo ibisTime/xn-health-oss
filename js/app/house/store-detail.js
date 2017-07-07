@@ -2,6 +2,13 @@ $(function() {
 	
 	var code = getQueryString('code');
 	var view = true;
+    var userRefereeType = {
+        "operator": "市/区运营商",
+        "o2o": "o2o商家",
+        "supplier":"供应商",
+        "mingsu":"名宿主",
+        "f1":"VIP会员",
+    };    
 
     // var typeData = {}
     // reqApi({
@@ -147,24 +154,6 @@ $(function() {
         required: true,
 		readonly: view
     }, {
-//      field: 'price1',
-//      title: '人民币价',
-//      amount: true,
-//      formatter: moneyFormat,
-//      required: true,
-//  }, {
-//      field: 'price2',
-//      title: '购物币价',
-//      amount: true,
-//      formatter: moneyFormat,
-//      required: true,
-//  }, {
-//      field: 'price3',
-//      title: '钱包币价',
-//      amount: true,
-//      formatter: moneyFormat,
-//      required: true,
-//  }, {
         field: 'uiOrder',
         title: '次序',
         required: true,

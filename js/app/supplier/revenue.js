@@ -24,11 +24,15 @@ $(function () {
         }
     },{
         field: 'price',
-        title: '应付金额',
+        title: '折扣前金额',
         formatter: moneyFormat
     },{
         field: 'payAmount1',
         title: '实付金额',
+        formatter: moneyFormat
+    },{
+        field: 'backAmount',
+        title: '分润金额',
         formatter: moneyFormat
     },{
         field: 'rate1',

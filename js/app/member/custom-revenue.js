@@ -51,7 +51,7 @@ $(function() {
         columns: columns,
         pageCode: '802520',
         searchParams: {
-            // currency: currency,
+            currency: "CNY",
             userId: userId,
             companyCode: OSS.companyCode
         }
