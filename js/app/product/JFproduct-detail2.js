@@ -71,7 +71,7 @@ $(function() {
         }
     }, {
         field: 'price1',
-        title: '人民币价',
+        title: '积分价',
         amount: true,
         required: true,
         formatter: function(v, data){

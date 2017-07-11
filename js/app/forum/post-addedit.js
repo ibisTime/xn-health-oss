@@ -13,7 +13,7 @@ $(function() {
     // }
     , {
         field: 'content',
-        title: '帖子详情',
+        title: '帖子内容',
     }, {
         title: '图片',
         type: "img",

@@ -11,7 +11,7 @@ $(function() {
         "operator": "市/区运营商",
         "o2o": "o2o商家",
         "supplier":"供应商",
-        "mingsu":"名宿主",
+        "mingsu":"民宿主",
         "f1":"VIP会员",
     };     
 

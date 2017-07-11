@@ -61,7 +61,7 @@ $(function () {
             return;
         }
         
-        window.location.href = "product_up2.html?Code=" + selRecords[0].code;
+        window.location.href = "JFproduct_up2.html?Code=" + selRecords[0].code;
 
     });
     
@@ -108,5 +108,19 @@ $(function () {
         window.location.href = "JFproduct_detail2.html?Code=" + selRecords[0].code+"&v=1";
     });
     
+    $('#editBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        if (selRecords[0].status == 3) {
+            toastr.info("已上架状态不能修改");
+            return;
+        }
+        
+        window.location.href = "JFproduct_addedit.html?Code=" + selRecords[0].code;
+    });    
     
 });

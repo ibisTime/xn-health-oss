@@ -14,10 +14,15 @@ $(function() {
         field: 'location',
         title: '位置',
         type: 'select',
-        key: 'product_location',
-        keyCode:'808907',
-        formatter: Dict.getNameForList("product_location",'808907'),
-        search: true
+       	listCode: '808907',
+        keyName: 'dkey',
+        valueName: 'dvalue',
+        params:{
+        	parentKey: "product_location"
+        },        
+        formatter: function(v,data){
+        	return data.location;
+        },
     }];
 	
 	buildDetail({

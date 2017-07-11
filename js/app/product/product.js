@@ -76,8 +76,7 @@ $(function () {
         columns: columns,
         searchParams:{
             companyCode: OSS.companyCode,
-            storeCode: storeCode?storeCode:getUserId(),
-            kind: "1"
+            storeCode: storeCode?storeCode:"",
         },
         pageCode: '808025',
         deleteCode:'808011',
@@ -147,101 +146,19 @@ $(function () {
         window.location.href = "product_detail2.html?Code=" + selRecords[0].code+"&v=1";
     });
  
-     //审核
-    $('#examineBtn').click(function() {
-        var selRecords = $('#tableList').bootstrapTable('getSelections');
-        if (selRecords.length <= 0) {
-            toastr.info("请选择记录");
-            return;
-        }
-        
-        if(selRecords.length==1 && selRecords[0].status == 0){
-        	
-        	window.location.href = "product_examine.html?Code=" + selRecords[0].code;
-        }else{
-        	
-	        var dataCode=[]
-	        
-	        for (var i=0; i<selRecords.length; i++) {
-	        	dataCode.push(selRecords[i].code)
-	        	
-	        	if (selRecords[i].status != 0) {
-		            toastr.info("商品"+selRecords[i].name+"状态不能审核!");
-		            return;
-		        }
-	        	
-	        }
-	        
-	        var dw = dialog({
-					content: '<form class="pop-form" id="popForm" novalidate="novalidate">' +
-					'<ul class="form-info" id="formContainer"><li style="text-align:center;font-size: 15px;">批量审核</li></ul>'+
-					'</form>'
-				});
-				
-			dw.showModal();
-			
-			buildDetail({
-				fields: [],
-				container: $('#formContainer'),
-				buttons: [{
-					title: '通过',
-					handler: function() {
-						
-						var data = [];
-						data.codeList = dataCode;
-			    		data.approveResult = "1";
-			    		data.approver = getUserId();
-						reqApi({
-							code: '808015',
-							json: data
-						}).done(function(data) {
-							toastr.info("操作成功");
-							
-							$('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-							setTimeout(function(){
-								dw.close().remove();
-							},500)
-						});
-						
-					}
-				}, {
-					title: '不通过',
-					handler: function() {
-						var data = [];
-						data.codeList = dataCode;
-			    		data.approveResult = "1";
-			    		data.approver = getUserId();
-						reqApi({
-							code: '808015',
-							json: data
-						}).done(function(data) {
-							toastr.info("操作成功");
-							$('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
-							setTimeout(function(){
-								dw.close().remove();
-							},500)
-						});
-					}
-				}, {
-					title: '取消',
-					handler: function() {
-						dw.close().remove();
-					}
-				}]
-			});
-			
-			dw.__center();
-		}
-		
-	});
 
 	//修改
-	$('#edit2Btn').click(function() {
+	$('#editBtn').off("click").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
             return;
         }
+
+        if (selRecords[0].status == 3) {
+            toastr.info("已上架状态不能修改");
+            return;
+        }        
         
         window.location.href = "product_addedit.html?Code=" + selRecords[0].code+"&dc="+selRecords[0].companyCode;
 
