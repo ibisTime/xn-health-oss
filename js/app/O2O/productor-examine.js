@@ -22,10 +22,13 @@ $(function() {
     });
 
     var remarkField = {
-        title: '备注',
-        field: 'remark',
+        title: '审核说明',
+        field: 'approveNote',
         maxlength: 250,
-        readonly: false
+        readonly: false,
+        formatter:function(v,data){
+           return  data.approveNote
+        }        
     };
 
     var examineList = [remarkField]      
@@ -37,7 +40,7 @@ $(function() {
                         data.approveResult = '1';
                         data.storeCodeList = [code];
                         data.approver = getUserName();
-                        data.remark = $("#remark").val();
+                        data.remark = $("#approveNote").val();
                         reqApi({
                             code: '808202',
                             json: data
@@ -54,7 +57,7 @@ $(function() {
                         data.storeCodeList = [code];
                         data.approver = getUserName();
                         // data.divRate = '0';
-                        data.remark = $("#remark").val();
+                        data.remark = $("#approveNote").val();
                         reqApi({
                             code: '808202',
                             json: data
@@ -144,14 +147,21 @@ $(function() {
         readonly: view,
         formatter: function(v, data) {
             if(data.referrer){
-                var res1 = data.referrer.kind ;
-                var res2 = data.referrer.mobile;
-                if(res1 && res2){
-                    return userRefereeType[res1]+ '/' +res2
-                }else{
-                   return "-" 
-                }                
-            }
+                if(data.referrer){
+                    var res1 = data.referrer.kind ;
+                    var res2 = data.referrer.mobile;
+                    var level = data.referrer.level ;
+                    if(res1 && res2){
+                        if (res1 == 'f1') {
+                            return Dict.getNameForList1("user_level","807706",level)+ '/' +res2
+                        }else{
+                            return userRefereeType[res1]+ '/' +res2
+                        }
+                    }else{
+                       return "-" 
+                    }                
+                }
+            }        
         }        
     }, {
         field: 'slogan',
@@ -189,6 +199,10 @@ $(function() {
         key: 'store_location',
         keyCode: '808907',
         formatter: Dict.getNameForList("store_location", "808907"),
+    }, {
+        field: 'remark',
+        title: '备注',
+        readonly: view
     }];
 	
     fields = fields.concat(examineList)

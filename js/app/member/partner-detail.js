@@ -52,15 +52,18 @@ $(function() {
         type: 'select',
         formatter: function(v, data) {
             if(data.referrer){
-                if(data.referrer){
-                    var res1 = data.referrer.kind ;
-                    var res2 = data.referrer.mobile;
-                    if(res1 && res2){
-                        return userRefereeType[res1]+ '/' +res2
+                var res1 = data.referrer.kind ;
+                var res2 = data.referrer.mobile;
+                var level = data.referrer.level ;
+                if(res1 && res2){
+                    if (res1 == 'f1') {
+                        return Dict.getNameForList1("user_level","807706",level)+ '/' +res2
                     }else{
-                       return "-" 
-                    }                
-                }
+                        return userRefereeType[res1]+ '/' +res2
+                    }
+                }else{
+                   return "-" 
+                }                
             }        
         }
     },  {
@@ -90,6 +93,17 @@ $(function() {
         field: 'remark',
         maxlength: 250,
         view: view
+    },{
+        field: 'approveDatetime',
+        title: '审核时间',
+        formatter: dateTimeFormat,
+    },{
+        field: 'approveNote',
+        title: '审核说明',
+
+    },{
+        field: 'approver',
+        title: '审核人',
     }];
     
     buildDetail({

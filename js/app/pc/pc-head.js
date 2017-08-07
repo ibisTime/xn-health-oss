@@ -1,5 +1,5 @@
 $(function () {
-  $(".logo a").attr("href","http://"+OSS.guideBaseUrl);
+  $(".logo a").attr("href","http://www."+OSS.guideBaseUrl);
   // 运营商
   $("#partnerLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=operator");
   $("#partnerApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/partner_apply.html");

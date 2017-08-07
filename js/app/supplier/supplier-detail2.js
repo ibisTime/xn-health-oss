@@ -1,5 +1,6 @@
 $(function() {
     var view = true;
+     var d = {},remark,description,pic,advPic,slogan;
     
     var typeData = {}
     reqApi({
@@ -28,31 +29,19 @@ $(function() {
         "91": "审核不通过"
     };
     
-    var fields = [
-    // {
-    //     field: 'kind',
-    //     type: 'hidden',
-    //     value: '1'
-    // },
-    // {
-    //     field : 'mobile',
-    //     title : '登录名',
-    //     formatter: function(v, data) { 
-    //         window.sessionStorage.setItem('storeCode', data[0].store.code); 
-    //         return data[0].store.mobile;
-    //     }        
-    //     // search: true
-    // },
-     {
+    var fields = [{
         field: 'legalPersonName',
         title: '法人姓名',
+        readonly:view,
         formatter: function(v, data) { 
+            d= data[0].store;
         window.sessionStorage.setItem('storeCode', data[0].store.code);  
             return data[0].store.legalPersonName;
         }         
     }, {
         field: 'name',
         title: '店铺名称',
+        readonly:view,
         formatter: function(v, data) {   
             return data[0].store.name;
         }         
@@ -62,6 +51,7 @@ $(function() {
         title: '商家类型',
         key: "store_level",
         keyCode: '808907',
+        readonly:view,
         formatter: function(v, data) {   
             // return data[0].store.level;
            return Dict.getNameForList1("store_level", "808907",data[0].store.level)
@@ -74,6 +64,7 @@ $(function() {
         data: typeData,
         keyName: 'code',
         valueName: 'name',
+        readonly:view,
         formatter: function(v, data) {   
             return data[0].store.category;
         }
@@ -84,20 +75,27 @@ $(function() {
         data: typeData,
         keyName: 'code',
         valueName: 'name',
+        readonly:view,
         formatter: function(v, data) {
             return data[0].store.type;
         }
     }, {
         field: 'rate1',
         title: '折扣',
+        readonly:view,
         formatter: function(v, data) {
             return data[0].store.rate1;
         }
     },{
         field: 'province',
         title: '商户地址',
+        readonly:view,
         formatter: function(v, data) {
-            var res = data[0].store.province + data[0].store.city + data[0].store.area + data[0].store.address;
+            province = data[0].store.province;
+            city = data[0].store.city;
+            area = data[0].store.area;
+            address = data[0].store.address;
+            var res = province + city + area + address;
             return res;
         }
     }
@@ -112,6 +110,7 @@ $(function() {
     , {
         field: 'bookMobile',
         title: '联系电话',
+        readonly:view,
         formatter: function(v, data) {
             return data[0].store.bookMobile;
         }        
@@ -119,16 +118,22 @@ $(function() {
         field: 'userReferee',
         title: '推荐人',
         type: 'select',
+        readonly:view,
         formatter: function(v, data) {
             if(data[0].store.referrer){
                 if(data[0].store.referrer){
                     var res1 = data[0].store.referrer.kind ;
                     var res2 = data[0].store.referrer.mobile;
+                    var level = data[0].store.referrer.level ;
                     if(res1 && res2){
-                        return userRefereeType[res1]+ '/' +res2
+                        if (res1 == 'f1') {
+                            return Dict.getNameForList1("user_level","807706",level)+ '/' +res2
+                        }else{
+                            return userRefereeType[res1]+ '/' +res2
+                        }
                     }else{
                        return "-" 
-                    }                
+                    }               
                 }
             }        
         }
@@ -142,6 +147,7 @@ $(function() {
         field: 'advPic',
         title: '广告图',
         type : 'img',
+        single: true,
         formatter: function(v, data) {
             return data[0].store.advPic
         }
@@ -150,7 +156,6 @@ $(function() {
         title: '展示图',
         type : 'img',
         required: true,
-        readonly: view,
         formatter: function(v, data) {
 
             return data[0].store.pic;
@@ -159,6 +164,7 @@ $(function() {
         title: '状态',
         field: "status",
         type: "select",
+        readonly:view,
         formatter: function(v, data) {
             var sta = data[0].store.status
             return statusStore[sta];
@@ -166,6 +172,7 @@ $(function() {
     }, {
         field: 'description',
         title: '图文描述',
+        type:'textarea',
         formatter: function(v, data) {
             return data[0].store.description;
         }
@@ -178,14 +185,68 @@ $(function() {
         }
     }];
     
-    buildDetail({
+   var options = {
         fields: fields,
-        view: view,
         code:{
             userId:getUserId()
         },
         detailCode: '808219',
-    });
-    $("#subBtn").hide();
-    $("#backBtn").hide();
+        editCode: '808208'
+    }
+    buildDetail(options);
+
+ $('#subBtn').off("click").click(function() {
+           var data = $('#jsForm').serializeObject();
+           // console.log(data)
+                // var data = {};
+                var addr = d.province + d.city + d.area + d.address;
+                var myGeo = new BMap.Geocoder();
+                myGeo.getPoint(addr, function(point) {
+                    if (point) {
+                        data.companyCode = OSS.companyCode,
+                        data.id = d.code
+                         data.code = d.code
+                         data.storeCode = d.code
+                         data.legalPersonName = d.legalPersonName
+                         data.level = d.level
+                         data.category = d.category
+                         data.type = d.type
+                         data.rate1 = d.rate1
+                         data.rate2 = d.rate2
+                         data.rate3 = d.rate3
+                         data.province = d.province
+                         data.city = d.city
+                         data.area = d.area
+                         data.address = d.address
+                         data.longitude = point.lng
+                         data.latitude = point.lat
+                         data.name = d.name
+                         data.bookMobile = d.bookMobile
+                         data.smsMobile = d.bookMobile
+                         data.userReferee = d.userReferee
+                         data.status = d.status
+                         // data.slogan = $("#slogan").val()?$("#slogan").val():d.slogan
+                         // data.description = description?description:d.description
+                         data.remark = remark?remark:d.remark
+                         data.advPic = $("#advPic .img-ctn").attr("data-src")?$("#advPic .img-ctn").attr("data-src"):d.advPic;
+                         var values = [];
+                         var imgs = $("#pic").find('.img-ctn');
+                        imgs.each(function(index, img) {
+                            values.push($(img).attr('data-src') || $(img).find('img').attr('data-src'));
+                        });                       
+                         data.pic = values.join('||')?values.join('||'):d.pic                         
+                        reqApi({
+                            code: code ? options.editCode : options.addCode,
+                            json: data
+                        }).done(function(data) {
+                            sucDetail();
+                        });
+                    } else {
+                        alert("无法解析当前地址的经纬度!");
+                    }
+                });
+
+            })  
+
+            $("#backBtn").hide();  
 });

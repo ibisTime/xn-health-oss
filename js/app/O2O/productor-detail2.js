@@ -97,14 +97,21 @@ $(function() {
         readonly: view,
         formatter: function(v, data) {
             if(data.referrer){
-                var res1 = data.referrer.kind ;
-                var res2 = data.referrer.mobile;
-                if(res1 && res2){
-                    return userRefereeType[res1]+ '/' +res2
-                }else{
-                   return "-" 
-                }                
-            }
+                if(data.referrer){
+                    var res1 = data.referrer.kind ;
+                    var res2 = data.referrer.mobile;
+                    var level = data.referrer.level ;
+                    if(res1 && res2){
+                        if (res1 == 'f1') {
+                            return Dict.getNameForList1("user_level","807706",level)+ '/' +res2
+                        }else{
+                            return userRefereeType[res1]+ '/' +res2
+                        }
+                    }else{
+                       return "-" 
+                    }                
+                }
+            }        
         }        
     }, {
         field: 'slogan',
@@ -142,6 +149,17 @@ $(function() {
         key: 'store_location',
         keyCode: '808907',
         formatter: Dict.getNameForList("store_location", "808907"),
+    },{
+        field: 'approveDatetime',
+        title: '审核时间',
+        formatter: dateTimeFormat,
+    },{
+        field: 'approveNote',
+        title: '审核说明',
+
+    },{
+        field: 'approver',
+        title: '审核人',
     }];
 	
 	buildDetail({

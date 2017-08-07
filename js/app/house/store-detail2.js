@@ -1,6 +1,7 @@
 $(function() {
 
     var code = getQueryString('code');
+    var d = {},remark,description,pic,advPic,slogan;
     var view = true;
 
     var typeData = {}
@@ -35,7 +36,9 @@ $(function() {
             field: 'legalPersonName',
             title: '法人姓名',
             required: true,
+            readonly: view,
             formatter: function(v, data) {
+                d= data[0].store;
                 return data[0].store.legalPersonName;
             }            
         },{
@@ -46,6 +49,7 @@ $(function() {
             keyName: "dkey",
             listCode: '808907',
             valueName: 'dvalue',
+            readonly: view,
             params:{
                  parentKey: "store_level"
             },
@@ -55,20 +59,26 @@ $(function() {
         },{
             field: 'name',
             title: '民宿名称',
-            
+            readonly: view,
             formatter: function(v, data) {
                 return data[0].store.name;
             }
         }, {
             field: 'province',
             title: '民宿地址',
+            readonly: view,
             formatter: function(v, data) {
-                var res = data[0].store.province + data[0].store.city + data[0].store.area + data[0].store.address;
+                province = data[0].store.province;
+                city = data[0].store.city;
+                area = data[0].store.area;
+                address = data[0].store.address;
+                var res = province + city + area + address;
                 return res;
             }
         }, {
             title: "预约电话",
             field: "bookMobile",
+            readonly: view,
             formatter: function(v, data) {
                 return data[0].store.bookMobile;
             }
@@ -76,20 +86,22 @@ $(function() {
             field: 'userReferee',
             title: '推荐人',
             readonly: view,
-            formatter: function(v, data) {  
-                if(data[0].store.referrer){
+           formatter: function(v, data) {
                 if(data[0].store.referrer){
                     var res1 = data[0].store.referrer.kind ;
                     var res2 = data[0].store.referrer.mobile;
+                    var level = data[0].store.referrer.level ;
                     if(res1 && res2){
-                        return userRefereeType[res1]+ '/' +res2
+                        if (res1 == 'f1') {
+                            return Dict.getNameForList1("user_level","807706",level)+ '/' +res2
+                        }else{
+                            return userRefereeType[res1]+ '/' +res2
+                        }
                     }else{
                        return "-" 
-                    }                
-                }
-            }   
-                
-            }        
+                    }               
+                }        
+        }       
         }, {
             field: 'slogan',
             title: '广告语',
@@ -100,6 +112,7 @@ $(function() {
             field: 'advPic',
             title: '广告图',
             type: 'img',
+            single: true,
             formatter: function(v, data) {
                 return data[0].store.advPic
             }
@@ -107,16 +120,14 @@ $(function() {
             field: 'pic',
             title: '展示图',
             type: 'img',
-            required: true,
-            readonly: view,
             formatter: function(v, data) {
-
                 return data[0].store.pic;
             }
         }, {
             title: '状态',
             field: "status",
             type: "select",
+            readonly: view,
             formatter: function(v, data) {
                 var sta = data[0].store.status
                 return statusStore[sta];
@@ -124,6 +135,7 @@ $(function() {
         }, {
             field: 'description',
             title: '图文描述',
+            type:'textarea',
             formatter: function(v, data) {
                 return data[0].store.description;
             }
@@ -134,19 +146,69 @@ $(function() {
             formatter: function(v, data) {
                 return data[0].store.remark;
             }
-        }
-    ];
+        }];
 
-    buildDetail({
+    var options = {
         fields: fields,
-        view: view,
-        code: {
-            userId: getUserId()
+        code:{
+            userId:getUserId()
         },
         detailCode: '808219',
-    });
+        editCode: '808208'
+    }
+    buildDetail(options);
 
-    $("#subBtn").hide();
-    $("#backBtn").hide();
+ $('#subBtn').off("click").click(function() {
+           var data = $('#jsForm').serializeObject();
+                var addr = d.province + d.city + d.area + d.address;
+                var myGeo = new BMap.Geocoder();
+                myGeo.getPoint(addr, function(point) {
+                    if (point) {
+                        data.companyCode = OSS.companyCode,
+                        data.id = d.code
+                         data.code = d.code
+                         data.storeCode = d.code
+                         data.legalPersonName = d.legalPersonName
+                         data.level = d.level
+                         data.category = d.category
+                         data.type = d.type
+                         data.rate1 = d.rate1
+                         data.rate2 = d.rate2
+                         data.rate3 = d.rate3
+                         data.province = d.province
+                         data.city = d.city
+                         data.area = d.area
+                         data.address = d.address
+                         data.longitude = point.lng
+                         data.latitude = point.lat
+                         data.name = d.name
+                         data.bookMobile = d.bookMobile
+                         data.smsMobile = d.bookMobile
+                         data.userReferee = d.userReferee
+                         data.status = d.status
+                         // data.slogan = $("#slogan").val()?$("#slogan").val():d.slogan
+                         // data.description = description?description:d.description
+                         data.remark = remark?remark:d.remark
+                         data.advPic = $("#advPic .img-ctn").attr("data-src")?$("#advPic .img-ctn").attr("data-src"):d.advPic;
+                         var values = [];
+                         var imgs = $("#pic").find('.img-ctn');
+                        imgs.each(function(index, img) {
+                            values.push($(img).attr('data-src') || $(img).find('img').attr('data-src'));
+                        });                       
+                         data.pic = values.join('||')?values.join('||'):d.pic                       
+                        reqApi({
+                            code:options.editCode,
+                            json: data
+                        }).done(function(data) {
+                            sucDetail();
+                        });
+                    } else {
+                        alert("无法解析当前地址的经纬度!");
+                    }
+                });
+
+            })  
+
+            $("#backBtn").hide();  
 
 });

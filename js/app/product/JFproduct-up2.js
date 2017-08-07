@@ -18,7 +18,7 @@ $(function() {
         keyName: 'dkey',
         valueName: 'dvalue',
         params:{
-        	parentKey: "product_location"
+        	parentKey: "jf_product_location"
         },        
         formatter: function(v,data){
         	return data.location;

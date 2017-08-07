@@ -48,10 +48,10 @@ body,td,li,input, textarea, select, button{font-size:12px; color:#666;resize:non
 .topnew .main .right a:link{color: #666;text-decoration: none;}
 .topnew .main .right a:hover{color: #19BF96;}
 .topnew .main .right a.red{color: #FF0000;}
-.logo{ float:left;margin-top:10px; margin-right:20px; overflow:hidden;}
-.logo img{position: absolute;}
+.logo{ float:left;margin-top:5px; margin-right:20px; overflow:hidden;}
+.logo img{position: absolute;left: 120px;}
 .logo span{ height:70px;}
-.head{width:300px;height:105px; position:relative;top:10px;left: 198px; z-index:103;}
+.head{width:300px;height:150px; position:relative;top:0px;left: 198px; z-index:103;}
 .nav ul{overflow: visible;}
 .nav ul .download_dropdown{width:162px;position:absolute;top: 39px;display: none;border: solid 1px #ECE9E9;border-radius:3px;box-shadow:0px 2px 4px 0px rgba(0,0,0,0.13);border-radius:3px 0px 0px 0px 3px 3px 3px;}
 .nav ul .download_dropdown ul{overflow:hidden;width:162px;height:94px;background:#ffffff;}

@@ -186,15 +186,22 @@ $(function() {
         readonly: view,
         formatter: function(v, data) {
             if(data.referrer){
-                userReferee = data.referrer.userId;
-                var res1 = data.referrer.kind ;
-                var res2 = data.referrer.mobile;
-                if(res1 && res2){
-                    return userRefereeType[res1]+ '/' +res2
-                }else{
-                   return "-" 
-                }                
-            }   
+                if(data.referrer){
+                    userReferee = data.referrer.userId;
+                    var res1 = data.referrer.kind ;
+                    var res2 = data.referrer.mobile;
+                    var level = data.referrer.level ;
+                    if(res1 && res2){
+                        if (res1 == 'f1') {
+                            return Dict.getNameForList1("user_level","807706",level)+ '/' +res2
+                        }else{
+                            return userRefereeType[res1]+ '/' +res2
+                        }
+                    }else{
+                       return "-" 
+                    }                
+                }
+            }        
         }        
     },{
         field: 'slogan',

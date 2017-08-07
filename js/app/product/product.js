@@ -77,6 +77,7 @@ $(function () {
         searchParams:{
             companyCode: OSS.companyCode,
             storeCode: storeCode?storeCode:"",
+            kind: "1"
         },
         pageCode: '808025',
         deleteCode:'808011',

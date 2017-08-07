@@ -166,6 +166,17 @@ $(function() {
         key: 'store_location',
         keyCode: '808907',
         formatter: Dict.getNameForList("store_location", "808907"),
+    },{
+        field: 'approveDatetime',
+        title: '审核时间',
+        formatter: dateTimeFormat,
+    },{
+        field: 'approveNote',
+        title: '审核说明',
+
+    },{
+        field: 'approver',
+        title: '审核人',
     }];
 	
 	buildDetail({

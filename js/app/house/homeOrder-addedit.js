@@ -76,8 +76,8 @@ $(function() {
         title: '图文描述',
         type: "textarea",
         required: true,
-        formatter: function () {
-            return description;
+        afterSet: function () {
+            $("#description").html(description) ;
         }
     }, {
         field: 'totalNum',
