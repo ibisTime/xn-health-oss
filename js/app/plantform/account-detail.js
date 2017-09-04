@@ -40,10 +40,24 @@ $(function() {
             field: 'transAmount',
             title: '变动金额',
             formatter: moneyFormat
-        }, {
-            field: 'createDatetime',
-            title: '创建时间',
-            formatter: dateTimeFormat
+        }
+        // , {
+        //     field: 'createDatetime',
+        //     title: '创建时间',
+        //     formatter: dateTimeFormat,
+        //     search: true,
+        // }
+        ,{
+            title: "创建时间",
+            field: "createDatetime",
+            formatter: dateTimeFormat,
+            field1: 'dateStart',
+            title1: '创建时间',
+            type1: 'date',
+            field2: 'dateEnd',
+            type2: 'date',   
+            twoDate: true,         
+            search: true                      
         }, {
             field: 'bizNote',
             title: "备注"
@@ -60,7 +74,14 @@ $(function() {
         }
     });
 
+    
+    $('.tools .toolbar').html('<li style="display:block;" id="exportBtn"><span><img src="/static/images/t01.png"></span>导出</li>')
+    $('#exportBtn').click(function() {
+        $('.export .btn').click();
+    });
+
     $('#gobackBtn').click(function() {
         goBack();
-    });
+    }); 
+           
 });

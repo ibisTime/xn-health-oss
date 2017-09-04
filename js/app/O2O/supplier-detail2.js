@@ -24,6 +24,9 @@ $(function() {
         field: 'mobile',
         title: '登录名(手机号)',
         required: true,
+        formatter: function(v, data) {
+            return  data.user.loginName
+        }
     },{
         field: 'legalPersonName',
         title: '法人姓名',
@@ -117,6 +120,11 @@ $(function() {
         title: '广告语',
         required: true,
 		readonly: view
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        readonly: view
     }, {
         field: 'advPic',
         title: '广告图',

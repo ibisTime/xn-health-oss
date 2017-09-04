@@ -83,6 +83,11 @@ $(function() {
         title: '广告语',
         required: true,
         readonly: view
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        readonly: view
     }, {
         field: 'advPic',
         title: '广告图',

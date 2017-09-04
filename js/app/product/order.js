@@ -6,20 +6,37 @@ $(function() {
     }, {
         field: 'code',
         title: '订单编号',
+        search: true,
+    }, {
+        field: 'productSpecsName',
+        title: '商品名称',
+        formatter: function(v, data) {
+            return data.productOrderList[0].product.name;
+        }
+
     }, {
         field: 'amount1',
-        title: '人民币总额',
+        title: '健康币总额',
         formatter: moneyFormat,
     }, {
         field: 'payAmount1',
-        title: '已支付人民币总额',
+        title: '已支付健康币总额',
         formatter: moneyFormat,
     }, {
         field: 'applyUser',
         title: '下单用户',
+        // type: 'select',
+        // pageCode1: "805054",
+        // params: {
+        //     kind: 'f1',
+        //     updater: ''
+        // },
+        // keyName: 'applyUser',
+        // valueName: 'mobile', 
+        // searchName: 'mobile',       
         formatter: function(v, data) {
             return data.user.mobile;
-        }
+        },
 
     }, {
         field: 'applyDatetime',
@@ -43,7 +60,7 @@ $(function() {
         columns: columns,
         pageCode: '808065',
         searchParams: {
-            toUser: getUserId(),
+            toUser: getUserId() == "SYS_USER_JKEG"?"":getUserId(),
             companyCode: OSS.company,
             type: "1"
         }

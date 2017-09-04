@@ -143,6 +143,14 @@ $(function() {
         formatter: function(v, data) {
             return data[0].store.slogan;
         }
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        single: true,
+        formatter: function(v, data) {
+            return data[0].store.pdf;
+        }
     }, {
         field: 'advPic',
         title: '广告图',
@@ -195,6 +203,11 @@ $(function() {
     }
     buildDetail(options);
 
+    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>建议上传200×200图片</p>";
+    $(h).insertAfter("#advPic"); 
+    $(h).insertAfter("#pic");  
+    $(h).insertAfter("#pdf");    
+
  $('#subBtn').off("click").click(function() {
            var data = $('#jsForm').serializeObject();
            // console.log(data)
@@ -227,7 +240,8 @@ $(function() {
                          data.status = d.status
                          // data.slogan = $("#slogan").val()?$("#slogan").val():d.slogan
                          // data.description = description?description:d.description
-                         data.remark = remark?remark:d.remark
+                         data.remark = remark?remark:d.remark;
+                         data.pdf = $("#pdf .img-ctn").attr("data-src")?$("#pdf .img-ctn").attr("data-src"):d.pdf;
                          data.advPic = $("#advPic .img-ctn").attr("data-src")?$("#advPic .img-ctn").attr("data-src"):d.advPic;
                          var values = [];
                          var imgs = $("#pic").find('.img-ctn');

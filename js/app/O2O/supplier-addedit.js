@@ -1,35 +1,19 @@
 $(function() {
 
     var code = getQueryString('code');
-     var view = getQueryString('v')
-     var level1;
-     var kind;
-     var legalPersonName;
-     var userReferee;
+    var view = getQueryString('v')
+    var level;
+    var level1;
+    var kind;
+    var legalPersonName;
+    var userReferee;
     var typeData = {};
+    var data1 = {};
 
     var userRefereeType = {
         "operator": "市/区运营商",
-        "o2o": "o2o商家",
-        "supplier":"供应商",
-        "mingsu":"民宿主",
-        "f1":"VIP会员",
+        "f1":"VIP会员"
     };    
-
-    reqApi({
-        code:'808007'
-    }).done(function(d) {
-                    
-        d.forEach(function(v,i){
-            // if (code ="FL2017061016211611994528") {
-            //    continue;
-            // }else{
-                
-            // }
-            typeData[v.code] = v.name; 
-            
-        })
-    });
 
 
     var fields = [ {
@@ -37,7 +21,10 @@ $(function() {
         title: '登录名(手机号)',
         // readonly: true,
         required: true,
-        readonly: view
+        readonly: view,
+        formatter: function(v, data) {
+            return  data.user.loginName
+        }
     },{
         field: 'legalPersonName',
         title: '法人姓名',
@@ -60,7 +47,6 @@ $(function() {
         params:{
              parentKey: "store_level"
         },
-        // formatter:Dict.getNameForList("store_level", "808907"),
         onChange:function(v,data){
             if ($("#level_chosen .chosen-single span").text()=="酒店名宿") {
                  $("#category_chosen").parent(".clearfix").hide();
@@ -84,9 +70,9 @@ $(function() {
     }, {
         title: '地址',
         field: "province1",
-        type:'select',
-        key:"product_location",
-        keyCode:'808907',
+        // type:'select',
+        // key:"product_location",
+        // keyCode:'808907',
         required: true,
         type: 'citySelect',
     }, {
@@ -119,7 +105,6 @@ $(function() {
         formatter: function(v, data) {
             if(data.referrer){
                 if(data.referrer){
-                userReferee = data.referrer.userId;
                     var res1 = data.referrer.kind ;
                     var res2 = data.referrer.mobile;
                     var level = data.referrer.level ;
@@ -135,10 +120,55 @@ $(function() {
                 }
             }        
         }        
-    },{
+    }
+    // ,{
+    //     field: 'referrerKind',
+    //     title: '推荐人类型',
+    //     type: 'select',
+    //     data:userRefereeType,
+    //     value: function(data) {
+    //         return data['referrer']['kind'];       
+    //     },
+    //     onChange:function(v){
+    //         if(v == "f1" ){
+    //             kind = "f1";
+    //             level1 = "1";
+    //         }else{
+    //             kind = "operator";
+    //         }
+
+    //     reqApi({
+    //             code: '805060',
+    //             json: {
+    //                 kind:kind,
+    //                 start:"1",
+    //                 limit:"10",                    
+    //                 level:level1?level1:"",
+    //                 status:"0"
+    //             },
+    //             sync: true
+    //         }).done(function(d) {
+                
+
+    //             if(d.list.length ){
+    //                 d.list.forEach(function(d,i){
+    //                     data1[d.userId] = d.mobile;
+
+    //                 })
+    //             }
+    //             $("#referrerMobile").renderDropdown2(data1);
+    //         });           
+    //     }                        
+    // }
+    ,{
         field: 'slogan',
         title: '广告语',
         required: true,
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        single: true
     },  {
         title: '店铺缩略图',
         field: 'advPic',
@@ -175,6 +205,11 @@ $(function() {
         }
     }
     buildDetail(options);
+
+    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>建议上传200×200图片</p>";
+    $(h).insertAfter("#advPic"); 
+    $(h).insertAfter("#pic");
+    $(h).insertAfter("#pdf");     
 
         $('#subBtn').off("click").click(function() {
             if ($('#jsForm').valid()) {
@@ -228,7 +263,6 @@ $(function() {
                 myGeo.getPoint(addr, function(point) {
                     if (point) {
                         data.companyCode = OSS.companyCode,
-                        // data.userReferee = userId;
                         data.userReferee = sessionStorage.getItem('userId');
                         // data.type = "2";
                         // data.rate1 = "1";

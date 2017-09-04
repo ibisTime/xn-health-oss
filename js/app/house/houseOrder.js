@@ -6,7 +6,10 @@ $(function() {
         checkbox: true
     }, {
         title: "下单人",
-        field: "applyUser",
+        field: "loginName",
+        formatter:function(v,data){
+            return data.user.loginName
+        }
         // search: true
     }, {
         title: "入住人",
@@ -15,13 +18,13 @@ $(function() {
         field: 'reMobile',
         title: '入住人联系方式',
     }, {
-        title: "状态",
-        field: "status",
-        type: 'select',
-        keyCode: '808907',
-        key: "sorder_status",
-        formatter: Dict.getNameForList('sorder_status', "808907"),
-        search: true
+        field: 'amount1',
+        title: '健康币总额',
+        formatter: moneyFormat,
+    }, {
+        field: 'payAmount1',
+        title: '已支付健康币总额',
+        formatter: moneyFormat,
     }, {
         title: "支付方式",
         field: "payType",
@@ -29,6 +32,14 @@ $(function() {
         keyCode: '808907',
         key: "pay_type",
         formatter: Dict.getNameForList('pay_type', "808907"),
+        search: true
+    }, {
+        title: "状态",
+        field: "status",
+        type: 'select',
+        keyCode: '808907',
+        key: "sorder_status",
+        formatter: Dict.getNameForList('sorder_status', "808907"),
         search: true
     }, {
         field: 'handleUser',

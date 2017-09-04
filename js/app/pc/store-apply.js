@@ -1,55 +1,8 @@
 $(function() {
-        var code = getQueryString('code');
-        var level1;
-    //  var pCode = getQueryString('pCode')
-    
-    // $(".logo a").attr("href","http://"+OSS.guideBaseUrl);
-    // $("#partnerLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=05");
-    // $("#storeLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=f2");
-    // $("#storeApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/store_apply.html");//商户
-    // $("#houseApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/home_apply.html");//名宿
-    // $("#houseLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=11");
-    // $("#iosDownload").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/IOS.html");
-    // $("#androidDownload").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/Android.html");
+    var code = getQueryString('code');
+    var level1;
+    var typeData = {};
 
-    // reqApi({
-    //     code: '807717',
-    //     json: {
-    //         ckey: 'telephone'
-    //     },
-    //     sync: true
-    // }).then(function(data) {
-
-    //     $("#tel").text("欢迎致电："+data.note);
-    // });
-
-    // reqApi({
-    //     code: '807717',
-    //     json: {
-    //         ckey: 'time'
-    //     },
-    //     sync: true
-    // }).then(function(data) {
-
-    //     $("#time").text("服务时间："+data.note);
-    // });
-
-    // $("#aboutus").on('click',function(){
-    //         reqApi({
-    //         code: '807717',
-    //         json: {
-    //             ckey: 'aboutUs'
-    //         },
-    //         sync: true
-    //     }).then(function(data) {
-
-    //         $(".banner").html(data.note).find("img").css({"width": "100%","background-size": "cover","margin-top": "-32px"});
-    //     });
-    // })
-
-
-
-    var typeData = {}
     reqApi({
         code:'808007',
         json: {
@@ -199,11 +152,6 @@ $(function() {
         data: {
             "0": "市/区运营商",
             "1":"VIP会员",
-            // "1": "o2o商家",
-            // "2":"供应商",
-            // "3":"名宿主",
-            // "4":"VIP会员",
-
         },
         onChange:function(v,data){
             if(v == "0" ){
@@ -214,14 +162,6 @@ $(function() {
                 kind = "f1";
                 level1 = "1";                 
             }
-            // else if (v == "2") {
-            //     kind = "supplier";
-            // }else if (v == "3") {
-            //     kind = "mingsu";
-            // }else if (v == "4") {
-            //     kind = "f1";
-            //     level1 = "1";
-            // }
 
         reqApi({
                 code: '805060',
@@ -264,7 +204,12 @@ $(function() {
         field: 'slogan',
         title: '广告语',
         required: true,
-    },  {
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        single: true
+    },{
         title: '店铺缩略图',
         field: 'advPic',
         type: 'img',
@@ -304,6 +249,12 @@ $(function() {
               goBack();
         });
         
+
+    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>建议上传200×200图片</p>";
+    $(h).insertAfter("#advPic"); 
+    $(h).insertAfter("#pic");  
+    $(h).insertAfter("#pdf");       
+
         $('#subBtn').off("click").click(function() {
             if ($('#jsForm').valid()) {
                 var data = $('#jsForm').serializeObject();
@@ -370,7 +321,7 @@ $(function() {
                         if($("#tj_mobile").text()){
                             data.userReferee = $("#tj_mobile").val()
                         }else{
-                            data.userReferee = "SYS_USER_JKEG";
+                            data.userReferee = "";
                         }                         
                         reqApi({
                             code: code ? options.editCode : options.addCode,

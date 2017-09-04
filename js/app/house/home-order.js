@@ -6,7 +6,10 @@ $(function() {
         checkbox: true
     }, {
         title: "下单人",
-        field: "applyUser",
+        field: "loginName",
+        formatter:function(v,data){
+            return data.user.loginName
+        },        
         // search: true
     }, {
         title: "入住人",

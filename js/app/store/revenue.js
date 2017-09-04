@@ -1,5 +1,9 @@
 $(function () {
     var code = getQueryString('code');
+    var view = false;
+    if(getUserName() == 'jkeg'){
+        view = true;
+    }
     var typeData = {}
     reqApi({
         code:'808007'
@@ -14,10 +18,22 @@ $(function () {
         field: '',
         title: '',
         checkbox: true
-    }
-    , {
+    }, {
+        field: 'nickname',
+        title: '支付用户',
+        formatter: function(v, data) {  
+            return data.user.nickname;
+        }
+    }, {
+        field: 'mobile',
+        title: '支付手机号',
+        formatter: function(v, data) {  
+            return data.user.mobile;
+        }
+    }, {
         field: 'name',
         title: '商户',
+        visible: view,
         formatter: function(v, data) {  
             return data.store.name;
         }
@@ -52,19 +68,6 @@ $(function () {
         keyCode:"808907",
         formatter: dateTimeFormat,
     }, {
-        field: 'nickname',
-        title: '支付用户',
-        formatter: function(v, data) {  
-            return data.user.nickname;
-        }
-    }, {
-        field: 'mobile',
-        title: '支付手机号',
-        formatter: function(v, data) {  
-            return data.user.mobile;
-        }
-    }
-    , {
         field: 'status',
         title: '状态',
         type: "select",

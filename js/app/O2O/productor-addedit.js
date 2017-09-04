@@ -30,11 +30,14 @@ $(function() {
 
 
     var fields = [ {
-        field: 'mobile',
+        field: 'loginName',
         title: '登录名(手机号)',
         // readonly: true,
         required: true,
-        readonly: view
+        readonly: view,
+        formatter: function(v, data) {
+            return  data.user.loginName
+        }
     },{
         field: 'legalPersonName',
         title: '法人姓名',
@@ -174,7 +177,12 @@ $(function() {
         field: 'slogan',
         title: '广告语',
         required: true,
-    },  {
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        single: true
+    }, {
         title: '店铺缩略图',
         field: 'advPic',
         type: 'img',
@@ -210,6 +218,11 @@ $(function() {
         }
     }
     buildDetail(options);
+
+    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>建议上传200×200图片</p>";
+    $(h).insertAfter("#advPic"); 
+    $(h).insertAfter("#pic");
+    $(h).insertAfter("#pdf");     
 
         $('#subBtn').off("click").click(function() {
             if ($('#jsForm').valid()) {

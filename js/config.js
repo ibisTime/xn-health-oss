@@ -16,5 +16,6 @@ OSS.SYS_USER = 'SYS_USER_JKEG';
 //用户登录有效时间
 OSS.userValidTime = 30;
 // 前导页url
-OSS.guideBaseUrl = "jkegdev.hijuniu.com";
+OSS.guideBaseUrl = "jkegtest.hijuniu.com";
+// OSS.guideBaseUrl = "jkegdev.hijuniu.com";
 // OSS.guideBaseUrl = "localhost:5320";

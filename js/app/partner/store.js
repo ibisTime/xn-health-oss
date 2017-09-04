@@ -9,16 +9,17 @@ $(function() {
         "mingsu":"民宿主",
         "f1":"VIP会员",
     };
-    var city;
-    var area;  
+    var city,province,area;
+
     reqApi({
         code:'805056',
         json:{userId:userId},
         sync: true
     }).done(function(d) {    
-        city = d.userExt.city 
-        area = d.userExt.area
-        // city == area?area:""
+        city = d.gxCity 
+        area = d.gxArea == '-'?'':d.gxArea;
+        province = d.gxProvince;
+        $('.myArea').append(province+ city + area)
     });     
 
     var columns = [{
@@ -123,12 +124,12 @@ $(function() {
 
     buildList({
         columns: columns,
-        pageCode: '808215',
+        pageCode: '808220',
         searchParams: {
             companyCode: OSS.companyCode,
-            userReferee: userReferee,
-            area: area,
-            city: city,
+            userId: userId,
+            // area: area,
+            // city: city,
         }
     });
 

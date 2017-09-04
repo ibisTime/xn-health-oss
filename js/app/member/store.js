@@ -16,7 +16,7 @@ $(function() {
         title : '登录名',
         // search: true
     }, {
-        field: 'name',
+        field: 'name',  
         title: '店铺名称',
         search: true
     },{

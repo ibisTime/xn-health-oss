@@ -4,9 +4,9 @@ $(function() {
     var loginName = getQueryString('loginName');
     var view = getQueryString('v');
     var level;
-    var province;
-    var city;
-    var area;
+    // var province;
+    // var city;
+    // var area;
     var realName;
     var userReferee;     
     var userRefereeType = {
@@ -46,19 +46,41 @@ $(function() {
         }
     }, {
         field: 'province',
-        title: '地址',
-        readonly: view,
-        formatter: function(v, data) {
-            province = data.userExt.province
-            city = data.userExt.city;
-            area = data.userExt.area            
-            if (data.userExt.city == data.userExt.area) {
-                var res = data.userExt.province + data.userExt.city
-            }else{
-                var res = data.userExt.province + data.userExt.city + data.userExt.area;
-            }
-            return res;
+        title: '户籍地址',
+        type: 'citySelect',
+        getData: function (data) {
+            return data.userExt || {};
         }
+        // ,
+        // formatter: function(v,data) {
+        //     province = data.userExt.province
+        //     city = data.userExt.city;
+        //     area = data.userExt.area            
+        //     if (data.userExt.city == data.userExt.area) {
+        //         var res = data.userExt.province + data.userExt.city
+        //     }else{
+        //         var res = data.userExt.province + data.userExt.city + data.userExt.area;
+        //     }
+        //     return res;
+        // }
+    }, {
+        field: 'gxProvince',
+        title: '管辖地址',
+        type: 'citySelect1',
+        getData: function (data) {
+            return data || {};
+        },
+        // formatter: function(v,data) {
+        //     gxProvince = data.gxProvince
+        //     gxCity = data.gxCity;
+        //     gxArea = data.gxArea            
+        //     if (data.gxCity == data.gxArea) {
+        //         var res = data.gxProvince + data.gxCity
+        //     }else{
+        //         var res = data.gxProvince + data.gxCity + data.gxArea;
+        //     }
+        //     return res;
+        // }        
     },{
         field: 'userReferee',
         title: '推荐人',
@@ -116,15 +138,21 @@ $(function() {
         },
         detailCode: '805056',
         addCode: '805042',
-        editCode: '805182',
+        editCode: '805181',
         beforeSubmit: function(data){
             if(userId){
                 data.userId = userId;
             }
             data.kind = 'operator';
-            data.province = province;
-            data.city = city;
-            data.area = area;             
+            data.loginName = $('#loginName').text();
+            if(!data.gxCity && !data.gxArea){
+                data.gxCity = data.gxProvince;
+                data.gxArea = "-";
+
+            }else if(data.gxCity && !data.gxArea){
+                data.gxArea = "-";
+            }
+            
             data.realName = realName;
             data.userReferee = userReferee
             return data;
@@ -133,5 +161,6 @@ $(function() {
     
     var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>初始密码为 888888</p>";
     $(h).insertAfter("#loginName");
+    
     
 });

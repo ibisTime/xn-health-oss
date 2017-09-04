@@ -1,7 +1,10 @@
 $(function() {
 	
 	var code = getQueryString('code');
-	
+	var data1 ={
+        "SRSysAdmin":'系统管理员',
+        "SRSuperAdmin":"超级管理员",
+    }	
 	var fields = [{
 		field: 'kind',
 		type: 'hidden',
@@ -16,9 +19,10 @@ $(function() {
 		field: 'roleCode',
 		required: true,
 		type: 'select',
-		listCode: '805021',
-		keyName: 'code',
-		valueName: 'name'
+		data:data1,
+		// listCode: '805021',
+		// keyName: 'code',
+		// valueName: 'name'
 	}, 	{
 		title: '备注',
 		field: 'remark',

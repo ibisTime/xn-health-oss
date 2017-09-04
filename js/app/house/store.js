@@ -12,10 +12,23 @@ $(function() {
         field: '',
         title: '',
         checkbox: true
+    },{
+        field : 'loginName',
+        title : '登录名',
+        formatter: function(v, data) {
+            return  data.user.loginName
+        }        
     }, {
         field: 'name',
         title: '店铺名称',
         search: true
+    },{
+        title: '分润',
+        field: 'rate2',
+        required: true,
+    }, {
+        field: 'bookMobile',
+        title: '联系电话',
     }
     // , {
     //     field: 'level',
@@ -53,13 +66,7 @@ $(function() {
     //     field: 'legalPersonName',
     //     title: '法人姓名',
     // }
-    , {
-        field: 'bookMobile',
-        title: '联系电话',
-    }, {
-        field: 'smsMobile',
-        title: '短信手机号',
-    },{
+    ,{
         field: 'userReferee',
         title: '推荐人',
         type: 'select',
@@ -67,7 +74,7 @@ $(function() {
             if(data.referrer){
                 if(data.referrer){
                     var res1 = data.referrer.kind ;
-                    var res2 = data.referrer.mobile;
+                    var res2 = data.referrer.loginName;
                     var level = data.referrer.level ;
                     if(res1 && res2){
                         if (res1 == 'f1') {
@@ -93,16 +100,6 @@ $(function() {
         field: 'updateDatetime',
         title: '入驻时间',
         formatter: dateTimeFormat,
-    },{
-        field: 'uiLocation',
-        title: '位置',
-        type: 'select',
-        key: 'store_location',
-        keyCode: '808907',
-        formatter: Dict.getNameForList("store_location", "808907"),
-    }, {
-        field: 'remark',
-        title: '备注'
     }];
 
     buildList({
@@ -124,10 +121,10 @@ $(function() {
             return;
         }
 
-        // if (selRecords[0].status != 0) {
-        //     toastr.info("当前店铺状态不能审核!");
-        //     return;
-        // }
+        if (selRecords[0].status != 0) {
+            toastr.info("当前店铺状态不能审核!");
+            return;
+        }
 
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
@@ -162,7 +159,7 @@ $(function() {
             return;
         }
 
-        window.location.href = "store_up2.html?Code=" + selRecords[0].code;
+        window.location.href = "store_up2.html?Code=" + selRecords[0].code+"&rate2="+selRecords[0].rate2;
     });
 
     //下架
@@ -224,4 +221,56 @@ $(function() {
         window.location.href = "revenue.html?Code=" + selRecords[0].code+"&userId="+selRecords[0].owner;
 
     });
+
+$('#cancelBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        if (selRecords[0].status == 92) {
+            toastr.info("已解约");
+            return;
+        }
+        confirm("确认解约？").then(function() {
+            reqApi({
+                code: '808210',
+                json: { "code": selRecords[0].code,"updater": getUserName(),'remark':"解约"}
+            }).then(function() {
+                toastr.info("操作成功");
+                $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
+            });
+        },function(){});
+    });     
+
+    $('#resetBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        window.location.href = "../person/role_pwd_reset.html?userId=" + selRecords[0].user.userId+"&userName="+selRecords[0].user.loginName;
+    });  
+
+    $('#referrerBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        window.location.href = "../person/custom_referrer.html?userId=" + selRecords[0].user.userId;
+    });   
+
+    $('#addressBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        window.location.href = "../person/custom_address.html?userId=" + selRecords[0].user.userId;
+    });      
 });

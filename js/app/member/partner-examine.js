@@ -85,7 +85,8 @@ $(function() {
         view: view
     }, {
         field: 'province',
-        title: '地址',
+        title: '户籍地址',
+        // type: 'citySelect',
         formatter: function(v, data) {
             if (data.userExt.city == data.userExt.area) {
                 var res = data.userExt.province + data.userExt.city
@@ -93,6 +94,18 @@ $(function() {
                 var res = data.userExt.province + data.userExt.city + data.userExt.area;
             }
             return res;
+        }
+    }, {
+        field: 'gxProvince',
+        title: '管辖地址',
+        // type: 'citySelect1',
+        formatter: function(v, data) {
+            if (data.gxCity == data.gxArea || data.gxArea == '-') {
+                var res1 = data.gxProvince + data.gxCity
+            }else{
+                var res1 = data.gxProvince + data.gxCity + data.gxArea;
+            }
+            return res1;
         }
     },{
         field: 'userReferee',
@@ -169,5 +182,7 @@ $(function() {
     
     var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>初始密码为 888888</p>";
     $(h).insertAfter("#loginName");
+
+    $('#gxProvince').parent('li').css('display','block')
     
 });

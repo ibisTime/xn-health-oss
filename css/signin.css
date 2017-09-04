@@ -15,7 +15,7 @@ body{background-color:#1c77ac; background-image:url(../images/light.png); backgr
 .login-top ul li a{color:#afc5d2;}
 .login-top ul li a:hover{color:#fff;}
 .login-body{background:url(../images/loginbg3.png) no-repeat center center; width:100%; height:585px; overflow:hidden; position:absolute; top:47px;}
-.system-logo{width:100%; height:180px; margin-top:75px;}
+.system-logo{width:100%; height:100px; }
 .login-box{width:692px; height:336px; background:url(../images/logininfo.png) no-repeat; margin-top:30px;left:0;right:0;margin:auto;position:absolute;}
 .login-box ul{margin-top:88px; margin-left:285px;}
 .login-box ul li{margin-bottom:25px; position: relative; float: left; clear: both;}
@@ -48,18 +48,41 @@ body{background-color:#1c77ac; background-image:url(../images/light.png); backgr
 }
 
 .login-tabs a.active {
-	color: #FFCF15;
+	color: #3B95C8;
+	display: none;
+}
+
+.login-tabs input.active {
+	display: none;
 }
 
 .login-tabs a:hover {
-	color: #FFCF15;
+	color: #3B95C8;
+}
+.pwd-back{
+	width: 160px;
+	position: relative;
+	left: 222px;
+	bottom: 90px;
+	display: inline-block;
+	color: #919394;
+	z-index: 99999;
+}
+.login-back{
+	position: relative;
+	left: 182px;
+	bottom: 46px;	
+	z-index: 99999;
+
 }
 
 @media screen and (max-width: 1450px) {
 	.system-logo {
-	    margin-top: 30px!important;
-	    height: 50px!important;
-	    background-size: contain;
+		width:100%; 
+		height:150px;
+	    // margin-top: 30px!important;
+	    // height: 50px!important;
+	    // background-size: contain;
 	}
 	.swiper-container {
 	    height: 350px!important;

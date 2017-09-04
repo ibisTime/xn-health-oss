@@ -2,67 +2,6 @@ $(function() {
 
     var code = getQueryString('code');
     var level1;
-    // //  var pCode = getQueryString('pCode')
-    // var typeData = {}
-
-    // $(".logo a").attr("href","http://"+OSS.guideBaseUrl);
-    // $("#partnerLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=05");
-    // $("#storeLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=f2");
-    // $("#storeApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/store_apply.html");//商户
-    // $("#houseApply").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/home_apply.html");//名宿
-    // $("#houseLongin").attr("href","http://oss."+OSS.guideBaseUrl+"/signin.html?kind=11");
-    // $("#iosDownload").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/IOS.html");
-    // $("#androidDownload").attr("href","http://oss."+OSS.guideBaseUrl+"/pc/Android.html");
-
-    // reqApi({
-    //     code: '807717',
-    //     json: {
-    //         ckey: 'telephone'
-    //     },
-    //     sync: true
-    // }).then(function(data) {
-
-    //     $("#tel").text("欢迎致电："+data.note);
-    // });
-
-    // reqApi({
-    //     code: '807717',
-    //     json: {
-    //         ckey: 'time'
-    //     },
-    //     sync: true
-    // }).then(function(data) {
-
-    //     $("#time").text("服务时间："+data.note);
-    // });
-
-    //  $("#aboutus").on('click',function(){
-    //         reqApi({
-    //         code: '807717',
-    //         json: {
-    //             ckey: 'aboutUs'
-    //         },
-    //         sync: true
-    //     }).then(function(data) {
-
-    //         $(".banner").html(data.note).find("img").css({"width": "100%","background-size": "cover","margin-top": "-32px"});
-    //     });
-    // })
-
-
-    // reqApi({
-    //     code:'808007',
-    //     json: {
-    //       companyCode: OSS.companyCode, 
-    //       systemCode: OSS.companyCode  
-    //     }
-    // }).done(function(d) {
-                    
-    //     d.forEach(function(v,i){
-    //         typeData[v.code] = v.name; 
-            
-    //     })
-    // });
 
 
     var fields = [  {
@@ -165,6 +104,10 @@ $(function() {
     //     required: true,
     // }
     ,{
+        title: '分润比例',
+        field: 'rate2',
+        required: true,
+    },{
         field: 'name',
         title: '民宿名称',
         required: true,
@@ -268,6 +211,11 @@ $(function() {
         field: 'slogan',
         title: '广告语',
         required: true,
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        single: true
     },  {
         title: '民宿缩略图',
         field: 'advPic',
@@ -305,6 +253,11 @@ $(function() {
         $('#backBtn').click(function() {
               goBack();
         });
+
+        var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>建议上传200×200图片</p>";
+        $(h).insertAfter("#advPic"); 
+        $(h).insertAfter("#pic");  
+        $(h).insertAfter("#pdf");        
         
         $('#subBtn').off("click").click(function() {
             if ($('#jsForm').valid()) {
@@ -360,7 +313,6 @@ $(function() {
                         // data.type = "2";
                         data.updater = "自助申请"
                         data.rate1 = "0";
-                        data.rate2 = "0";
                         data.rate3 = "0";
                         data.longitude = point.lng;
                         data.latitude = point.lat;

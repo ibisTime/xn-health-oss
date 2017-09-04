@@ -186,27 +186,32 @@ $(function() {
         readonly: view,
         formatter: function(v, data) {
             if(data.referrer){
-                if(data.referrer){
-                    userReferee = data.referrer.userId;
-                    var res1 = data.referrer.kind ;
-                    var res2 = data.referrer.mobile;
-                    var level = data.referrer.level ;
-                    if(res1 && res2){
-                        if (res1 == 'f1') {
-                            return Dict.getNameForList1("user_level","807706",level)+ '/' +res2
-                        }else{
-                            return userRefereeType[res1]+ '/' +res2
-                        }
+                userReferee = data.referrer.userId;
+                var res1 = data.referrer.kind ;
+                var res2 = data.referrer.mobile;
+                var level = data.referrer.level ;
+                if(res1 && res2){
+                    if (res1 == 'f1') {
+                        return Dict.getNameForList1("user_level","807706",level)+ '/' +res2
                     }else{
-                       return "-" 
-                    }                
-                }
+                        return userRefereeType[res1]+ '/' +res2
+                    }
+                }else{
+                   return "-" 
+                }                
+            }else{
+               return "-" 
             }        
         }        
     },{
         field: 'slogan',
         title: '广告语',
         required: true,
+    },  {
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        single: true
     },  {
         title: '店铺缩略图',
         field: 'advPic',
@@ -243,6 +248,11 @@ $(function() {
         }
     }
     buildDetail(options);
+
+    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>建议上传200×200图片</p>";
+    $(h).insertAfter("#advPic"); 
+    $(h).insertAfter("#pic");  
+    $(h).insertAfter("#pdf");      
 
         $('#subBtn').off("click").click(function() {
             if ($('#jsForm').valid()) {

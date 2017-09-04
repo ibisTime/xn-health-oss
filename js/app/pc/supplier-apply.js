@@ -127,6 +127,11 @@ $(function() {
         field: 'slogan',
         title: '广告语',
         required: true,
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        single: true
     },  {
         title: '店铺缩略图',
         field: 'advPic',
@@ -166,6 +171,11 @@ $(function() {
         $('#backBtn').click(function() {
               goBack();
         });
+
+    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>建议上传200×200图片</p>";
+    $(h).insertAfter("#advPic"); 
+    $(h).insertAfter("#pic");  
+    $(h).insertAfter("#pdf");    
         
         $('#subBtn').off("click").click(function() {
             if ($('#jsForm').valid()) {

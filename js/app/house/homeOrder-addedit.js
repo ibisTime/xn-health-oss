@@ -109,8 +109,11 @@ $(function() {
         required: true,
         readonly: view
     }, {
-        field: 'applyUser',
+        field: 'loginName',
         title: '下单人',
+        formatter:function(v,data){
+            return data.user.loginName
+        },      
         required: true,
         readonly: view
     }, {

@@ -32,9 +32,12 @@ $(function() {
 
 
     var fields = [ {
-        field: 'mobile',
+        field: 'loginName',
         title: '登录名(手机号)',
         required: true,
+        formatter: function(v, data) {
+            return  data.user.loginName
+        },
         readonly: view
     },{
         field: 'legalPersonName',
@@ -48,6 +51,10 @@ $(function() {
     },{
         field: 'name',
         title: '店铺名称',
+        required: true,
+    },{
+        title: '分润',
+        field: 'rate2',
         required: true,
     }, {
         title: '地址',
@@ -105,6 +112,11 @@ $(function() {
         field: 'slogan',
         title: '广告语',
         required: true,
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        single: true
     },  {
         title: '店铺缩略图',
         field: 'advPic',
@@ -141,6 +153,11 @@ $(function() {
         }
     }
     buildDetail(options);
+
+    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>建议上传200×200图片</p>";
+    $(h).insertAfter("#advPic"); 
+    $(h).insertAfter("#pic");  
+    $(h).insertAfter("#pdf");       
 
         $('#subBtn').off("click").click(function() {
             if ($('#jsForm').valid()) {
@@ -199,7 +216,6 @@ $(function() {
                         // data.type = "2";
                         data.level = "2";
                         data.rate1 = "0";
-                        data.rate2 = "0";
                         data.rate3 = "0";
                         data.longitude = point.lng;
                         data.latitude = point.lat;

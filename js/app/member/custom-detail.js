@@ -42,11 +42,13 @@ $(function() {
         required: true,
         type: 'citySelect',
         formatter: function(v, data) {
+            var address = data.userExt.address;
+            !address?address = "": address            
             if (data.userExt && data.userExt.city !== data.userExt.area ) {
-                var res = data.userExt.province + data.userExt.city + data.userExt.area;
+                var res = data.userExt.province + data.userExt.city + data.userExt.area + address;;
                 return res;
             }else if(data.userExt && data.userExt.city == data.userExt.area){
-                var res = data.userExt.province + data.userExt.city;
+                var res = data.userExt.province + data.userExt.city + address;;
             }
         }        
     },{

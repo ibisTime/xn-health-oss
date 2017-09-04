@@ -648,9 +648,13 @@ function buildList(options) {
                 dateTimeList.push(item);
                 html += '<li style="width: 50%;"><label>' + item.title1 + '</label><input id="' + item.field1 + '" name="' + item.field1 + '" class="lay-input"/><label style="float:none;padding-left: 10px;">至</label><input id="' + item.field2 + '" name="' + item.field2 + '" class="lay-input"/></li>';
             } else if (item.type == "citySelect") {
-                html += '<li class="clearfix" style="width:56%;"><label>' + item.title + '</label><div id="city-group"><select id="province" name="province" class="control-def prov"></select>' +
+                html += '<li class="clearfix" style="width:56%;"><label>' + item.title + '</label><div id="city-group"><select id="gxProvince" name="gxProvince" class="control-def prov"></select>' +
                     '<select id="city" name="city" class="control-def city"></select>' +
                     '<select id="area" name="area" class="control-def dist"></select></div></li>';
+            } else if (item.type == "citySelect1") {
+                html += '<li class="clearfix" style="width:56%;"><label>' + item.title + '</label><div id="gxcity-group"><select id="gxProvince" name="gxProvince" class="control-def prov"></select>' +
+                    '<select id="gxCity" name="gxCity" class="control-def city"></select>' +
+                    '<select id="gxArea" name="gxArea" class="control-def dist"></select></div></li>';
             } else {
                 html += '<li><label>' + item.title + '</label><input id="' + item.field + '" name="' + item.field + '" type="text"/></li>';
             }
@@ -800,6 +804,10 @@ function buildList(options) {
     $("#city-group").citySelect && $("#city-group").citySelect({
         required: false
     });
+
+    $("#gxcity-group").citySelect && $("#gxcity-group").citySelect({
+        required: false
+    });    
 
     $('#searchBtn').click(function() {
         $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
@@ -1147,7 +1155,13 @@ function buildDetail(options) {
                     '<span id="province" name="province" style="display: inline-block;"></span>' +
                     '<span id="city" name="city" style="display: inline-block;padding: 0 8px;"></span>' +
                     '<span id="area" name="area" style="display: inline-block;"></span></li>'
-            } else if (item.type == 'o2m' && item.useData) {
+            } else if (item.type == "citySelect1") {
+                html += '<li class="clearfix" style="display:inline-block;"><label>' + item.title + ':</label>' +
+                    '<span id="gxProvince" name="gxProvince" style="display: inline-block;"></span>' +
+                    '<span id="gxCity" name="gxCity" style="display: inline-block;padding: 0 8px;"></span>' +
+                    '<span id="gxArea" name="gxArea" style="display: inline-block;"></span></li>'
+            }            
+             else if (item.type == 'o2m' && item.useData) {
                 html += '<li class="clearfix" type="' + (item.amount ? 'amount' : '') + '" style="' + (item.width ? ('width: ' + item.width + ';display:inline-block;') : '') + (item.hidden ? 'display: none;' : '') + '"><label>' + item.title + '</label><div id="' + item.field + '" name="' + item.field + '"></div></li>';
             } else if (item.type == "checkbox") {
                 html += '<li class="clearfix" style="display:inline-block;"><label>' + item.title + ':</label>';
@@ -1198,6 +1212,16 @@ function buildDetail(options) {
                     '<select id="area" name="area" class="control-def dist"></select></div></li>';
                 if (item.required) {
                     rules.province = { required: true };
+                    // rules.city = {required: true};
+                    // rules.area = {required: true};
+                }
+
+            } else if (item.type == 'citySelect1') {
+                html += '<div id="gxcity-group"><select id="gxProvince" name="gxProvince" class="control-def prov"></select>' +
+                    '<select id="gxCity" name="gxCity" class="control-def city"></select>' +
+                    '<select id="gxArea" name="gxArea" class="control-def dist"></select></div></li>';
+                if (item.required) {
+                    rules.gxProvince = { required: true };
                     // rules.city = {required: true};
                     // rules.area = {required: true};
                 }
@@ -1438,6 +1462,9 @@ function buildDetail(options) {
     $("#city-group").citySelect && $("#city-group").citySelect({
         required: false
     });
+    $("#gxcity-group").citySelect && $("#gxcity-group").citySelect({
+        required: false
+    });    
 
     for (var i = 0, len = fields.length; i < len; i++) {
         var item = fields[i];
@@ -1750,17 +1777,35 @@ function buildDetail(options) {
                             });
                         }
 
-                    } else if (item.type == "citySelect") {
-                        if (data.province == data.city && data.city == data.area) {
-                            data.city = "";
-                            data.area = "";
-                        } else if (data.province == data.city && data.city != data.area) {
-                            data.city = data.area;
+                    } else if (item.type == "citySelect" ) {
+                        var _data = data;
+                        if (item.getData) {
+                            _data = item.getData(data);
+                        }                        
+                        if (_data.province == _data.city && _data.city == _data.area) {
+                            _data.city = "";
+                            _data.area = "";
+                        } else if (_data.province == _data.city && _data.city != _data.area) {
+                            _data.city = _data.area;
                         }
-                        $('#province').html(data.province);
-                        data.city && $('#city').html(data.city);
-                        data.area && $('#area').html(data.area);
-                    } else {
+                        $('#province').html(_data.province);
+                        _data.city && $('#city').html(_data.city);
+                        _data.area && $('#area').html(_data.area);
+                    } else if (item.type == "citySelect1" ) {
+                        var _data = data;
+                        if (item.getData) {
+                            _data = item.getData(data);
+                        }                        
+                        if (_data.gxProvince == _data.gxCity && _data.gxCity == _data.gxArea) {
+                            _data.gxCity = "";
+                            _data.gxArea = "";
+                        } else if (_data.gxProvince == _data.gxCity && _data.gxCity != _data.gxArea) {
+                            _data.gxCity = _data.gxArea;
+                        }
+                        $('#gxProvince').html(_data.gxProvince);
+                        _data.gxCity && $('#gxCity').html(_data.gxCity);
+                        _data.gxArea && $('#gxArea').html(_data.gxArea);
+                    }else {
                         if (item.field && item.field.indexOf('-') > -1) {
                             $('#' + item.field).html((item.amount ? moneyFormat(displayValue) : displayValue) || '-');
                         } else if (item.field in data) {
@@ -1844,7 +1889,21 @@ function buildDetail(options) {
 
                     }
                 } else {
-                    if (item.type == 'img') {
+                    if (item.type == 'select' && item.data) {
+                        var realValue = data[item['[value]']] || displayValue || '';
+                        if (item.value) {
+                            if (item.value.call) {
+                                realValue = item.value(data);
+                            } else {
+                                realValue = item.value;
+                            }
+                        }
+                        $('#' + item.field).val(item.data[realValue] || '-');
+                        $('#' + item.field).attr('data-value', realValue);
+                        if (item.onChange) {
+                            item.onChange(realValue);
+                        }
+                    } else if (item.type == 'img') {
                         var realValue = data[item['[value]']] || displayValue || '';
                         var sp = realValue && realValue.split('||') || [];
                         var imgsHtml = '';
@@ -1918,16 +1977,20 @@ function buildDetail(options) {
                     } else if (item.type == 'textarea' && item.normalArea) {
                         $('#' + item.field).val(data[item.field]);
                     } else if (item.type == 'citySelect') {
-                        if (data.province == data.city && data.city == data.area) {
-                            data.city = "";
-                            data.area = "";
-                        } else if (data.province == data.city && data.city != data.area) {
-                            data.city = data.area;
+                        var _data = data;
+                        if (item.getData) {
+                            _data = item.getData(data);
                         }
-                        $('#province').val(data.province);
+                        if (_data.province == _data.city && _data.city == _data.area) {
+                            _data.city = "";
+                            _data.area = "";
+                        } else if (_data.province == _data.city && _data.city != _data.area) {
+                            _data.city = _data.area;
+                        }
+                        $('#province').val(_data.province);
                         $('#province').trigger('change');
-                        data.city && $('#city').val(data.city);
-                        data.area && $('#area').val(data.area);
+                        _data.city && $('#city').val(_data.city);
+                        _data.area && $('#area').val(_data.area);
                         if (item.onChange) {
                             (function(i) {
                                 $("#province").on("change", function(e) {
@@ -1941,8 +2004,38 @@ function buildDetail(options) {
                                 });
                             })(item);
                         }
-                        data.city ? $('#city').trigger('change') : $('#province').trigger('change');
-                        data.area && $('#area').val(data.area);
+                        _data.city ? $('#city').trigger('change') : $('#province').trigger('change');
+                        _data.area && $('#area').val(_data.area);
+                    } else if (item.type == "citySelect1" ) {
+                        var _data = data;
+                        if (item.getData) {
+                            _data = item.getData(data);
+                        }                        
+                        if (_data.gxProvince == _data.gxCity && _data.gxCity == _data.gxArea) {
+                            _data.gxCity = "";
+                            _data.gxArea = "";
+                        } else if (_data.gxProvince == _data.gxCity && _data.gxCity != _data.gxArea) {
+                            _data.gxCity = _data.gxArea;
+                        }
+                        $('#gxProvince').val(_data.gxProvince);
+                        $('#gxProvince').trigger('change');
+                        _data.gxCity && $('#gxCity').val(_data.gxCity);
+                        _data.gxArea && $('#gxArea').val(_data.gxArea);
+                        if (item.onChange) {
+                            (function(i) {
+                                $("#gxProvince").on("change", function(e) {
+                                    i.onChange($("#gxProvince").val(), $("#gxCity").val(), $("#gxArea").val());
+                                });
+                                $("#gxCity").on("change", function(e) {
+                                    i.onChange($("#gxProvince").val(), $("#gxCity").val(), $("#gxArea").val());
+                                });
+                                $("#gxArea").on("change", function(e) {
+                                    i.onChange($("#gxProvince").val(), $("#gxCity").val(), $("#gxArea").val());
+                                });
+                            })(item);
+                        }
+                        _data.gxCity ? $('#gxCity').trigger('change') : $('#gxProvince').trigger('change');
+                        _data.gxArea && $('#gxArea').val(_data.gxArea);
                     } else if (item.type == "o2m" && item.editTable) {
                         var innerHtml = '';
                         if (item.addeditTable) {
@@ -2001,9 +2094,9 @@ function buildDetail(options) {
 
                 }
 
-                if (item.type == 'select') {
-                    $('#' + item.field).trigger('change');
-                }
+                // if (item.type == 'select') {
+                //     $('#' + item.field).trigger('change');
+                // }
 
                 if (item.link) {
                     $('#' + item.field).html('<a target="_blank" href="' + displayValue + '">' + displayValue + '</a>');
@@ -2074,8 +2167,50 @@ function buildDetail(options) {
                         $('#' + item.field)[0].editor.$txt.html(item.formatter(displayValue, data));
                     } else if (item.type == 'textarea' && item.normalArea) {
                         $('#' + item.field).val(item.formatter(displayValue, data));
-                    } 
+                    }  else if (item.type == 'select' && item.data) {
+                        var realValue = item.formatter(displayValue, data);
+                        if (item.value) {
+                            if (item.value.call) {
+                                realValue = item.value(data);
+                            } else {
+                                realValue = item.value;
+                            }
+                        }
+                        $('#' + item.field + "-model").html(item.data[realValue] || '-');
+                        $('#' + item.field + "-model").attr('data-value', realValue);
+                        if (item.onChange) {
+                            item.onChange(realValue);
+                        }
+                    } else if (item.type == 'select' && item.key) {
+                        var list = [];
+                        var realValue = item.formatter(displayValue, data);
+                        if (item.value) {
+                            if (item.value.call) {
+                                realValue = item.value(data);
+                            } else {
+                                realValue = item.value;
+                            }
+                        }
+                        if (!item.multiple) {
+                            list = Dict.getName(item.key);
+                            $('#' + item.field + "-model").html(Dict.getName(item.key, realValue || '0'));
+                        } else {
+                            var dv = '';
+                            if (realValue) {
+                                realValue.split('').forEach(function(i) {
+                                    dv += Dict.getName(item.key, i) + ' | ';
+                                });
+                                dv = dv.slice(0, dv.length - 3);
+                            }
 
+                            $('#' + item.field + "-model").html(dv || '-');
+                        }
+
+                        $('#' + item.field + "-model").attr('data-value', realValue);
+                        if (item.onChange) {
+                            item.onChange(realValue, Dict.findObj(list, realValue));
+                        }
+                    }
 
                 }
             }
@@ -2133,6 +2268,20 @@ function buildDetail(options) {
                         });
                     })(item);
                 }
+            } else if (item.type == "citySelect1" ) {
+                if (item.onChange) {
+                    (function(i) {
+                        $("#gxProvince").on("change", function(e) {
+                            i.onChange($("#gxProvince").val(), $("#gxCity").val(), $("#gxArea").val());
+                        });
+                        $("#gxCity").on("change", function(e) {
+                            i.onChange($("#gxProvince").val(), $("#gxCity").val(), $("#gxArea").val());
+                        });
+                        $("#gxArea").on("change", function(e) {
+                            i.onChange($("#gxProvince").val(), $("#gxCity").val(), $("#gxArea").val());
+                        });
+                    })(item);
+                }                
             } else if (item.type == "o2m" && item.useData) {
                 displayValue = $.isArray(item.useData) ? item.useData : [];
                 $('#' + item.field).html('<table id="' + item.field + 'List"></table>');

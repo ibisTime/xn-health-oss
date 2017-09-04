@@ -10,6 +10,12 @@ $(function() {
     });
 
     var fields = [{
+        title: '用户姓名',
+        field: 'realName',
+        maxlength: 255,
+        required: true,
+
+    },{
         title: '银行卡号',
         field: 'bankcardNumber',
         bankCard: true,
@@ -26,17 +32,12 @@ $(function() {
         title: '支行名称',
         field: "subbranch",
         maxlength: 255,
+        required: true
     }, {
         title: "绑定手机号",
         field: 'bindMobile',
         mobile: true
-    }, {
-        title: '用户姓名',
-        field: 'realName',
-        maxlength: 255,
-        required: true,
-
-    }, {
+    },  {
         title: '币种',
         field: "currency",
         type: "hidden",

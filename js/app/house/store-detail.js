@@ -21,9 +21,12 @@ $(function() {
     // });
 	
 	var fields = [{
-        field: 'mobile',
+        field: 'loginName',
         title: '登录名(手机号)',
         required: true,
+        formatter: function(v, data) {
+            return  data.user.loginName
+        },
     },{
         field: 'legalPersonName',
         title: '法人姓名',
@@ -53,70 +56,75 @@ $(function() {
             }
         }
 
-    },{
-        field: 'category',
-        title: '大类',
-        type: 'select',
-        listCode: '808007',
-        params: {
-            type:"2",
-            // status: '2',
-            parentCode: 0
-        },
-        keyName: 'code',
-        valueName: 'name',
-        required: true,
-        onChange:function(v,data){
-            reqApi({
-                code: '808007',
-                json: {
-                    type:"2",
-                    // status: '2',
-                    parentCode: v
-                },
-                sync: true
-            }).done(function(d) {
-                var data1 = {};
-                if(d.length && v){
+    }
+    // ,{
+    //     field: 'category',
+    //     title: '大类',
+    //     type: 'select',
+    //     listCode: '808007',
+    //     params: {
+    //         type:"2",
+    //         // status: '2',
+    //         parentCode: 0
+    //     },
+    //     keyName: 'code',
+    //     valueName: 'name',
+    //     required: true,
+    //     onChange:function(v,data){
+    //         reqApi({
+    //             code: '808007',
+    //             json: {
+    //                 type:"2",
+    //                 // status: '2',
+    //                 parentCode: v
+    //             },
+    //             sync: true
+    //         }).done(function(d) {
+    //             var data1 = {};
+    //             if(d.length && v){
                     
-                    d.forEach(function(v,i){
-                        data1[v.code] = v.name;
-                    })
-                }
-                $("#type").renderDropdown2(data1);
+    //                 d.forEach(function(v,i){
+    //                     data1[v.code] = v.name;
+    //                 })
+    //             }
+    //             $("#type").renderDropdown2(data1);
 
-            });
-        },
-        afterset: function(v){
-            console.log("ss");
-        }
-    }, {
-        field: 'type',
-        title: '小类',
-        type: 'select',
-        listCode: '808007',
-        required: true,
-        params: {
-            type:2,
-            // status: '0',
-            parentCode: $("#category").val()
-        },
-        keyName: 'code',
-        valueName: 'name',
-        formatter: function(v,data){
-            return data.type;
-        }
-    }
-    , {
-        title: '折扣',
-        field: 'rate1',
-        required: true,
-    }
+    //         });
+    //     },
+    //     afterset: function(v){
+    //         console.log("ss");
+    //     }
+    // }, {
+    //     field: 'type',
+    //     title: '小类',
+    //     type: 'select',
+    //     listCode: '808007',
+    //     required: true,
+    //     params: {
+    //         type:2,
+    //         // status: '0',
+    //         parentCode: $("#category").val()
+    //     },
+    //     keyName: 'code',
+    //     valueName: 'name',
+    //     formatter: function(v,data){
+    //         return data.type;
+    //     }
+    // }
+    // , {
+    //     title: '折扣',
+    //     field: 'rate1',
+    //     required: true,
+    // }
     , {
         field: 'name',
-        title: '商品名称',
+        title: '商户名称',
         required: true,
 		readonly: view
+    },{
+        title: '分润',
+        field: 'rate2',
+        required: true,
     }, {
         title: '地址',
         field: "province1",
@@ -135,6 +143,11 @@ $(function() {
         title: '广告语',
         required: true,
 		readonly: view
+    },{
+        title: '营业执照',
+        field: 'pdf',
+        type: 'img',
+        readonly: view
     }, {
         field: 'advPic',
         title: '广告图',
@@ -159,13 +172,6 @@ $(function() {
         required: true,
         number: true,
         sortable: true,
-    },{
-        field: 'uiLocation',
-        title: '位置',
-        type: 'select',
-        key: 'store_location',
-        keyCode: '808907',
-        formatter: Dict.getNameForList("store_location", "808907"),
     },{
         field: 'approveDatetime',
         title: '审核时间',

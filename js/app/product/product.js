@@ -1,4 +1,8 @@
 $(function () {
+    var view = false;
+    if(getUserName() == 'jkeg'){
+            view = true;
+    }    
     var storeCode = sessionStorage.getItem('storeCode');
     var columns = [{
         field: '',
@@ -49,6 +53,19 @@ $(function () {
             type: '1',
         },
         search: true,
+    }, {
+        field: 'storeCode',
+        title: '所属供应商',
+        type: 'select',
+        listCode: '808215',
+        keyName: 'code',
+        valueName: 'name',
+        params: {
+            start: '1',
+            limit:'10000',
+            level: '3'
+        },     
+        search: view,
     }, {
         field: 'status',
         title: '状态',

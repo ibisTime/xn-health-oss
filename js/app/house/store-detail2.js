@@ -63,6 +63,13 @@ $(function() {
             formatter: function(v, data) {
                 return data[0].store.name;
             }
+        },{
+            title: '分润',
+            field: 'rate2',
+            readonly: view,
+            formatter: function(v, data) {
+                return data[0].store.rate2;
+            }            
         }, {
             field: 'province',
             title: '民宿地址',
@@ -108,7 +115,15 @@ $(function() {
             formatter: function(v, data) {
                 return data[0].store.slogan;
             }
-        }, {
+        },{
+            title: '营业执照',
+            field: 'pdf',
+            type: 'img',
+            single: true,
+            formatter: function(v, data) {
+                return data[0].store.pdf;
+            }
+        },{
             field: 'advPic',
             title: '广告图',
             type: 'img',
@@ -158,6 +173,11 @@ $(function() {
     }
     buildDetail(options);
 
+    var h ="<br/><p class='huilv' style='padding: 5px 0 0 194px;display: block;color:red;'>建议上传200×200图片</p>";
+    $(h).insertAfter("#advPic"); 
+    $(h).insertAfter("#pic");  
+    $(h).insertAfter("#pdf");    
+
  $('#subBtn').off("click").click(function() {
            var data = $('#jsForm').serializeObject();
                 var addr = d.province + d.city + d.area + d.address;
@@ -189,6 +209,7 @@ $(function() {
                          // data.slogan = $("#slogan").val()?$("#slogan").val():d.slogan
                          // data.description = description?description:d.description
                          data.remark = remark?remark:d.remark
+                         data.pdf = $("#pdf .img-ctn").attr("data-src")?$("#pdf .img-ctn").attr("data-src"):d.pdf;
                          data.advPic = $("#advPic .img-ctn").attr("data-src")?$("#advPic .img-ctn").attr("data-src"):d.advPic;
                          var values = [];
                          var imgs = $("#pic").find('.img-ctn');

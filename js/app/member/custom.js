@@ -19,14 +19,25 @@ $(function() {
             title: "登录名",
             field: "loginName",
             // search: true
-        },{
-            title: "昵称",
-            field: "nickname",
-            // search: true
+        }, {
+            field : 'nickname',
+            title : '昵称'
         }, {
             title: '手机号',
             field: 'mobile',
             search: true
+        }, {
+            field : 'amount',
+            title : '健康币余额',
+            formatter:function(v,data){
+                return moneyFormat(data.cnyAccount.amount);
+            }
+        }, {
+            field : 'amount1',
+            title : '积分余额',
+            formatter:function(v,data){
+                return moneyFormat(data.jfAccount.amount);
+            }
         },{
             field: 'userReferee',
             title: '推荐人',
@@ -63,6 +74,21 @@ $(function() {
             key: "user_status",
             formatter: Dict.getNameForList("user_status"),
             search: true
+        }, {
+            field: 'province',
+            title: '地址',
+            formatter: function(v, data) {
+                var address = data.userExt.address;
+                !address?address = "": address
+                if (data.userExt.city == data.userExt.area) {
+                    var res = data.userExt.province + data.userExt.city + address;
+                }else if(data.userExt.province == data.userExt.city){
+                    var res = data.userExt.province + data.userExt.area + address;
+                }else{
+                    var res = data.userExt.province + data.userExt.city + data.userExt.area + address;
+                }
+                return res;
+            }
         }, {
             title: "注册时间",
             field: "createDatetime",
@@ -187,5 +213,54 @@ $(function() {
         }
         // console.log(selRecords[0].userId)
         window.location.href = "./custom_JFrevenue.html?userId=" + selRecords[0].userId;
-    });       
+    });
+
+    $('#referrerBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        window.location.href = "./custom_referrer.html?userId=" + selRecords[0].userId;
+    });   
+
+    $('#addressBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        window.location.href = "./custom_address.html?userId=" + selRecords[0].userId;
+    });         
+
+    $('#cancelBtn').off("click").click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+        confirm("确认解约？").then(function() {
+            reqApi({
+                code: '805187',
+                json: { "userId": selRecords[0].userId,"updater": getUserName(),'remark':"解约"}
+            }).then(function() {
+                toastr.info("操作成功");
+                $('#tableList').bootstrapTable('refresh', { url: $('#tableList').bootstrapTable('getOptions').url });
+            });
+        },function(){});        
+        
+     }); 
+
+    $('#resetBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        // console.log(selRecords)
+        window.location.href = "../person/role_pwd_reset.html?userId=" + selRecords[0].userId+"&userName="+selRecords[0].loginName;
+    });             
 });

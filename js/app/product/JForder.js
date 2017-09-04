@@ -6,6 +6,7 @@ $(function() {
     }, {
         field: 'code',
         title: '订单编号',
+        search: true,
     }, {
         field: 'amount1',
         title: '积分总额',

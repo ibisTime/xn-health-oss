@@ -36,7 +36,7 @@ $(function() {
                 // console.log(data)
         		$("#rate1").parent(".clearfix").hide();
                 $("#uiOrder").parent(".clearfix").show();
-                $("#uiLocation").parent(".clearfix").show();                
+                $("#uiLocation").parent(".clearfix").hide();                
         	}else if(data.level == "1"){
         		$("#rate1").parent(".clearfix").show();
                 $("#uiOrder").parent(".clearfix").show();

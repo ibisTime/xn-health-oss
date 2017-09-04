@@ -30,13 +30,15 @@ $(function() {
         chinese: true,
         required: true,
     }, {
-        title: '地址',
-        field: "province1",
-        type:'select1',
-        key:"product_location",
-        keyCode:'808907',
+        title: '户籍地址',
+        field: "province",
         required: true,
         type: 'citySelect',
+    }, {
+        title: '管辖地址',
+        field: "gxProvince",
+        required: true,
+        type: 'citySelect1',
     },{
         field: 'userReferee',
         field1: 'tj_mobile',
@@ -158,18 +160,30 @@ $(function() {
                     });
                     data[el.id] = values.join('||');
                 });
+                if ($('#jsForm').find('#gxProvince')[0]) {
+                    var gxProvince = $('#gxProvince').val();
+                    var gxCity = $('#gxCity').val();
+                    var gxArea = $('#gxArea').val();
+                    if (!gxCity) {
+                        toastr.info("请补全管辖地址");
+                        return
+                    } else if (!gxArea) {
+                        data['gxArea'] = '-';
+                    }
+                }
+
                 if ($('#jsForm').find('#province')[0]) {
                     var province = $('#province').val();
                     var city = $('#city').val();
                     var area = $('#area').val();
                     if (!city) {
-                        toastr.info("请补全地址");
+                        toastr.info("请补全户籍地址");
                         return
                     } else if (!area) {
                         data['city'] = province;
                         data['area'] = city;
                     }
-                }
+                }                
                 for (var i = 0, len = fields.length; i < len; i++) {
                     var item = fields[i];
                     if (item.equal && (!$('#' + item.field).is(':hidden') || !$('#' + item.field + 'Img').is(':hidden'))) {
@@ -191,20 +205,8 @@ $(function() {
                 var addr = data.province + data.city + data.area + data.detail;
                 var myGeo = new BMap.Geocoder();
                 myGeo.getPoint(addr, function(point) {
-                    if (point) {
-                        // data.type = "2";
+                    if(point){
                         data.updater = "自助申请"
-                        // data.rate1 = "0";
-                        // data.rate2 = "0";
-                        // data.rate3 = "0";
-                        // data.longitude = point.lng;
-                        // data.latitude = point.lat;
-                        // if(!data.category){
-                        //     data.category = "FL2017061016211611994528";
-                        //     data.type = "FL2017061219492431865712";
-                        //     data.level = "2";
-                        //     data.rate1 = "0";
-                        // }
                         if($("#tj_mobile").text()){
                             data.userReferee = $("#tj_mobile").val()
                         }else{
@@ -217,7 +219,7 @@ $(function() {
                             json: data
                         }).done(function(data) {
                             sucDetail();
-                        });
+                        });       
                     } else {
                         alert("无法解析当前地址的经纬度!");
                     }

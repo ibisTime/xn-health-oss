@@ -37,7 +37,7 @@ $(function() {
         view: view
     }, {
         field: 'province',
-        title: '地址',
+        title: '户籍地址',
         formatter: function(v, data) {
             if (data.userExt.city == data.userExt.area) {
                 var res = data.userExt.province + data.userExt.city
@@ -45,6 +45,17 @@ $(function() {
                 var res = data.userExt.province + data.userExt.city + data.userExt.area;
             }
             return res;
+        }
+    }, {
+        field: 'gxProvince',
+        title: '管辖地址',
+        formatter: function(v, data) {
+            if (data.gxCity == data.gxArea || data.gxArea == '-') {
+                var res1 = data.gxProvince + data.gxCity
+            }else{
+                var res1 = data.gxProvince + data.gxCity + data.gxArea;
+            }
+            return res1;
         }
     },{
         field: 'userReferee',

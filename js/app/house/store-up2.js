@@ -1,7 +1,7 @@
 $(function() {
 	
 	var code = getQueryString('code');
-	var rate2 = "0";
+	var rate2 = getQueryString('rate2');
 
 	var fields = [
  //    {
@@ -36,7 +36,7 @@ $(function() {
                 // console.log(data)
         		$("#rate1").parent(".clearfix").hide();
                 $("#uiOrder").parent(".clearfix").show();
-                $("#uiLocation").parent(".clearfix").show();                
+                $("#uiLocation").parent(".clearfix").hide();                
         	}else if(data.level == "1"){
         		$("#rate1").parent(".clearfix").show();
                 $("#uiOrder").parent(".clearfix").show();
@@ -73,6 +73,9 @@ $(function() {
 		if($('#jsForm').valid()){
 			confirm("确认上架？").then(function() {
 				var data = $('#jsForm').serializeObject();
+                if(data.uiLocation == "" || !data.uiLocation){
+                    data.uiLocation = "0"
+                }
 				data.code = code;
 				data.rate2 = rate2;
 				data.rate3 = "0";

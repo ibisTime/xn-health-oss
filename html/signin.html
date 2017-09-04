@@ -53,11 +53,12 @@
 						<li>
 				        	<input id="loginPwd" name="loginPwd" type="password" class="login-pwd" placeholder="密码"/>
 				        </li>
-				    	<li>
+				    	<li style="margin-top: 25px;margin-left: 28px;">
 				    		<input id="loginBtn" type="button" class="login-btn margin-right-40" value="登录"/>
 				    		<input type="reset" class="login-btn" value="重置"/>
 				    	</li>
 			    	</ul>
+			    	<!-- <div  class="tabs"><a style="width: 108px;position: relative;top: -20px;right: 56px;display: inline-block;z-index: 99999999;" class="tab">忘记密码？找回密码</a><a></a></div> -->
 		    	</div>
 				   
 			</div>
@@ -65,7 +66,7 @@
 				<div class="login-box" style="background:url(../images/forgetinfo.png)">
 				    <ul style="margin-top: 38px;">
 					    <li>
-					    	<input name="loginName1" id="loginName1" type="text" class="login-input" placeholder="用户名"/>
+					    	<input name="loginName1" id="loginName1" type="text" class="login-input" placeholder="登录名"/>
 					    </li>
 					    <li>
 					    	<input name="smsCaptcha" id="smsCaptcha" type="text" class="login-input-s" placeholder="短信验证码"/>
@@ -75,7 +76,7 @@
 				        	<input name="newLoginPwd" id="newLoginPwd" type="password" class="login-input" placeholder="新密码"/>
 				        </li>
 				    	<li>
-				    		<input id="confirmBtn" type="button" class="login-btn margin-right-40" value="重新设置"/>
+				    		<input id="confirmBtn" type="button" class="login-btn margin-right-40" value="重新设置" />
 				    	</li>
 			    	</ul>
 		    	</div>
@@ -84,8 +85,13 @@
 	</div>
 	</form>
 	</div>
-	<div style="display: none;" class="login-tabs flex flex-c tabs"><a class="tab" style="margin-right: 200px;">用户登录</a><a class="tab">忘记密码？</a></div>
+	<div></div>
+	<div  class="login-tabs tabs">
+		<a class="tab" id="first_tab">忘记密码？找回密码</a>
+		<input type="button"  id="second_tab" class="login-btn tab login-back" value="返回登录" />
+	</div>
+	<!-- <div  class="login-tabs flex flex-c tabs"><a class="tab" style="margin-right: 200px;">用户登录</a><a class="tab">忘记密码？</a></div> -->
     
-    <div class="login-bm">版权所有  2017<a href="#">&nbsp;&nbsp;&nbsp;金华金桥电子商务有限公司</a></div>
+    <div class="login-bm">版权所有  2017<a href="#">&nbsp;&nbsp;&nbsp;浙江亿家购电子商务有限公司</a></div>
 </body>
 </html>

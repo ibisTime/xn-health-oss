@@ -6,7 +6,9 @@ $(function() {
 		var html = "<option value=''>请选择</option>";
 		if(typeof(data) != "undefined"){
 			for(var i = 0;i < data.length;i++){
-				html += "<option value='"+data[i].code+"'>" + data[i].name + "</option>";
+				if(data[i].name == "系统管理员" || data[i].name == "超级管理员"){
+					html += "<option value='"+data[i].code+"'>" + data[i].name + "</option>";
+				}
 			}
 		}
 		$("#roleCode").html(html);
